@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.snake.system.model.User">
+
+    <resultMap type="com.snake.system.model.User" id="userResultMap">
+        <result property="id" column="id_"/>
+        <result property="roleId" column="role_id"/>
+        <result property="userName" column="user_name"/>
+        <result property="loginName" column="login_name"/>
+        <result property="loginPwd" column="login_pwd"/>
+        <result property="status" column="status_"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="creatorId" column="creator_id"/>
+        <association property="role" select="com.snake.system.model.Role.getObject" column="role_id"/>
+    </resultMap>
+
+    <select id="selectAll" resultMap="userResultMap">
+		select * from sys_user
+	</select>
+
+    <select id="selectSome" parameterType="java.util.Map" resultMap="userResultMap">
+        select * from sys_user limit #{offset},#{limit}
+    </select>
+
+    <select id="getObject" resultMap="userResultMap" parameterType="java.lang.Object">
+        select * from sys_user where id_ = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.snake.system.model.User">
+        insert into sys_user(
+        user_name,
+        login_name,
+        login_pwd,
+        role_id,
+        status_,
+        creator_id,
+        created_time
+        )
+        values(
+        #{userName},
+        #{loginName},
+        #{loginPwd},
+        #{roleId},
+        #{status},
+        #{creatorId},
+        #{createdTime}
+        )
+        <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+            select last_insert_id() as id
+        </selectKey>
+    </insert>
+
+    <update id="update" parameterType="com.snake.system.model.User">
+        update sys_user
+        <set>
+            <if test="null != userName">
+                user_name=#{userName},
+            </if>
+            <if test="null != loginPwd">
+                login_pwd=#{loginPwd},
+            </if>
+        </set>
+        where id_ = #{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Object">
+        delete from sys_user where id_ = #{id}
+    </delete>
+
+    <select id="findOneByMap" resultMap="userResultMap">
+        select * from sys_user where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} = #{param.value}
+        </foreach>
+        limit 0, 1
+    </select>
+
+    <select id="findOneByObject" parameterType="com.snake.system.model.User" resultMap="userResultMap">
+        select * from sys_user
+        <where>
+            <if test="userName != null">
+                and user_name=#{userName}
+            </if>
+            <if test="loginName != null">
+                and login_name=#{loginName}
+            </if>
+            <if test="status != null">
+                and status_=#{status}
+            </if>
+        </where>
+        limit 0, 1
+    </select>
+
+    <select id="findByMap" resultMap="userResultMap">
+        select * from sys_user where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} = #{param.value}
+        </foreach>
+    </select>
+
+    <select id="findByObject" parameterType="com.snake.system.model.User" resultMap="userResultMap">
+        select * from sys_user
+        <where>
+            <if test="userName != null">
+                and user_name=#{userName}
+            </if>
+            <if test="loginName != null">
+                and login_name=#{loginName}
+            </if>
+            <if test="status != null">
+                and status_=#{status}
+            </if>
+        </where>
+    </select>
+
+    <select id="findByIn" resultMap="userResultMap">
+        select * from sys_user where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} IN (#{param.value})
+        </foreach>
+    </select>
+
+    <select id="findByLike" resultMap="userResultMap">
+        select * from sys_user where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} LIKE #{param.value}
+        </foreach>
+    </select>
+
+    <select id="getCount" parameterType="java.util.Map" resultType="int">
+        select count(1) from sys_user where 1=1
+        <if test="whereClause != null">
+            ${whereClause}
+        </if>
+    </select>
+
+    <select id="query" parameterType="java.util.Map" resultMap="userResultMap">
+        select ${fieldsClause} from sys_user where 1=1
+        <if test="whereClause != null">
+            ${whereClause}
+        </if>
+        <if test="orderClause != null">
+            ${orderClause}
+        </if>
+        <if test="limit > 0">
+            limit ${limit} offset ${offset}
+        </if>
+    </select>
+
+    <update id="changeloginPwd" parameterType="com.snake.system.model.User">
+        update sys_user set login_pwd=#{loginPwd} where id_ = #{id}
+    </update>
+
+</mapper>

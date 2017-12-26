@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.snake.system.model.Function">
+    <resultMap type="com.snake.system.model.Function" id="functionResultMap">
+        <result property="id" column="id_"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="name" column="name_"/>
+        <result property="code" column="code_"/>
+        <result property="type" column="type_"/>
+        <result property="url" column="url_"/>
+        <result property="level" column="level_"/>
+        <result property="order" column="order_"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="creatorId" column="creator_id"/>
+    </resultMap>
+
+    <resultMap type="com.snake.system.model.RoleUrl" id="roleUrlResultMap">
+        <result property="roleId" column="role_id"/>
+        <result property="functionId" column="function_id"/>
+        <result property="roleCode" column="code"/>
+        <result property="url" column="url"/>
+    </resultMap>
+
+    <select id="selectAll" resultMap="functionResultMap">
+		select * from sys_function order by  level_,parent_id ,order_
+	</select>
+
+    <select id="getRootList" resultMap="functionResultMap">
+		SELECT * FROM sys_function WHERE (parent_id=0 OR parent_id IS NULL) AND type_=1 ORDER BY order_ ASC
+	</select>
+
+    <select id="selectSome" parameterType="java.util.Map" resultMap="functionResultMap">
+        select * from sys_function limit #{offset},#{limit}
+    </select>
+
+    <select id="getTotalCount" resultType="java.lang.Integer">
+        select count(1) from sys_function
+    </select>
+
+    <select id="getObject" resultMap="functionResultMap" parameterType="java.lang.Object">
+        select * from sys_function where id_ = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.snake.system.model.Function">
+        <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+            select last_insert_id() as id
+        </selectKey>
+        insert into sys_function(id_,parent_id,name_,code_,type_,url_,level_,order_,created_time,creator_id)
+        values(#{id},#{parentId},#{name},#{code},#{type},#{url},#{level},#{order},now(),#{creatorId})
+    </insert>
+
+    <update id="update" parameterType="com.snake.system.model.Function">
+        update sys_function
+        <set>
+            <if test="parentId != null">
+              parent_id=#{parentId},
+            </if>
+            <if test="name != null">
+              name_=#{name},
+            </if>
+            <if test="code != null">
+                code_=#{code},
+            </if>
+            <if test="type != null">
+                type_=#{type},
+            </if>
+            <if test="url != null">
+              url_=#{url},
+            </if>
+            <if test="level != null">
+              level_=#{level},
+            </if>
+            <if test="order != null">
+              order_=#{order},
+            </if>
+        </set>
+        where id_ = #{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Object">
+        delete from sys_function where id_ = #{id}
+    </delete>
+
+    <select id="findOneByMap" resultMap="functionResultMap">
+        select * from sys_function where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} = #{param.value}
+        </foreach>
+        limit 0, 1
+    </select>
+
+    <select id="findOneByObject" parameterType="com.snake.system.model.Function" resultMap="functionResultMap">
+        select * from sys_function
+        <where>
+            <if test="id != null">
+                and id_=#{id}
+            </if>
+            <if test="parentId != null">
+                and parent_id=#{parentId}
+            </if>
+            <if test="name != null">
+                and name_=#{name}
+            </if>
+            <if test="code != null">
+                and code_ = #{code}
+            </if>
+            <if test="type != null">
+                and type_= #{type}
+            </if>
+            <if test="url != null">
+                and url_=#{url}
+            </if>
+            <if test="level != null">
+                and level_=#{level}
+            </if>
+            <if test="order != null">
+                and order_=#{order}
+            </if>
+        </where>
+        limit 0, 1
+    </select>
+
+    <select id="findByMap" resultMap="functionResultMap">
+        select * from sys_function where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} = #{param.value}
+        </foreach>
+    </select>
+
+    <select id="findByObject" parameterType="com.snake.system.model.Function" resultMap="functionResultMap">
+        select * from sys_function
+        <where>
+            <if test="id != null">
+                and id_=#{id}
+            </if>
+            <if test="parentId != null">
+                and parent_id=#{parentId}
+            </if>
+            <if test="name != null">
+                and name_=#{name}
+            </if>
+            <if test="code != null">
+                and code_=#{code}
+            </if>
+            <if test="type != null">
+                and type_= #{type}
+            </if>
+            <if test="url != null">
+                and url_=#{url}
+            </if>
+            <if test="level != null">
+                and level_=#{level}
+            </if>
+            <if test="order != null">
+                and order_=#{order}
+            </if>
+        </where>
+    </select>
+
+    <select id="findByIn" resultMap="functionResultMap">
+        select * from sys_function where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} IN (#{param.value})
+        </foreach>
+    </select>
+
+    <select id="findByLike" resultMap="functionResultMap">
+        select * from sys_function where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} LIKE #{param.value}
+        </foreach>
+    </select>
+
+    <select id="getCount" parameterType="java.util.Map" resultType="int">
+        select count(1) from sys_function where 1=1
+        <if test="whereClause != null">
+            ${whereClause}
+        </if>
+    </select>
+
+    <select id="query" parameterType="java.util.Map" resultMap="functionResultMap">
+        select ${fieldsClause} from sys_function where 1=1
+        <if test="whereClause != null">
+            ${whereClause}
+        </if>
+        <if test="orderClause != null">
+            ${orderClause}
+        </if>
+        <if test="limit > 0">
+            limit ${limit} offset ${offset}
+        </if>
+    </select>
+
+    <select id="getRoleIdsByFunctionId" parameterType="java.lang.Long" resultType="java.lang.Long">
+        select role_id from sys_role_function where function_id=#{functionId}
+    </select>
+
+    <insert id="addFunctionRole" parameterType="java.util.Map">
+        insert sys_role_function (role_id,function_id) values (#{roleId},#{functionId})
+    </insert>
+
+    <delete id="removeFunctionRole" parameterType="java.util.Map">
+        delete from sys_role_function where role_id=#{roleId} and function_id=#{functionId}
+    </delete>
+
+    <select id="getFunctionsByRoleId" parameterType="java.lang.Long" resultMap="functionResultMap">
+        select bf.id_,bf.name_,bf.parent_id,bf.code_,bf.type_,bf.url_,bf.order_,bf.level_ from sys_function bf LEFT JOIN sys_role_function brf ON brf.function_id = bf.id_ WHERE brf.role_id =#{roleId} and bf.type_=1 order by bf.level_,bf.parent_id ,bf.order_
+    </select>
+
+    <select id="getFunctionCount" resultType="Integer" parameterType="Long">
+	SELECT count(*) FROM sys_function where parent_id=#{parentId}
+	</select>
+
+    <select id="getRoleFunction" resultMap="roleUrlResultMap">
+        SELECT brf.role_id,brf.function_id,br.code_ as code,bf.url_ as url FROM sys_role_function brf,sys_role br,sys_function bf WHERE brf.role_id = br.id_ AND br.status_ =1 AND brf.function_id = bf.id_
+    </select>
+
+    <delete id="deleteFunctionRole" parameterType="java.lang.Long">
+        delete from sys_role_function where function_id=#{id}
+    </delete>
+
+    <select id="selectMaxOrderByParentId" parameterType="java.lang.Long" resultType="java.lang.Integer">
+        select max(order_) as max_order from sys_function where parent_id=#{value}
+    </select>
+
+</mapper>

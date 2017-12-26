@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="
+                http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                http://www.springframework.org/schema/security
+                http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+    <beans:import resource="spring-config-resource.xml"/>
+
+    <http pattern="/assets/**/**" security="none" />
+    <http pattern="/libs/**/**" security="none" />
+    <http pattern="/favicon.ico" security="none" />
+    <http pattern="/accessDenied" security="none" />
+    <http pattern="/sessionExpired" security="none" />
+    <http pattern="/" security="none" />
+    <http use-expressions='true' entry-point-ref="myAuthenticationEntryPoint" access-denied-page="/accessDenied">
+        <!-- 会话管理 -->
+        <session-management invalid-session-url="/sessionExpired">
+            <concurrency-control max-sessions="10" error-if-maximum-exceeded="true" />
+        </session-management>
+
+        <!-- 认证和授权 -->
+        <custom-filter ref="myAuthenticationFilter" position="FORM_LOGIN_FILTER"  />
+        <custom-filter ref="myAuthorizationFilter" before="FILTER_SECURITY_INTERCEPTOR"/>
+        
+        <!-- 登出管理 -->
+        <logout invalidate-session="true" logout-url="/logout" />
+    </http>
+    <!-- 未登录的切入点 -->
+    <beans:bean id="myAuthenticationEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+        <beans:property name="loginFormUrl" value="/"></beans:property>
+    </beans:bean>
+
+    <!-- 登录验证器：用户有没有登录的资格 -->
+    <beans:bean id="myAuthenticationFilter" class="com.snake.system.security.MyAuthenticationFilter">
+        <beans:property name="authenticationManager" ref="myAuthenticationManager" />
+        <beans:property name="filterProcessesUrl" value="/doLogin" />
+        <beans:property name="authenticationSuccessHandler">
+            <beans:bean class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
+                <beans:property name="defaultTargetUrl" value="/link" />
+            </beans:bean>
+        </beans:property>
+        <beans:property name="authenticationFailureHandler">
+            <beans:bean class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+                <beans:property name="defaultFailureUrl" value="/?code=error" />
+            </beans:bean>
+        </beans:property>
+    </beans:bean>
+
+    <!-- 用户拥有的权限：登录后取得用户所拥有的权限信息 -->
+    <authentication-manager alias="myAuthenticationManager">
+        <authentication-provider user-service-ref="myUserDetailService" />
+    </authentication-manager>
+    <beans:bean id="myUserDetailService" class="com.snake.system.security.MyUserDetailServiceImpl">
+    </beans:bean>
+
+    <!-- 认证过滤器：判断用户有没有访问特定资源的权限 -->
+    <beans:bean id="myAuthorizationFilter" class="com.snake.system.security.MyAuthorizationFilter">
+        <!-- 用户拥有的权限 -->
+        <beans:property name="authenticationManager" ref="myAuthenticationManager" />
+        <!-- 用户是否拥有所请求资源的权限 -->
+        <beans:property name="accessDecisionManager">
+            <beans:bean class="com.snake.system.security.MyAccessDecisionManager" />
+        </beans:property>
+        <!-- 资源与权限对应关系 -->
+        <beans:property name="securityMetadataSource">
+            <beans:bean class="com.snake.system.security.MySecurityMetadataSource">
+                <beans:constructor-arg name="functionService" ref="functionService" />
+                <beans:constructor-arg name="resource" ref="resource" />
+            </beans:bean>
+        </beans:property>
+    </beans:bean>
+
+</beans:beans>
