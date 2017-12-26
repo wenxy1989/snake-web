@@ -1,60 +1,46 @@
 package com.snake.system.service;
 
-import com.base.exception.DaoException;
-import com.base.exception.ServiceException;
-import com.base.service.BasicService;
-import com.snake.system.dao.IUserDao;
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.dao.DataAccessException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import com.base.common.dao.Dao;
+import com.base.common.service.AbstractService;
+import com.snake.system.model.Role;
 import com.snake.system.model.User;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
+public class UserService extends AbstractService<User> implements UserDetailsService,IUserService {
+	
+	@Resource(name="dao")
+	private Dao dao;
+	
+	public void setDao(Dao dao) {
+		this.dao = dao;
+	}
+	
+	@Override
+	public Dao getDao(){
+		return this.dao;
+	}
 
-/**
- * User: wenxy
- * Date: 2014-5-14
- */
-@Service
-public class UserService extends BasicService<User> implements IUserService {
-    @Autowired
-    @Qualifier("userDao")
-    protected IUserDao dao;
+	@SuppressWarnings("unchecked")
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException {
+		User user = null;
+		List<User> users = dao.find("from User u where u.loginname=?",username);
+		if(users !=null && users.size() > 0){
+			user = users.get(0);
+			List<Role> roleList = (List<Role>) dao.find("select r from Role r,Auth a where a.userId =? and r.id=a.roleId",user.getId());
+			user.setRoles(roleList);
+		}
+		return user;
+	}
 
-    @Override
-    public IUserDao getDao() {
-        return this.dao;
-    }
-
-    public User getUserByLoginName(String loginName) throws ServiceException {
-        try{
-            Map<String,Object> map = new HashMap<String, Object>();
-            map.put("login_name",loginName);
-            return dao.findOne(map);
-        }catch (DaoException e){
-            throw new ServiceException(e);
-        }
-    }
-
-    public User getUserByEmail(String email) throws ServiceException {
-        try{
-            Map<String,Object> map = new HashMap<String, Object>();
-            map.put("email_",email);
-            return dao.findOne(map);
-        }catch (DaoException e){
-            throw new ServiceException(e);
-        }
-    }
-
-    public User getUserByMobile(String mobile) throws ServiceException {
-        try{
-            Map<String,Object> map = new HashMap<String, Object>();
-            map.put("mobile_",mobile);
-            return dao.findOne(map);
-        }catch (DaoException e){
-            throw new ServiceException(e);
-        }
-    }
-
+	@SuppressWarnings("unchecked")
+	public List<Role> getRolesByUser(User user) {
+		return dao.loadAll(Role.class);
+	}
 }

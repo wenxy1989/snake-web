@@ -12,12 +12,12 @@ public abstract class AbstractModel {
 	 */
 	public abstract String getUniqueIdName();
 	
-	private Long id;
-	private String name;
-	private String title;
-	private Long createId;
-	private String createTime;
-	private Integer status;
+	protected Long id;
+    protected String name;
+    protected String title;
+    protected Long createId;
+    protected String createTime;
+    protected Integer status;
 	
 	public Long getId() {
 		return id;
@@ -88,5 +88,16 @@ public abstract class AbstractModel {
 		}
 		return sb;
 	}
+
+    @Override
+    public boolean equals(Object obj) {
+        //todo
+        boolean result = false;
+        if(null != obj && null != name) {
+            AbstractModel skill = (AbstractModel) obj;
+            result = this.name == skill.getName() || null != this.name && null != skill.getName() && this.name.equals(skill.getName());
+        }
+        return result;
+    }
 
 }

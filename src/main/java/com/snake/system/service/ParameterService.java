@@ -1,40 +1,93 @@
 package com.snake.system.service;
 
-import com.base.exception.ServiceException;
-import com.base.service.BasicService;
-import com.snake.system.dao.IParameterDao;
-import com.snake.system.model.Parameter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
-
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-/**
- * User: wenxy
- * Date: 2016-11-2 18:23:47
- */
-@Service
-@Repository("sysParameterService")
-public class ParameterService extends BasicService<Parameter> implements IParameterService {
-    @Autowired
-    @Qualifier("sysParameterDao")
-    protected IParameterDao dao;
+import javax.annotation.Resource;
 
-    @Override
-    public IParameterDao getDao() {
-        return dao;
-    }
+import org.springframework.stereotype.Service;
 
-    public Parameter getObjectByCode(String code) throws ServiceException {
-        try {
-            Map<String,Object> map = new HashMap<String, Object>();
-            map.put("code_",code);
-            return this.dao.findOne(map);
-        }catch (Exception e){
-            throw new ServiceException("根据idCard获取用户列表失败",e);
-        }
-    }
+import com.base.common.dao.Dao;
+import com.base.common.model.AbstractModel;
+import com.base.common.service.AbstractService;
+import com.snake.system.model.Parameter;
+
+@Service("parameterService")
+public class ParameterService extends AbstractService<Parameter> implements IParameterService {
+	
+	@Resource(name="dao")
+	private Dao dao;
+	
+	private static Map<String,Parameter> uniqueIdParameters = null;
+
+	@Override
+	protected Dao getDao() {
+		return dao;
+	}
+	
+	public Long getLongValue(String key){
+		Long value = null;
+		Parameter parameter = (Parameter) dao.get(Parameter.class, key);
+		if(null != parameter){
+			value = parameter.getLongValue();
+		}
+		return value;
+	}
+	
+	public String getStringValue(String key){
+		String value = null;
+		Parameter parameter = (Parameter) dao.get(Parameter.class, key);
+		if(null != parameter){
+			value = parameter.getStringValue();
+		}
+		return value;
+	}
+	
+	/**
+	 * 获取唯一id
+	 * @param name 域
+	 * 同一个域的id是唯一的
+	 */
+	protected synchronized Long getUniqueId(String name) {
+		if(null == name && "".equals(name)){
+			name = "sys";
+		}
+		name += "_" + Parameter.KEY_UNIQUE_ID;
+		if(null == uniqueIdParameters){
+			uniqueIdParameters = new HashMap<String,Parameter>();
+		}
+		Parameter uniqueIdParameter = uniqueIdParameters.get(name);
+		if(null == uniqueIdParameter){
+			List<Parameter> list = dao.find("from Parameter p where p.key=?",name);
+			if(null != list && list.size() > 0){
+				uniqueIdParameter = list.get(0);
+			}
+			if(null == uniqueIdParameter){
+				uniqueIdParameter = Parameter.getUniqueIdParameter(name);
+				dao.save(uniqueIdParameter);
+			}
+			uniqueIdParameters.put(name, uniqueIdParameter);
+		}
+		Long uniqueId = new Long(uniqueIdParameter.getLongValue());
+		uniqueIdParameter.setLongValue(uniqueIdParameter.getLongValue() +1);
+		dao.update(uniqueIdParameter);
+		return uniqueId;
+	}
+	
+	@Override
+	public synchronized void update(Parameter parameter){
+		super.update(parameter);
+	}
+
+	@Override
+	public synchronized void delete(Parameter parameter){
+		super.delete(parameter);
+	}
+
+	public void setUniqueId(AbstractModel model) {
+		Long id = this.getUniqueId(model.getUniqueIdName());
+		model.setId(id);
+	}
+	
 }

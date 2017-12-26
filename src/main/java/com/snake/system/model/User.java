@@ -1,127 +1,102 @@
 package com.snake.system.model;
 
+import com.base.common.model.AbstractModel;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.List;
+import java.io.Serializable;
+import java.util.Collection;
 
-/**
- * User: wenxy
- * Date: 2014-5-14
- */
-public class User implements UserDetails {
-    private Long id;//用户ID
-    private String userName;//用户姓名
-    private String loginName;//登录名
-    private String loginPwd;//登录密码
-    private Long roleId;//角色ID
-    private Integer status;//状态,0-禁用 1-正常
-    private String createdTime;//创建时间
-    private Long creatorId;//创建用户ID
+public class User extends AbstractModel implements UserDetails {
 
-    private Role role;//角色对象
-    private List<Role> roles;
+	/**
+	 */
+	private static final long serialVersionUID = 8342304011564627512L;
+	
+	private String loginName;
+	private String password;
+	private String email;
+	private String mobile;
+	private Collection<Role> roles;
 
-    public Long getId() {
-        return id;
-    }
+	public String getLoginName() {
+		return loginName;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setLoginName(String loginName) {
+		this.loginName = loginName;
+	}
 
-    public String getUserName() {
-        return userName;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
+	public void setRoles(Collection<Role> roles) {
+		this.roles = roles;
+	}
 
-    public String getLoginName() {
-        return loginName;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public void setLoginName(String loginName) {
-        this.loginName = loginName;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public String getLoginPwd() {
-        return loginPwd;
-    }
+	public String getMobile() {
+		return mobile;
+	}
 
-    public void setLoginPwd(String loginPwd) {
-        this.loginPwd = loginPwd;
-    }
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
 
-    public Long getRoleId() {
-        return roleId;
-    }
+	@Override
+	public Collection<Role> getAuthorities() {
+		return this.roles;
+	}
 
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
-    }
+	@Override
+	public String getPassword() {
+		return this.password;
+	}
 
-    public Integer getStatus() {
-        return status;
-    }
+	@Override
+	public String getUsername() {
+		return this.getName();
+	}
 
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
+	@Override
+	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
 
-    public String getCreatedTime() {
-        return createdTime;
-    }
+	@Override
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return true;
+	}
 
-    public void setCreatedTime(String createdTime) {
-        this.createdTime = createdTime;
-    }
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
 
-    public Long getCreatorId() {
-        return creatorId;
-    }
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return true;
+	}
 
-    public void setCreatorId(Long creatorId) {
-        this.creatorId = creatorId;
-    }
+	@Override
+	public Serializable getObjectId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public boolean isEnabled() {
-        return true;
-    }
-
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    public String getUsername() {
-        return this.userName;
-    }
-
-    public String getPassword() {
-        return this.loginPwd;
-    }
-
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
-    }
-
-    public List<Role> getAuthorities() {
-        return this.roles;
-    }
+	@Override
+	public String getUniqueIdName() {
+		return "user";
+	}
 }

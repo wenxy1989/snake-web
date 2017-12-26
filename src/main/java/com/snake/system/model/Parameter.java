@@ -1,117 +1,62 @@
 package com.snake.system.model;
 
+import java.io.Serializable;
 
-/**
- * User: wenxy
- * Date: 2016-11-2 18:18:02
- */
-public class Parameter {
-    private Long id;//ID
-    private String name;//名称
-    private String code;//编码
-    private Integer intValue;
-    private Boolean booleanValue;
-    private Character charValue;
-    private Long longValue;
-    private Double doubleValue;
-    private String stringValue;
-    private String remark;
-    private String createdTime;//创建时间
-    private Long creatorId;//创建人ID
+import com.base.common.model.AbstractModel;
+import com.base.utils.TimeTools;
 
-    public Long getId() {
-        return id;
-    }
+public class Parameter extends AbstractModel {
+	
+	public static final String KEY_UNIQUE_ID = "unique_id";
+	
+	private String key;
+	private String stringValue;
+	private Long longValue;
+	
+	public String getKey() {
+		return key;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setKey(String key) {
+		this.key = key;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getStringValue() {
+		return stringValue;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setStringValue(String stringValue) {
+		this.stringValue = stringValue;
+	}
 
-    public String getCode() {
-        return code;
-    }
+	public Long getLongValue() {
+		return longValue;
+	}
 
-    public void setCode(String code) {
-        this.code = code;
-    }
+	public void setLongValue(Long longValue) {
+		this.longValue = longValue;
+	}
+	
+	public static Parameter getUniqueIdParameter(String name){
+		Parameter parameter = new Parameter();
+		parameter.setKey(name);
+		parameter.setLongValue(1l);
+		parameter.setName("系统主键");
+		parameter.setTitle("系统内唯一的长整形主键");
+		parameter.setCreateTime(TimeTools.now());
+		return parameter;
+	}
 
-    public Integer getIntValue() {
-        return intValue;
-    }
+	@Override
+	public Serializable getObjectId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    public void setIntValue(Integer intValue) {
-        this.intValue = intValue;
-    }
+	@Override
+	public String getUniqueIdName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    public Boolean getBooleanValue() {
-        return booleanValue;
-    }
-
-    public void setBooleanValue(Boolean booleanValue) {
-        this.booleanValue = booleanValue;
-    }
-
-    public Character getCharValue() {
-        return charValue;
-    }
-
-    public void setCharValue(Character charValue) {
-        this.charValue = charValue;
-    }
-
-    public Long getLongValue() {
-        return longValue;
-    }
-
-    public void setLongValue(Long longValue) {
-        this.longValue = longValue;
-    }
-
-    public Double getDoubleValue() {
-        return doubleValue;
-    }
-
-    public void setDoubleValue(Double doubleValue) {
-        this.doubleValue = doubleValue;
-    }
-
-    public String getStringValue() {
-        return stringValue;
-    }
-
-    public void setStringValue(String stringValue) {
-        this.stringValue = stringValue;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
-
-    public String getCreatedTime() {
-        return createdTime;
-    }
-
-    public void setCreatedTime(String createdTime) {
-        this.createdTime = createdTime;
-    }
-
-    public Long getCreatorId() {
-        return creatorId;
-    }
-
-    public void setCreatorId(Long creatorId) {
-        this.creatorId = creatorId;
-    }
 }

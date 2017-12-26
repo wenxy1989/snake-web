@@ -34,11 +34,6 @@
 		<property name="mappingResources">
 			<list>
 			 <value>hibernate/model_system.hbm.xml</value>
-			 <value>hibernate/model_config.hbm.xml</value>
-			 <value>hibernate/model_node.hbm.xml</value>
-			 <value>hibernate/model_novel.hbm.xml</value>
-			 <value>hibernate/model_live.hbm.xml</value>
-			 <value>hibernate/model_template.hbm.xml</value>
 			</list>
 		</property>
 	</bean>
@@ -51,7 +46,7 @@
 		<property name="sessionFactory" ref="sessionFactory"/>
 	</bean>
 	
-	<bean id="userService" class="com.module.system.service.UserService">
+	<bean id="userService" class="com.snake.system.service.UserService">
 		<property name="dao" ref="dao"/>
 	</bean>
 	
