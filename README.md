@@ -1,3 +1,1 @@
-# snake-web
-spring-mvc mybatis
-amazeui
+#web-$1 
