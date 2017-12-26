@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC	"-//Hibernate/Hibernate Mapping DTD 2.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 
-	<class name="com.snake.system.model.User" table="system_user">
+	<class name="com.module.system.model.User" table="sys_user">
 		<id name="id" column="ID_">
 			<generator class="increment"/>
 		</id>
@@ -13,11 +13,10 @@
 		<property name="name" column="NAME_"/>
 		<property name="title" column="TITLE_"/>
 		<property name="createTime" column="CREATE_TIME"/>
-		<property name="createId" column="CREATE_ID"/>
 		<property name="status" column="STATUS_"/>
 	</class>
 
-	<class name="com.snake.system.model.Role" table="system_role">
+	<class name="com.module.system.model.Role" table="sys_role">
 		<id name="id" column="ID_">
 			<generator class="increment"/>
 		</id>
@@ -25,11 +24,10 @@
 		<property name="name" column="NAME_"/>
 		<property name="title" column="TITLE_"/>
 		<property name="createTime" column="CREATE_TIME"/>
-		<property name="createId" column="CREATE_ID"/>
 		<property name="status" column="STATUS_"/>
 	</class>
 
-	<class name="com.snake.system.model.Menu" table="system_menu">
+	<class name="com.module.system.model.Menu" table="sys_menu">
 		<id name="id" column="ID_">
 			<generator class="increment"/>
 		</id>
@@ -42,7 +40,7 @@
 		<property name="status" column="STATUS_"/>
 	</class>
 
-	<class name="com.snake.system.model.Auth" table="system_user_role">
+	<class name="com.module.system.model.Auth" table="sys_user_role">
 		<id name="id" column="ID_">
 			<generator class="increment"/>
 		</id>
@@ -53,7 +51,7 @@
 		<property name="status" column="STATUS_"/>
 	</class>
 
-	<class name="com.snake.system.model.Access" table="system_role_menu">
+	<class name="com.module.system.model.Access" table="sys_role_menu">
 		<id name="id" column="ID_">
 			<generator class="increment"/>
 		</id>
@@ -64,7 +62,7 @@
 		<property name="status" column="STATUS_"/>
 	</class>
 
-	<class name="com.snake.system.model.Parameter" table="system_parameter">
+	<class name="com.module.system.model.Parameter" table="sys_parameter">
 		<id name="id" column="ID_">
 			<generator class="increment"/>
 		</id>
@@ -74,7 +72,6 @@
 		<property name="longValue" column="LONG_VALUE"/>
 		<property name="stringValue" column="STRING_VALUE"/>
 		<property name="createTime" column="CREATE_TIME"/>
-		<property name="createId" column="CREATE_ID"/>
 		<property name="status" column="STATUS_"/>
 	</class>
 

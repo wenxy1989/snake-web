@@ -35,7 +35,7 @@
         <logout invalidate-session="true" logout-success-url="/"  />
     </http>
     <!-- 一个自定义的filter,我们的所有控制将在这三个类中实现，解释详见具体配置  -->
-    <beans:bean id="myFilter" class="com.snake.system.security.MyFilterSecurityInterceptor">
+    <beans:bean id="myFilter" class="com.base.security.MyFilterSecurityInterceptor">
         <beans:property name="authenticationManager" ref="authenticationManager" />
         <beans:property name="accessDecisionManager" ref="myAccessDecisionManager" />
         <beans:property name="securityMetadataSource" ref="securityMetadataSource" />
@@ -52,10 +52,10 @@
     </authentication-manager>
 
     <!-- 访问决策器，决定某个用户具有的角色，是否有足够的权限去访问某个资源 -->
-    <beans:bean id="myAccessDecisionManager" class="com.snake.system.security.MyAccessDecisionManager"/>
+    <beans:bean id="myAccessDecisionManager" class="com.base.security.MyAccessDecisionManager"/>
     
     <!-- 资源源数据定义，将所有的资源和权限对应关系建立起来，即定义某一资源可以被哪些角色访问     -->
-    <beans:bean id="securityMetadataSource" class="com.snake.system.security.MyInvocationSecurityMetadataSource">
+    <beans:bean id="securityMetadataSource" class="com.base.security.MyInvocationSecurityMetadataSource">
     	<beans:property name="dao" ref="dao"/>
     </beans:bean>
 </beans:beans>

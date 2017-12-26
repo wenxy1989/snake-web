@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC	"-//Hibernate/Hibernate Mapping DTD 2.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+	<class name="com.module.config.model.App" table="config_application">
+		<id name="id" column="ID_">
+			<generator class="increment"/>
+		</id>
+		<property name="name" column="NAME_"/>
+		<property name="code" column="CODE_"/>
+		<property name="title" column="TITLE_"/>
+		<property name="createTime" column="CREATED_TIME"/>
+
+        <property name="database" column="DATABASE_"/>
+		<property name="loginName" column="login_name"/>
+		<property name="password" column="password_"/>
+		<property name="url" column="url_"/>
+		<property name="port" column="port_"/>
+	</class>
+
+	<class name="com.module.config.model.Obj" table="config_object">
+		<id name="id" column="ID_">
+			<generator class="increment"/>
+		</id>
+		<property name="applicationId" column="application_id"/>
+		<property name="name" column="NAME_"/>
+		<property name="code" column="CODE_"/>
+		<property name="table" column="TABLE_"/>
+		<property name="title" column="TITIE_"/>
+		<property name="createTime" column="CREATED_TIME"/>
+	</class>
+	
+	<class name="com.module.config.model.Attr" table="config_attribute">
+		<id name="id" column="ID_">
+			<generator class="increment"/>
+		</id>
+		<property name="objId" column="OBJECT_ID"/>
+		<property name="name" column="NAME_"/>
+		<property name="code" column="CODE_"/>
+		<property name="column" column="COLUMN_"/>
+		<property name="javaType" column="JAVA_TYPE"/>
+		<property name="dataType" column="DATA_TYPE"/>
+		<property name="dataLength" column="DATA_LENGTH"/>
+		<property name="allowBlank" column="ALLOW_BLANK"/>
+		<property name="autoIncrement" column="AUTO_INCREMENT"/>
+		<property name="useType" column="USE_TYPE"/>
+		<property name="pageStyle" column="PAGE_STYLE"/>
+		<property name="title" column="TITLE_"/>
+		<property name="createTime" column="CREATED_TIME"/>
+	</class>
+	
+	<class name="com.module.config.model.Uniq" table="config_unique">
+		<id name="id" column="ID_">
+			<generator class="increment"/>
+		</id>
+		<property name="objId" type="java.lang.Long" column="OBJECT_ID"/>
+		<property name="name" type="java.lang.String" column="NAME_"/>
+		<property name="code" type="java.lang.String" column="CODE_"/>
+		<property name="content" type="java.lang.String" column="CONTENT_"/>
+		<property name="title" type="java.lang.String" column="TITLE_"/>
+		<property name="createTime" type="java.lang.String" column="CREATED_TIME"/>
+	</class>
+
+</hibernate-mapping>
