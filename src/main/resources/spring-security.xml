@@ -15,6 +15,7 @@
     <http pattern="/accessDenied" security="none" />
     <http pattern="/sessionExpired" security="none" />
     <http pattern="/" security="none" />
+    <http pattern="/book/api/**/**" security="none" />
     <http use-expressions='true' entry-point-ref="myAuthenticationEntryPoint" access-denied-page="/accessDenied">
         <!-- 会话管理 -->
         <session-management invalid-session-url="/sessionExpired">

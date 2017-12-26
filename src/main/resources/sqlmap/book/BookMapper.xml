@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.snake.book.model.Book">
+    <resultMap type="com.snake.book.model.Book" id="bookResultMap">
+        <result property="id" column="id_"/>
+        <result property="name" column="name_"/>
+        <result property="author" column="author_"/>
+        <result property="introduction" column="introduction_"/>
+        <result property="file" column="file_"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="hadPhrase" column="had_phrase"/>
+        <result property="hadWord" column="had_word"/>
+    </resultMap>
+
+    <select id="selectAll" resultMap="bookResultMap">
+		select id_,name_,author_,introduction_,file_,created_time,had_phrase,had_word from book_book
+	</select>
+
+    <select id="selectSome" parameterType="java.util.Map" resultMap="bookResultMap">
+        select id_,name_,author_,introduction_,file_,created_time,had_phrase,had_word from book_book limit #{offset},#{limit}
+    </select>
+
+    <select id="getTotalCount" resultType="java.lang.Integer">
+        select count(1) from book_book
+    </select>
+
+    <select id="getObject" resultMap="bookResultMap" parameterType="java.lang.Object">
+        select id_,name_,author_,introduction_,file_,created_time,had_phrase,had_word from book_book where id_ = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.snake.book.model.Book">
+        insert into book_book(id_,name_,file_,created_time,had_phrase,had_word)
+        values(#{id},#{name},#{file},now(),#{hadPhrase},#{hadWord})
+        <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+            select last_insert_id() as id
+        </selectKey>
+    </insert>
+
+    <update id="update" parameterType="com.snake.book.model.Book">
+        update book_book
+        <set>
+            <if test="name != null">
+                name_=#{name},
+            </if>
+            <if test="author != null">
+                author_=#{author},
+            </if>
+            <if test="introduction != null">
+                introduction_=#{introduction},
+            </if>
+            <if test="file != null">
+                file_=#{file},
+            </if>
+            <if test="hadPhrase != null">
+                had_phrase=#{hadPhrase},
+            </if>
+            <if test="hadWord != null">
+                had_word=#{hadWord},
+            </if>
+        </set>
+        where id_ = #{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Object">
+        delete from book_book where id_ = #{id}
+    </delete>
+
+    <select id="findOneByMap" resultMap="bookResultMap">
+        select id_,name_,author_,introduction_,file_,created_time,had_phrase,had_word from book_book where 1=1 AND
+        <foreach item="param" index="key" collection="list" open="" separator="AND" close="">
+            ${param.name} = #{param.value}
+        </foreach>
+        limit 0, 1
+    </select>
+
+    <select id="findOneByObject" parameterType="com.snake.book.model.Book" resultMap="bookResultMap">
+        select id_,name_,author_,introduction_,file_,created_time,had_phrase,had_word from book_book
+        <where>
+            <if test="name != null">
+                and name_=#{name}
+            </if>
+            <if test="file != null">
+                and file_ = #{file}
+            </if>
+            <if test="hadPhrase != null">
+                and had_phrase=#{hadPhrase}
+            </if>
+            <if test="hadWord != null">
+                and had_word=#{hadWord}
+            </if>
+        </where>
+        limit 0, 1
+    </select>
+
+    <select id="findByMap" resultMap="bookResultMap">
+        select id_,name_,author_,introduction_,file_,created_time,had_phrase,had_word from book_book where 1=1 AND
+        <foreach item="param" index="key" collection="list" open="" separator="AND" close="">
+            ${param.name} = #{param.value}
+        </foreach>
+    </select>
+
+    <select id="findByObject" parameterType="com.snake.book.model.Book" resultMap="bookResultMap">
+        select id_,name_,author_,introduction_,file_,created_time,had_phrase,had_word from book_book
+        <where>
+            <if test="name != null">
+                and name_=#{name}
+            </if>
+            <if test="file != null">
+                and file_ = #{file}
+            </if>
+            <if test="hadPhrase != null">
+                and had_phrase=#{hadPhrase}
+            </if>
+            <if test="hadWord != null">
+                and had_word=#{hadWord}
+            </if>
+        </where>
+    </select>
+
+    <select id="findByIn" resultMap="bookResultMap">
+        select id_,name_,author_,introduction_,file_,created_time,had_phrase,had_word from book_book where 1=1 AND
+        <foreach item="param" index="key" collection="list" open="" separator="AND" close="">
+            ${param.name} IN (#{param.value})
+        </foreach>
+    </select>
+
+    <select id="findByLike" resultMap="bookResultMap">
+        select id_,name_,author_,introduction_,file_,created_time,had_phrase,had_word from book_book where 1=1 AND
+        <foreach item="param" index="key" collection="list" open="" separator="AND" close="">
+            ${param.name} LIKE #{param.value}
+        </foreach>
+    </select>
+
+    <select id="getCount" parameterType="java.util.Map" resultType="int">
+        select count(1) from book_book where 1=1
+        <if test="whereClause != null">
+            ${whereClause}
+        </if>
+    </select>
+
+    <select id="query" parameterType="java.util.Map" resultMap="bookResultMap">
+        select ${fieldsClause} from book_book where 1=1
+        <if test="whereClause != null">
+            ${whereClause}
+        </if>
+        <if test="orderClause != null">
+            ${orderClause}
+        </if>
+        <if test="limit > 0">
+            limit ${limit} offset ${offset}
+        </if>
+    </select>
+
+</mapper>

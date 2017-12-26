@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.snake.chinese.model.relation.Predicate">
+    <resultMap type="com.snake.chinese.model.relation.Predicate" id="predicateResultMap">
+        <result property="id" column="id_"/>
+        <result property="name" column="name_"/>
+        <result property="type" column="type_"/>
+        <result property="createdTime" column="created_time"/>
+    </resultMap>
+
+    <select id="selectAll" resultMap="predicateResultMap">
+		select * from book_predicate
+	</select>
+
+    <select id="selectSome" parameterType="java.util.Map" resultMap="predicateResultMap">
+        select * from book_predicate limit #{offset},#{limit}
+    </select>
+
+    <select id="getTotalCount" resultType="java.lang.Integer">
+        select count(1) from book_predicate
+    </select>
+
+    <select id="getObject" resultMap="predicateResultMap" parameterType="java.lang.Object">
+        select * from book_predicate where id_ = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.snake.chinese.model.relation.Predicate">
+        insert into book_predicate(id_,name_,type_,created_time)
+        values(#{id},#{name},#{type},now())
+        <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+            select last_insert_id() as id
+        </selectKey>
+    </insert>
+
+    <update id="update" parameterType="com.snake.chinese.model.relation.Predicate">
+        update book_predicate
+        <set>
+            <if test="name != null">
+              name_=#{name},
+            </if>
+            <if test="type != null">
+              type_=#{type},
+            </if>
+        </set>
+        where id_ = #{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Object">
+        delete from book_predicate where id_ = #{id}
+    </delete>
+
+    <select id="findOneByMap" resultMap="predicateResultMap">
+        select * from book_predicate where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} = #{param.value}
+        </foreach>
+        limit 0, 1
+    </select>
+
+    <select id="findOneByObject" parameterType="com.snake.chinese.model.relation.Predicate" resultMap="predicateResultMap">
+        select * from book_predicate
+        <where>
+            <if test="name != null">
+                and name_=#{name}
+            </if>
+            <if test="type != null">
+                and type_ = #{type}
+            </if>
+        </where>
+        limit 0, 1
+    </select>
+
+    <select id="findByMap" resultMap="predicateResultMap">
+        select * from book_predicate where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} = #{param.value}
+        </foreach>
+    </select>
+
+    <select id="findByObject" parameterType="com.snake.chinese.model.relation.Predicate" resultMap="predicateResultMap">
+        select * from book_predicate
+        <where>
+            <if test="name != null">
+                and name_=#{name}
+            </if>
+            <if test="type != null">
+                and type_ = #{type}
+            </if>
+        </where>
+    </select>
+
+    <select id="findByIn" resultMap="predicateResultMap">
+        select * from book_predicate where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} IN (#{param.value})
+        </foreach>
+    </select>
+
+    <select id="findByLike" resultMap="predicateResultMap">
+        select * from book_predicate where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} LIKE #{param.value}
+        </foreach>
+    </select>
+
+    <select id="getCount" parameterType="java.util.Map" resultType="int">
+        select count(1) from book_predicate where 1=1
+        <if test="whereClause != null">
+            ${whereClause}
+        </if>
+    </select>
+
+    <select id="query" parameterType="java.util.Map" resultMap="predicateResultMap">
+        select ${fieldsClause} from book_predicate where 1=1
+        <if test="whereClause != null">
+            ${whereClause}
+        </if>
+        <if test="orderClause != null">
+            ${orderClause}
+        </if>
+        <if test="limit > 0">
+            limit ${limit} offset ${offset}
+        </if>
+    </select>
+
+</mapper>

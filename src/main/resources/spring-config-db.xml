@@ -37,12 +37,13 @@
         <property name="removeAbandonedTimeout" value="${jdbc.removeAbandonedTimeout}"/>
         <!--maxWait: 超时等待时间以毫秒为单位 6000毫秒/1000等于60秒-->
         <property name="maxWait" value="${jdbc.maxWait}"/>
-        <property name="defaultAutoCommit">
-            <value>false</value>
-        </property>
-        <property name="validationQuery" value="select 1"/>
-        <property name="poolPreparedStatements" value="true" />
         <property name="maxOpenPreparedStatements" value="${jdbc.maxOpenPreparedStatements}" />
+        <property name="defaultAutoCommit" value="false"/>
+        <property name="validationQuery" value="select 1"/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="testOnBorrow" value="false"/>
+        <property name="testOnReturn" value="false"/>
+        <property name="poolPreparedStatements" value="true" />
     </bean>
 
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">

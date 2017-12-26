@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.snake.chinese.model.Phrase">
+    <resultMap type="com.snake.chinese.model.Phrase" id="phraseResultMap">
+        <result property="id" column="id_"/>
+        <result property="phrase" column="phrase_"/>
+        <result property="structureId" column="structure_id"/>
+        <result property="bookId" column="book_id"/>
+        <result property="paragraphId" column="paragraph_id"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="creatorId" column="creator_id"/>
+    </resultMap>
+
+    <resultMap type="com.snake.chinese.model.relation.PhraseWord" id="phraseWordResultMap">
+        <result property="phraseId" column="phrase_id"/>
+        <result property="wordId" column="word_id"/>
+    </resultMap>
+
+    <select id="selectAll" resultMap="phraseResultMap">
+		select * from book_phrase
+	</select>
+
+    <select id="selectSome" parameterType="java.util.Map" resultMap="phraseResultMap">
+        select * from book_phrase limit #{offset},#{limit}
+    </select>
+
+    <select id="selectSomeByBookId" parameterType="java.util.Map" resultMap="phraseResultMap">
+        select * from book_phrase where book_id=#{bookId} limit #{offset},#{limit}
+    </select>
+
+    <select id="getTotalCount" resultType="java.lang.Integer">
+        select count(1) from book_phrase
+    </select>
+
+    <select id="getObject" resultMap="phraseResultMap" parameterType="java.lang.Object">
+        select * from book_phrase where id_ = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.snake.chinese.model.Phrase">
+        insert into book_phrase(id_,phrase_,structure_id,paragraph_id,created_time,creator_id)
+        values(#{id},#{phrase},#{structureId},#{paragraphId},now(),#{creatorId})
+        <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+            select last_insert_id() as id
+        </selectKey>
+    </insert>
+
+    <update id="update" parameterType="com.snake.chinese.model.Phrase">
+        update book_phrase
+        <set>
+            <if test="phrase != null">
+              phrase_=#{phrase},
+            </if>
+            <if test="structureId != null">
+                structure_id=#{structureId},
+            </if>
+        </set>
+        where id_ = #{id}
+    </update>
+
+    <select id="findOneByMap" resultMap="phraseResultMap">
+        select * from book_phrase where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} = #{param.value}
+        </foreach>
+        limit 0, 1
+    </select>
+
+    <select id="findOneByObject" parameterType="com.snake.chinese.model.Phrase" resultMap="phraseResultMap">
+        select * from book_phrase
+        <where>
+            <if test="phrase != null">
+                and phrase_=#{phrase}
+            </if>
+        </where>
+        limit 0, 1
+    </select>
+
+    <select id="findByMap" resultMap="phraseResultMap">
+        select * from book_phrase where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} = #{param.value}
+        </foreach>
+    </select>
+
+    <select id="findByObject" parameterType="com.snake.chinese.model.Phrase" resultMap="phraseResultMap">
+        select * from book_phrase
+        <where>
+            <if test="phrase != null">
+                and phrase_=#{phrase}
+            </if>
+        </where>
+    </select>
+
+    <select id="findByIn" resultMap="phraseResultMap">
+        select * from book_phrase where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} IN (#{param.value})
+        </foreach>
+    </select>
+
+    <select id="findByLike" resultMap="phraseResultMap">
+        select * from book_phrase where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} LIKE #{param.value}
+        </foreach>
+    </select>
+
+    <select id="getCount" parameterType="java.util.Map" resultType="int">
+        select count(1) from book_phrase where 1=1
+        <if test="whereClause != null">
+            ${whereClause}
+        </if>
+    </select>
+
+    <select id="query" parameterType="java.util.Map" resultMap="phraseResultMap">
+        select ${fieldsClause} from book_phrase where 1=1
+        <if test="whereClause != null">
+            ${whereClause}
+        </if>
+        <if test="orderClause != null">
+            ${orderClause}
+        </if>
+        <if test="limit > 0">
+            limit ${limit} offset ${offset}
+        </if>
+    </select>
+
+    <insert id="batchInsert" parameterType="java.util.List">
+        insert into book_phrase (id_,phrase_,structure_id,paragraph_id,created_time,creator_id) values
+        <foreach collection="list" item="each" separator=",">
+            (#{each.id},#{each.phrase},#{each.structureId},#{each.paragraphId},#{each.createdTime},#{each.creatorId})
+        </foreach>
+    </insert>
+
+    <insert id="batchInsertPhraseWord" parameterType="java.util.List">
+        insert into book_phrase_word (phrase_id,word_id) values
+        <foreach collection="list" item="each" separator=",">
+            (#{each.phraseId},#{each.wordId})
+        </foreach>
+    </insert>
+
+    <select id="getPhraseWordListByPhraseId" parameterType="java.lang.Long" resultMap="phraseWordResultMap">
+        select phrase_id,word_id from book_phrase_word where phrase_id=#{value}
+    </select>
+
+</mapper>

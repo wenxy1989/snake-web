@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.snake.book.model.Paragraph">
+    <resultMap type="com.snake.book.model.Paragraph" id="paragraphResultMap">
+        <result property="id" column="id_"/>
+        <result property="name" column="name_"/>
+        <result property="content" column="content_"/>
+        <result property="bookId" column="book_id"/>
+        <result property="createdTime" column="created_time"/>
+    </resultMap>
+
+    <select id="selectAll" resultMap="paragraphResultMap">
+		select * from book_paragraph
+	</select>
+
+    <select id="selectSome" parameterType="java.util.Map" resultMap="paragraphResultMap">
+        select * from book_paragraph limit #{offset},#{limit}
+    </select>
+
+    <select id="selectSomeByBookId" parameterType="java.util.Map" resultMap="paragraphResultMap">
+        select * from book_paragraph where book_id=#{bookId}  limit #{offset},#{limit}
+    </select>
+
+    <select id="getTotalCount" resultType="java.lang.Integer">
+        select count(1) from book_paragraph
+    </select>
+
+    <select id="getObject" resultMap="paragraphResultMap" parameterType="java.lang.Object">
+        select * from book_paragraph where id_ = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.snake.book.model.Paragraph">
+        insert into book_paragraph(id_,name_,book_id,created_time)
+        values(#{id},#{name},#{count},now())
+        <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+            select last_insert_id() as id
+        </selectKey>
+    </insert>
+
+    <update id="update" parameterType="com.snake.book.model.Paragraph">
+        update book_paragraph
+        <set>
+              name_=#{name},
+              content_=#{content}
+        </set>
+        where id_ = #{id}
+    </update>
+
+    <select id="findOneByMap" resultMap="paragraphResultMap">
+        select * from book_paragraph where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} = #{param.value}
+        </foreach>
+        limit 0, 1
+    </select>
+
+    <select id="findOneByObject" parameterType="com.snake.book.model.Paragraph" resultMap="paragraphResultMap">
+        select * from book_paragraph
+        <where>
+            <if test="name != null">
+                and name_=#{name}
+            </if>
+            <if test="bookId != null">
+                and book_id = #{bookId}
+            </if>
+        </where>
+        limit 0, 1
+    </select>
+
+    <select id="findByMap" resultMap="paragraphResultMap">
+        select * from book_paragraph where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} = #{param.value}
+        </foreach>
+    </select>
+
+    <select id="findByObject" parameterType="com.snake.book.model.Paragraph" resultMap="paragraphResultMap">
+        select * from book_paragraph
+        <where>
+            <if test="name != null">
+                and name_=#{name}
+            </if>
+            <if test="bookId != null">
+                and book_id = #{bookId}
+            </if>
+        </where>
+    </select>
+
+    <select id="findByIn" resultMap="paragraphResultMap">
+        select * from book_paragraph where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} IN (#{param.value})
+        </foreach>
+    </select>
+
+    <select id="findByLike" resultMap="paragraphResultMap">
+        select * from book_paragraph where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} LIKE #{param.value}
+        </foreach>
+    </select>
+
+    <select id="getCount" parameterType="java.util.Map" resultType="int">
+        select count(1) from book_paragraph where 1=1
+        <if test="whereClause != null">
+            ${whereClause}
+        </if>
+    </select>
+
+    <select id="query" parameterType="java.util.Map" resultMap="paragraphResultMap">
+        select ${fieldsClause} from book_paragraph where 1=1
+        <if test="whereClause != null">
+            ${whereClause}
+        </if>
+        <if test="orderClause != null">
+            ${orderClause}
+        </if>
+        <if test="limit > 0">
+            limit ${limit} offset ${offset}
+        </if>
+    </select>
+
+    <insert id="batchInsert" parameterType="java.util.List">
+        insert into book_paragraph (id_,name_,content_,book_id,created_time) values
+        <foreach collection="list" item="each" separator=",">
+            (#{each.id},#{each.name},#{each.content},#{each.bookId},#{each.createdTime})
+        </foreach>
+    </insert>
+
+    <select id="getReadPageNo" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select page_no from book_user_read_page where user_id=#{userId} and book_id=#{bookId} limit 0,1
+    </select>
+
+    <insert id="createReadRecord" parameterType="java.util.Map">
+        insert into book_user_read_page
+        (user_id,book_id,page_no,created_time) values
+        (#{userId},#{bookId},1,now())
+    </insert>
+
+    <update id="updateReadRecord" parameterType="java.util.Map">
+        update book_user_read_page set page_no=#{pageNo},last_edit_time=#{editTime} where user_id=#{userId} and book_id=#{bookId}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Object">
+        delete from book_paragraph where id_ = #{id}
+    </delete>
+
+    <delete id="deleteByBookId" parameterType="java.lang.Object">
+        delete from book_paragraph where book_id = #{id}
+    </delete>
+
+</mapper>

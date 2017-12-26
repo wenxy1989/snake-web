@@ -1,0 +1,1 @@
+ALTER TABLE book_phrase ADD COLUMN book_id BIGINT ;

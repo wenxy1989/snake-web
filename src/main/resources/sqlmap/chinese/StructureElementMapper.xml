@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.snake.chinese.model.relation.StructureElement">
+    <resultMap type="com.snake.chinese.model.relation.StructureElement" id="structureElementResultMap">
+        <result property="id" column="id_"/>
+        <result property="structureId" column="structure_id"/>
+        <result property="elementId" column="element_id"/>
+        <result property="order" column="order_"/>
+    </resultMap>
+
+    <select id="selectAll" resultMap="structureElementResultMap">
+		select * from book_structure_element order by order_ asc
+	</select>
+
+    <select id="selectSome" parameterType="java.util.Map" resultMap="structureElementResultMap">
+        select * from book_structure_element limit #{offset},#{limit}
+    </select>
+
+    <select id="getTotalCount" resultType="java.lang.Integer">
+        select count(1) from book_structure_element
+    </select>
+
+    <select id="getObject" resultMap="structureElementResultMap" parameterType="java.lang.Object">
+        select * from book_structure_element where id_ = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.snake.chinese.model.relation.StructureElement">
+        insert into book_structure_element(id_,structure_id,element_id,order_)
+        values(#{id},#{structureId},#{elementId},#{order})
+        <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+            select last_insert_id() as id
+        </selectKey>
+    </insert>
+
+    <update id="update" parameterType="com.snake.chinese.model.relation.StructureElement">
+        update book_structure_element
+        <set>
+            <if test="structureId != null">
+                structure_id=#{structureId},
+            </if>
+            <if test="elementId != null">
+                element_id=#{elementId},
+            </if>
+            <if test="order != null">
+                order_=#{order},
+            </if>
+        </set>
+        where id_ = #{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Object">
+        delete from book_structure_element where id_ = #{id}
+    </delete>
+
+    <select id="findOneByMap" resultMap="structureElementResultMap">
+        select * from book_structure_element where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} = #{param.value}
+        </foreach>
+        limit 0, 1
+    </select>
+
+    <select id="findOneByObject" parameterType="com.snake.chinese.model.relation.StructureElement" resultMap="structureElementResultMap">
+        select * from book_structure_element
+        <where>
+            <if test="structureId != null">
+                and structure_id=#{structureId}
+            </if>
+            <if test="elementId != null">
+                and element_id = #{elementId}
+            </if>
+            <if test="order != null">
+                and order_ = #{order}
+            </if>
+        </where>
+        limit 0, 1
+    </select>
+
+    <select id="findByMap" resultMap="structureElementResultMap">
+        select * from book_structure_element where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} = #{param.value}
+        </foreach>
+    </select>
+
+    <select id="findByObject" parameterType="com.snake.chinese.model.relation.StructureElement" resultMap="structureElementResultMap">
+        select * from book_structure_element
+        <where>
+            <if test="structureId != null">
+                and structure_id=#{structureId}
+            </if>
+            <if test="elementId != null">
+                and element_id = #{elementId}
+            </if>
+            <if test="order != null">
+                and order_ = #{order}
+            </if>
+        </where>
+    </select>
+
+    <select id="findByIn" resultMap="structureElementResultMap">
+        select * from book_structure_element where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} IN (#{param.value})
+        </foreach>
+    </select>
+
+    <select id="findByLike" resultMap="structureElementResultMap">
+        select * from book_structure_element where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} LIKE #{param.value}
+        </foreach>
+    </select>
+
+    <select id="getCount" parameterType="java.util.Map" resultType="int">
+        select count(1) from book_structure_element where 1=1
+        <if test="whereClause != null">
+            ${whereClause}
+        </if>
+    </select>
+
+    <select id="query" parameterType="java.util.Map" resultMap="structureElementResultMap">
+        select ${fieldsClause} from book_structure_element where 1=1
+        <if test="whereClause != null">
+            ${whereClause}
+        </if>
+        <if test="orderClause != null">
+            ${orderClause}
+        </if>
+        <if test="limit > 0">
+            limit ${limit} offset ${offset}
+        </if>
+    </select>
+
+    <select id="removeObject" parameterType="com.snake.chinese.model.relation.StructureElement">
+        delete from book_structure_element
+        <where>
+            <if test="id != null">
+                and id_=#{id}
+            </if>
+            <if test="structureId != null">
+                and structure_id=#{structureId}
+            </if>
+            <if test="elementId != null">
+                and element_id = #{elementId}
+            </if>
+            <if test="order != null">
+                and order_ = #{order}
+            </if>
+        </where>
+    </select>
+
+</mapper>

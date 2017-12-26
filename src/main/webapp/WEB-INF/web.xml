@@ -35,6 +35,16 @@
         <url-pattern>/fileServlet</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>videoServlet</servlet-name>
+        <servlet-class>com.snake.media.servlet.VideoServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>videoServlet</servlet-name>
+        <url-pattern>/videoServlet</url-pattern>
+    </servlet-mapping>
+
     <filter>
         <filter-name>hiddenHttpMethodFilter</filter-name>
         <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>

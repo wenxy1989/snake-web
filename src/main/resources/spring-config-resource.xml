@@ -19,6 +19,10 @@
         <property name="resourceDaoSet">
             <set>
                 <ref bean="roleDao"/>
+                <ref bean="typeDao"/>
+                <ref bean="elementDao"/>
+                <ref bean="structureDao"/>
+                <ref bean="wordTypeDao"/>
             </set>
         </property>
     </bean>
