@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.snake.mysql.model.Column">
+    <resultMap type="com.snake.mysql.model.Column" id="columnResultMap">
+        <result property="id" column="id_"/>
+        <result property="tableId" column="table_id"/>
+        <result property="name" column="name_"/>
+        <result property="code" column="code_"/>
+        <result property="allowBlank" column="allow_blank"/>
+        <result property="autoIncrement" column="auto_increment"/>
+        <result property="type" column="type_"/>
+        <result property="dataType" column="data_type"/>
+        <result property="defaultValue" column="default_value"/>
+        <result property="orderPosition" column="order_position"/>
+        <result property="comment" column="comment_"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="creatorId" column="creator_id"/>
+    </resultMap>
+
+    <select id="selectAll" resultMap="columnResultMap">
+		select id_,table_id,name_,code_,allow_blank,auto_increment,type_,data_type,default_value,order_position,comment_,created_time,creator_id from mysql_column
+	</select>
+
+    <select id="selectSome" parameterType="java.util.Map" resultMap="columnResultMap">
+        select id_,table_id,name_,code_,allow_blank,auto_increment,type_,data_type,default_value,order_position,comment_,created_time,creator_id from mysql_column limit #{offset},#{limit}
+    </select>
+
+    <select id="getTotalCount" resultType="java.lang.Integer">
+        select count(1) from mysql_column
+    </select>
+
+    <select id="getObject" resultMap="columnResultMap" parameterType="java.lang.Object">
+        select id_,table_id,name_,code_,allow_blank,auto_increment,type_,data_type,default_value,order_position,comment_,created_time,creator_id from mysql_column where id_ = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.snake.mysql.model.Column">
+        insert into mysql_column(id_,table_id,name_,code_,allow_blank,auto_increment,type_,data_type,default_value,order_position,comment_,created_time,creator_id)
+        values(#{id},#{tableId},#{name},#{code},#{allowBlank},#{autoIncrement},#{type},#{dataType},#{defaultValue},#{orderPosition},#{comment},now(),#{creatorId})
+        <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+            select last_insert_id() as id
+        </selectKey>
+    </insert>
+
+    <update id="update" parameterType="com.snake.mysql.model.Column">
+        update mysql_column
+        <set>
+            <if test="tableId != null">
+                table_id=#{tableId},
+            </if>
+            <if test="name != null">
+                name_=#{name},
+            </if>
+            <if test="code != null">
+                code_=#{code},
+            </if>
+            <if test="allowBlank != null">
+                allow_blank=#{allowBlank},
+            </if>
+            <if test="autoIncrement != null">
+                auto_increment=#{autoIncrement},
+            </if>
+            <if test="type != null">
+                type_=#{type},
+            </if>
+            <if test="dataType != null">
+                data_type=#{dataType},
+            </if>
+            <if test="defaultValue != null">
+                default_value=#{defaultValue},
+            </if>
+            <if test="orderPosition != null">
+                order_position=#{orderPosition},
+            </if>
+            <if test="comment != null">
+                comment_=#{comment},
+            </if>
+        </set>
+        where id_ = #{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Object">
+        delete from mysql_column where id_ = #{id}
+    </delete>
+
+    <select id="findOneByMap" resultMap="columnResultMap">
+        select id_,table_id,name_,code_,allow_blank,auto_increment,type_,data_type,default_value,order_position,comment_,created_time,creator_id from mysql_column where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} = #{param.value}
+        </foreach>
+        limit 0, 1
+    </select>
+
+    <select id="findOneByObject" parameterType="com.snake.mysql.model.Column" resultMap="columnResultMap">
+        select id_,table_id,name_,code_,allow_blank,auto_increment,type_,data_type,default_value,order_position,comment_,created_time,creator_id from mysql_column
+        <where>
+            <if test="tableId != null">
+                and table_id=#{tableId}
+            </if>
+            <if test="name != null">
+                and name_=#{name}
+            </if>
+            <if test="code != null">
+                and code_=#{code}
+            </if>
+            <if test="allowBlank != null">
+                and allow_blank=#{allowBlank}
+            </if>
+            <if test="autoIncrement != null">
+                and auto_increment=#{autoIncrement}
+            </if>
+            <if test="type != null">
+                and type_=#{type}
+            </if>
+            <if test="dataType != null">
+                and data_type=#{dataType}
+            </if>
+            <if test="defaultValue != null">
+                and default_value=#{defaultValue}
+            </if>
+            <if test="orderPosition != null">
+                and order_position=#{orderPosition}
+            </if>
+            <if test="comment != null">
+                and comment_=#{comment}
+            </if>
+        </where>
+        limit 0, 1
+    </select>
+
+    <select id="findByObject" parameterType="com.snake.mysql.model.Column" resultMap="columnResultMap">
+        select id_,table_id,name_,code_,allow_blank,auto_increment,type_,data_type,default_value,order_position,comment_,created_time,creator_id from mysql_column
+        <where>
+            <if test="tableId != null">
+                and table_id=#{tableId}
+            </if>
+            <if test="name != null">
+                and name_=#{name}
+            </if>
+            <if test="code != null">
+                and code_=#{code}
+            </if>
+            <if test="allowBlank != null">
+                and allow_blank=#{allowBlank}
+            </if>
+            <if test="autoIncrement != null">
+                and auto_increment=#{autoIncrement}
+            </if>
+            <if test="type != null">
+                and type_=#{type}
+            </if>
+            <if test="dataType != null">
+                and data_type=#{dataType}
+            </if>
+            <if test="defaultValue != null">
+                and default_value=#{defaultValue}
+            </if>
+            <if test="orderPosition != null">
+                and order_position=#{orderPosition}
+            </if>
+            <if test="comment != null">
+                and comment_=#{comment}
+            </if>
+        </where>
+    </select>
+
+    <select id="findByMap" resultMap="columnResultMap">
+        select id_,table_id,name_,code_,allow_blank,auto_increment,type_,data_type,default_value,order_position,comment_,created_time,creator_id from mysql_column where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} = #{param.value}
+        </foreach>
+    </select>
+
+    <select id="findByIn" resultMap="columnResultMap">
+        select id_,table_id,name_,code_,allow_blank,auto_increment,type_,data_type,default_value,order_position,comment_,created_time,creator_id from mysql_column where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} IN (#{param.value})
+        </foreach>
+    </select>
+
+    <select id="findByLike" resultMap="columnResultMap">
+        select id_,table_id,name_,code_,allow_blank,auto_increment,type_,data_type,default_value,order_position,comment_,created_time,creator_id from mysql_column where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} LIKE #{param.value}
+        </foreach>
+    </select>
+
+    <select id="getCount" parameterType="java.util.Map" resultType="int">
+        select count(1) from mysql_column where 1=1
+        <if test="whereClause != null">
+            ${whereClause}
+        </if>
+    </select>
+
+    <select id="query" parameterType="java.util.Map" resultMap="columnResultMap">
+        select ${fieldsClause} from mysql_column where 1=1
+        <if test="whereClause != null">
+            ${whereClause}
+        </if>
+        <if test="orderClause != null">
+            ${orderClause}
+        </if>
+        <if test="limit > 0">
+            limit ${limit} offset ${offset}
+        </if>
+    </select>
+
+    <delete id="deleteByTableId" parameterType="java.lang.Long">
+        delete from mysql_column where table_id=#{value}
+    </delete>
+
+</mapper>

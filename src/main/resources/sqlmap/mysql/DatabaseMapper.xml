@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.snake.mysql.model.Database">
+    <resultMap type="com.snake.mysql.model.Database" id="databaseResultMap">
+        <result property="id" column="id_"/>
+        <result property="name" column="name_"/>
+        <result property="remark" column="remark_"/>
+        <result property="code" column="code_"/>
+        <result property="address" column="address_"/>
+        <result property="port" column="port_"/>
+        <result property="username" column="username_"/>
+        <result property="password" column="password_"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="creatorId" column="creator_id"/>
+    </resultMap>
+
+    <select id="selectAll" resultMap="databaseResultMap">
+		select id_,name_,code_,address_,port_,username_,password_,remark_,created_time,creator_id from mysql_database
+	</select>
+
+    <select id="selectSome" parameterType="java.util.Map" resultMap="databaseResultMap">
+        select id_,name_,code_,address_,port_,username_,password_,remark_,created_time,creator_id from mysql_database limit #{offset},#{limit}
+    </select>
+
+    <select id="getTotalCount" resultType="java.lang.Integer">
+        select count(1) from mysql_database
+    </select>
+
+    <select id="getObject" resultMap="databaseResultMap" parameterType="java.lang.Object">
+        select id_,name_,code_,address_,port_,username_,password_,remark_,created_time,creator_id from mysql_database where id_ = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.snake.mysql.model.Database">
+        insert into mysql_database(id_,name_,code_,address_,port_,username_,password_,remark_,created_time,creator_id)
+        values(#{id},#{name},#{code},#{address},#{port},#{username},#{password},#{remark},now(),#{creatorId})
+        <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+            select last_insert_id() as id
+        </selectKey>
+    </insert>
+
+    <update id="update" parameterType="com.snake.mysql.model.Database">
+        update mysql_database
+        <set>
+            <if test="name != null">
+                name_=#{name},
+            </if>
+            <if test="code != null">
+                code_=#{code},
+            </if>
+            <if test="address != null">
+                address_=#{address},
+            </if>
+            <if test="port != null">
+                port_=#{port},
+            </if>
+            <if test="username != null">
+                username_=#{username},
+            </if>
+            <if test="password != null">
+                password_=#{password},
+            </if>
+            <if test="remark != null">
+                remark_=#{remark},
+            </if>
+        </set>
+        where id_ = #{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Object">
+        delete from mysql_database where id_ = #{id}
+    </delete>
+
+    <select id="findOneByMap" resultMap="databaseResultMap">
+        select id_,name_,code_,address_,port_,username_,password_,remark_,created_time,creator_id from mysql_database where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} = #{param.value}
+        </foreach>
+        limit 0, 1
+    </select>
+
+    <select id="findOneByObject" parameterType="com.snake.mysql.model.Database" resultMap="databaseResultMap">
+        select id_,name_,code_,address_,port_,username_,password_,remark_,created_time,creator_id from mysql_database
+        <where>
+            <if test="name != null">
+                and name_=#{name}
+            </if>
+            <if test="code != null">
+                and code_=#{code}
+            </if>
+            <if test="address != null">
+                and address_=#{address}
+            </if>
+            <if test="port != null">
+                and port_=#{port}
+            </if>
+            <if test="username != null">
+                and username_=#{username}
+            </if>
+            <if test="password != null">
+                and password_=#{password}
+            </if>
+            <if test="remark != null">
+                and remark_=#{remark}
+            </if>
+        </where>
+        limit 0, 1
+    </select>
+
+    <select id="findByObject" parameterType="com.snake.mysql.model.Database" resultMap="databaseResultMap">
+        select id_,name_,code_,address_,port_,username_,password_,remark_,created_time,creator_id from mysql_database
+        <where>
+            <if test="name != null">
+                and name_=#{name}
+            </if>
+            <if test="code != null">
+                and code_=#{code}
+            </if>
+            <if test="address != null">
+                and address_=#{address}
+            </if>
+            <if test="port != null">
+                and port_=#{port}
+            </if>
+            <if test="username != null">
+                and username_=#{username}
+            </if>
+            <if test="password != null">
+                and password_=#{password}
+            </if>
+            <if test="remark != null">
+                and remark_=#{remark}
+            </if>
+        </where>
+    </select>
+
+    <select id="findByMap" resultMap="databaseResultMap">
+        select id_,name_,code_,address_,port_,username_,password_,remark_,created_time,creator_id from mysql_database where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} = #{param.value}
+        </foreach>
+    </select>
+
+    <select id="findByIn" resultMap="databaseResultMap">
+        select id_,name_,code_,address_,port_,username_,password_,remark_,created_time,creator_id from mysql_database where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} IN (#{param.value})
+        </foreach>
+    </select>
+
+    <select id="findByLike" resultMap="databaseResultMap">
+        select id_,name_,code_,address_,port_,username_,password_,remark_,created_time,creator_id from mysql_database where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} LIKE #{param.value}
+        </foreach>
+    </select>
+
+    <select id="getCount" parameterType="java.util.Map" resultType="int">
+        select count(1) from mysql_database where 1=1
+        <if test="whereClause != null">
+            ${whereClause}
+        </if>
+    </select>
+
+    <select id="query" parameterType="java.util.Map" resultMap="databaseResultMap">
+        select ${fieldsClause} from mysql_database where 1=1
+        <if test="whereClause != null">
+            ${whereClause}
+        </if>
+        <if test="orderClause != null">
+            ${orderClause}
+        </if>
+        <if test="limit > 0">
+            limit ${limit} offset ${offset}
+        </if>
+    </select>
+
+</mapper>

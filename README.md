@@ -1,3 +1,1 @@
-# snake-web
-spring-mvc mybatis
-amazeui
+# web-mysql design mysql table and column,build create script 
