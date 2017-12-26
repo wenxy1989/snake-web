@@ -19,6 +19,8 @@
         <property name="resourceDaoSet">
             <set>
                 <ref bean="roleDao"/>
+                <ref bean="groupDao"/>
+                <ref bean="modelDao"/>
             </set>
         </property>
     </bean>

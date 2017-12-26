@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.snake.template.model.Template">
+    <resultMap type="com.snake.template.model.Template" id="templateResultMap">
+        <result property="id" column="id_"/>
+        <result property="name" column="name_"/>
+        <result property="group" column="group_"/>
+        <result property="type" column="type_"/>
+        <result property="updateType" column="update_type"/>
+        <result property="savePathModel" column="save_path_model"/>
+        <result property="saveFileModel" column="save_file_model"/>
+        <result property="remark" column="remark_"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="creatorId" column="creator_id"/>
+    </resultMap>
+
+    <select id="selectAll" resultMap="templateResultMap">
+		select id_,name_,group_,type_,update_type,save_path_model,save_file_model,remark_,created_time,creator_id from template_info
+	</select>
+
+    <select id="selectSome" parameterType="java.util.Map" resultMap="templateResultMap">
+        select id_,name_,group_,type_,update_type,save_path_model,save_file_model,remark_,created_time,creator_id from template_info limit #{offset},#{limit}
+    </select>
+
+    <select id="getTotalCount" resultType="java.lang.Integer">
+        select count(1) from template_info
+    </select>
+
+    <select id="getObject" resultMap="templateResultMap" parameterType="java.lang.Object">
+        select id_,name_,group_,type_,update_type,save_path_model,save_file_model,remark_,created_time,creator_id from template_info where id_ = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.snake.template.model.Template">
+        insert into template_info(id_,name_,group_,type_,update_type,save_path_model,save_file_model,remark_,created_time,creator_id)
+        values(#{id},#{name},#{group},#{type},#{updateType},#{savePathModel},#{saveFileModel},#{remark},now(),#{creatorId})
+        <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+            select last_insert_id() as id
+        </selectKey>
+    </insert>
+
+    <update id="update" parameterType="com.snake.template.model.Template">
+        update template_info
+        <set>
+            <if test="name != null">
+                name_=#{name},
+            </if>
+            <if test="group != null">
+                group_=#{group},
+            </if>
+            <if test="type != null">
+                type_=#{type},
+            </if>
+            <if test="updateType != null">
+                update_type=#{updateType},
+            </if>
+            <if test="savePathModel != null">
+                save_path_model=#{savePathModel},
+            </if>
+            <if test="saveFileModel != null">
+                save_file_model=#{saveFileModel},
+            </if>
+            <if test="remark != null">
+                remark_=#{remark},
+            </if>
+        </set>
+        where id_ = #{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Object">
+        delete from template_info where id_ = #{id}
+    </delete>
+
+    <select id="findOneByMap" resultMap="templateResultMap">
+        select id_,name_,group_,type_,update_type,save_path_model,save_file_model,remark_,created_time,creator_id from template_info where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} = #{param.value}
+        </foreach>
+        limit 0, 1
+    </select>
+
+    <select id="findOneByObject" parameterType="com.snake.template.model.Template" resultMap="templateResultMap">
+        select id_,name_,group_,type_,update_type,save_path_model,save_file_model,remark_,created_time,creator_id from template_info
+        <where>
+            <if test="name != null">
+                and name_=#{name}
+            </if>
+            <if test="group != null">
+                and group_=#{group}
+            </if>
+            <if test="type != null">
+                and type_=#{type}
+            </if>
+            <if test="updateType != null">
+                and update_type=#{updateType}
+            </if>
+            <if test="savePathModel != null">
+                and save_path_model=#{savePathModel}
+            </if>
+            <if test="saveFileModel != null">
+                and save_file_model=#{saveFileModel}
+            </if>
+            <if test="remark != null">
+                and remark_=#{remark}
+            </if>
+        </where>
+        limit 0, 1
+    </select>
+
+    <select id="findByObject" parameterType="com.snake.template.model.Template" resultMap="templateResultMap">
+        select id_,name_,group_,type_,update_type,save_path_model,save_file_model,remark_,created_time,creator_id from template_info
+        <where>
+            <if test="name != null">
+                and name_=#{name}
+            </if>
+            <if test="group != null">
+                and group_=#{group}
+            </if>
+            <if test="type != null">
+                and type_=#{type}
+            </if>
+            <if test="updateType != null">
+                and update_type=#{updateType}
+            </if>
+            <if test="savePathModel != null">
+                and save_path_model=#{savePathModel}
+            </if>
+            <if test="saveFileModel != null">
+                and save_file_model=#{saveFileModel}
+            </if>
+            <if test="remark != null">
+                and remark_=#{remark}
+            </if>
+        </where>
+    </select>
+
+    <select id="findByMap" resultMap="templateResultMap">
+        select id_,name_,group_,type_,update_type,save_path_model,save_file_model,remark_,created_time,creator_id from template_info where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} = #{param.value}
+        </foreach>
+    </select>
+
+    <select id="findByIn" resultMap="templateResultMap">
+        select id_,name_,group_,type_,update_type,save_path_model,save_file_model,remark_,created_time,creator_id from template_info where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} IN (#{param.value})
+        </foreach>
+    </select>
+
+    <select id="findByLike" resultMap="templateResultMap">
+        select id_,name_,group_,type_,update_type,save_path_model,save_file_model,remark_,created_time,creator_id from template_info where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} LIKE #{param.value}
+        </foreach>
+    </select>
+
+    <select id="getCount" parameterType="java.util.Map" resultType="int">
+        select count(1) from template_info where 1=1
+        <if test="whereClause != null">
+            ${whereClause}
+        </if>
+    </select>
+
+    <select id="query" parameterType="java.util.Map" resultMap="templateResultMap">
+        select ${fieldsClause} from template_info where 1=1
+        <if test="whereClause != null">
+            ${whereClause}
+        </if>
+        <if test="orderClause != null">
+            ${orderClause}
+        </if>
+        <if test="limit > 0">
+            limit ${limit} offset ${offset}
+        </if>
+    </select>
+
+</mapper>
