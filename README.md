@@ -1,3 +1,1 @@
-# snake-web
-spring-mvc mybatis
-amazeui
+# web-media contain image and video
