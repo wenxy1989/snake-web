@@ -1,3 +1,14 @@
 # snake-web
-spring-mvc mybatis
+branch master
+system 
+
+branch system
+system
+
+
+
+mvc : 
+spring-mvc spring-bean mybatis
+
+client ui:
 amazeui
