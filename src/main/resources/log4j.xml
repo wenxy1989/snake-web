@@ -12,7 +12,7 @@
     <appender name="FILE" class="org.apache.log4j.DailyRollingFileAppender">
         <param name="DatePattern" value="'.'yyyy-MM-dd"/>
         <param name="Append" value="true"/>
-        <param name="file" value="d://logfiles/snake/info.log"/>
+        <param name="file" value="d://logfile/snake/info.log"/>
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d [%7r] %6p - %30.30c - %m \n"/>
         </layout>
@@ -36,23 +36,13 @@
         <appender-ref ref="FILE"/>
     </category>
 
-    <category name="com.base" additivity="true">
-        <priority value="INFO"/>
-        <appender-ref ref="CONSOLE"/>
-    </category>
-
-    <category name="org" additivity="true">
-        <priority value="ERROR"/>
-        <appender-ref ref="CONSOLE"/>
-    </category>
-
-    <category name="com.snake" additivity="true">
+    <category name="com.module" additivity="true">
         <priority value="DEBUG"/>
         <appender-ref ref="CONSOLE"/>
     </category>
 
     <root>
-        <priority value="DEBUG"/>
+        <priority value="ERROR"/>
         <appender-ref ref="FILE"/>
     </root>
 

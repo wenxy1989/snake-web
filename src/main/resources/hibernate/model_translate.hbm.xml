@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC	"-//Hibernate/Hibernate Mapping DTD 2.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+	<class name="com.module.translate.topic.Topic" table="trans_topic">
+		<id name="id" column="ID_">
+			<generator class="increment"/>
+		</id>
+		<property name="name" column="NAME_"/>
+		<property name="title" column="TITLE_"/>
+		<property name="createTime" column="CREATE_TIME"/>
+		<property name="createId" column="CREATE_ID"/>
+		<property name="status" column="STATUS_"/>
+	</class>
+
+</hibernate-mapping>
