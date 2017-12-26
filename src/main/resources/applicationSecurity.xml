@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+    xmlns:beans="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/security
+    http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+    
+    <global-method-security pre-post-annotations="enabled" />
+    
+    <!-- 访问/后缀为.view**资源的不需要权限 ；未设置权限，可随意访问-->
+    <!-- <http pattern="/*.view" security="none"/> -->
+	<http pattern="/css/zTreeStyle/img/diy" security="none" />
+	<http pattern="/js/amaze/css" security="none" />
+	<http pattern="/images" security="none" />
+	<http pattern="/user/login.do**" security="none" />
+	<!-- 登陆跳转页面不过滤 -->
+    <!-- <http pattern="/index.do" security="none"/> -->
+    <!-- 该路径下的资源不用过滤 -->
+    <http auto-config="true" access-denied-page="/accessDenied.jsp">
+    	<form-login
+                login-page="/user/login.do"
+                login-processing-url="/j_spring_security_check"
+	            authentication-failure-url="/user/login.do?error=true"
+	            default-target-url="/index.jsp" />
+    	<!-- 访问/admin.jsp资源的用户必须具有ROLE_ADMIN的权限，不配置不认证 -->
+    	<!-- <intercept-url pattern="/**/*.do" access="ROLE_ADMIN"/> -->
+        <session-management invalid-session-url="/timeout.jsp">
+        	<concurrency-control max-sessions="2" error-if-maximum-exceeded="false"/>
+        </session-management>
+        <!-- 增加一个filter，这点与Acegi是不一样的，不能修改默认的filter了，
+        	这个filter位于FILTER_SECURITY_INTERCEPTOR之前  -->
+        <custom-filter ref="myFilter" before="FILTER_SECURITY_INTERCEPTOR" />
+        <logout invalidate-session="true" logout-success-url="/"  />
+    </http>
+    <!-- 一个自定义的filter,我们的所有控制将在这三个类中实现，解释详见具体配置  -->
+    <beans:bean id="myFilter" class="com.base.security.MyFilterSecurityInterceptor">
+        <beans:property name="authenticationManager" ref="authenticationManager" />
+        <beans:property name="accessDecisionManager" ref="myAccessDecisionManager" />
+        <beans:property name="securityMetadataSource" ref="securityMetadataSource" />
+    </beans:bean>
+
+    <!-- 验证配置 ， 认证管理器，实现用户认证的入口，主要实现UserDetailsService接口即可 -->
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider user-service-ref="userService">
+            <!-- 如果用户的密码采用加密的话  -->
+                <password-encoder hash="md5">
+                	<salt-source user-property="username"/>
+                </password-encoder>
+        </authentication-provider>
+    </authentication-manager>
+
+    <!-- 访问决策器，决定某个用户具有的角色，是否有足够的权限去访问某个资源 -->
+    <beans:bean id="myAccessDecisionManager" class="com.base.security.MyAccessDecisionManager"/>
+    
+    <!-- 资源源数据定义，将所有的资源和权限对应关系建立起来，即定义某一资源可以被哪些角色访问     -->
+    <beans:bean id="securityMetadataSource" class="com.base.security.MyInvocationSecurityMetadataSource">
+    	<beans:property name="dao" ref="dao"/>
+    </beans:bean>
+</beans:beans>

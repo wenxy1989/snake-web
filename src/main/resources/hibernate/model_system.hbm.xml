@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC	"-//Hibernate/Hibernate Mapping DTD 2.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+	<class name="com.module.system.model.User" table="sys_user">
+		<id name="id" column="ID_">
+			<generator class="increment"/>
+		</id>
+		<property name="loginName" column="LOGIN_NAME"/>
+		<property name="password" column="PASS_WORD"/>
+		<property name="email" column="EMAIL_"/>
+		<property name="mobile" column="MOBILE_"/>
+		<property name="name" column="NAME_"/>
+		<property name="title" column="TITLE_"/>
+		<property name="createTime" column="CREATE_TIME"/>
+		<property name="status" column="STATUS_"/>
+	</class>
+
+	<class name="com.module.system.model.Role" table="sys_role">
+		<id name="id" column="ID_">
+			<generator class="increment"/>
+		</id>
+		<property name="code" column="CODE_"/>
+		<property name="name" column="NAME_"/>
+		<property name="title" column="TITLE_"/>
+		<property name="createTime" column="CREATE_TIME"/>
+		<property name="status" column="STATUS_"/>
+	</class>
+
+	<class name="com.module.system.model.Menu" table="sys_menu">
+		<id name="id" column="ID_">
+			<generator class="increment"/>
+		</id>
+		<property name="url" column="URL_"/>
+		<property name="parentId" column="PARENT_ID"/>
+		<property name="name" column="NAME_"/>
+		<property name="title" column="TITLE_"/>
+		<property name="createTime" column="CREATE_TIME"/>
+		<property name="createId" column="CREATE_ID"/>
+		<property name="status" column="STATUS_"/>
+	</class>
+
+	<class name="com.module.system.model.Auth" table="sys_user_role">
+		<id name="id" column="ID_">
+			<generator class="increment"/>
+		</id>
+		<property name="roleId" column="ROLE_ID"/>
+		<property name="userId" column="USER_ID"/>
+		<property name="createId" column="CREATE_ID"/>
+		<property name="createTime" column="CREATE_TIME"/>
+		<property name="status" column="STATUS_"/>
+	</class>
+
+	<class name="com.module.system.model.Access" table="sys_role_menu">
+		<id name="id" column="ID_">
+			<generator class="increment"/>
+		</id>
+		<property name="menuId" column="MENU_ID"/>
+		<property name="roleId" column="ROLE_ID"/>
+		<property name="createTime" column="CREATE_TIME"/>
+		<property name="createId" column="CREATE_ID"/>
+		<property name="status" column="STATUS_"/>
+	</class>
+
+	<class name="com.module.system.model.Parameter" table="sys_parameter">
+		<id name="id" column="ID_">
+			<generator class="increment"/>
+		</id>
+		<property name="name" column="NAME_"/>
+		<property name="title" column="TITLE_"/>
+		<property name="key" column="KEY_"/>
+		<property name="longValue" column="LONG_VALUE"/>
+		<property name="stringValue" column="STRING_VALUE"/>
+		<property name="createTime" column="CREATE_TIME"/>
+		<property name="status" column="STATUS_"/>
+	</class>
+
+</hibernate-mapping>

@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC	"-//Hibernate/Hibernate Mapping DTD 2.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+	<class name="com.module.node.model.Node" table="node_info">
+		<id name="id" column="ID_">
+			<generator class="increment"/>
+		</id>
+		<property name="name" column="NAME_"/>
+		<property name="title" column="TITLE_"/>
+		<property name="createTime" column="CREATE_TIME"/>
+		<property name="status" column="STATUS_"/>
+		<property name="parentId" column="PARENT_ID"/>
+		<property name="explain" column="EXPLAIN_"/>
+		<property name="fieldId" column="FIELD_ID"/>
+		<property name="createId" column="CREATE_ID"/>
+	</class>
+
+	<class name="com.module.node.model.NodeGroup" table="node_group">
+		<id name="id" column="ID_">
+			<generator class="increment"/>
+		</id>
+		<property name="right" column="RIGHT_"/>
+		<property name="name" column="NAME_"/>
+		<property name="title" column="TITLE_"/>
+		<property name="createTime" column="CREATE_TIME"/>
+		<property name="createId" column="CREATE_ID"/>
+		<property name="status" column="STATUS_"/>
+	</class>
+
+	<class name="com.module.node.model.NodePurview" table="node_purview">
+		<id name="id" column="ID_">
+			<generator class="increment"/>
+		</id>
+		<property name="groupId" column="GROUP_ID"/>
+		<property name="right" column="RIGHT_"/>
+		<property name="purviewType" column="PURVIEW_TYPE"/>
+		<property name="name" column="NAME_"/>
+		<property name="title" column="TITLE_"/>
+		<property name="createTime" column="CREATE_TIME"/>
+		<property name="createId" column="CREATE_ID"/>
+		<property name="status" column="STATUS_"/>
+	</class>
+	
+</hibernate-mapping>
