@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.snake.media.model.Video">
+    <resultMap type="com.snake.media.model.Video" id="videoResultMap">
+        <result property="id" column="id_"/>
+        <result property="name" column="name_"/>
+        <result property="filePath" column="file_path"/>
+        <result property="createdTime" column="created_time"/>
+    </resultMap>
+
+    <select id="selectAll" resultMap="videoResultMap">
+		select * from media_video order by  id_ asc
+	</select>
+
+    <select id="selectSome" parameterType="java.util.Map" resultMap="videoResultMap">
+        select * from media_video limit #{offset},#{limit}
+    </select>
+
+    <select id="getTotalCount" resultType="java.lang.Integer">
+        select count(1) from media_video
+    </select>
+
+    <select id="getObject" resultMap="videoResultMap" parameterType="java.lang.Object">
+        select * from media_video where id_ = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.snake.media.model.Video">
+        insert into media_video(id_,name_,file_path,created_time)
+        values(null,#{name},#{filePath},now())
+    </insert>
+
+    <update id="update" parameterType="com.snake.media.model.Video">
+        update media_video
+        <set>
+            <if test="name != null">
+              name_=#{name},
+            </if>
+        </set>
+        where id_ = #{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Object">
+        delete from media_video where id_ = #{id}
+    </delete>
+
+    <select id="findOneByMap" resultMap="videoResultMap">
+        select * from media_video where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} = #{param.value}
+        </foreach>
+        limit 0, 1
+    </select>
+
+    <select id="findOneByObject" parameterType="com.snake.media.model.Video" resultMap="videoResultMap">
+        select * from media_video
+        <where>
+            <if test="id != null">
+                and id_=#{id}
+            </if>
+            <if test="name != null">
+                and name_=#{name}
+            </if>
+        </where>
+        limit 0, 1
+    </select>
+
+    <select id="findByMap" resultMap="videoResultMap">
+        select * from media_video where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} = #{param.value}
+        </foreach>
+    </select>
+
+    <select id="findByObject" parameterType="com.snake.media.model.Video" resultMap="videoResultMap">
+        select * from media_video
+        <where>
+            <if test="id != null">
+                and id_=#{id}
+            </if>
+            <if test="name != null">
+                and name_=#{name}
+            </if>
+        </where>
+    </select>
+
+    <select id="findByIn" resultMap="videoResultMap">
+        select * from media_video where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} IN (#{param.value})
+        </foreach>
+    </select>
+
+    <select id="findByLike" resultMap="videoResultMap">
+        select * from media_video where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} LIKE #{param.value}
+        </foreach>
+    </select>
+
+    <select id="getCount" parameterType="java.util.Map" resultType="int">
+        select count(1) from media_video where 1=1
+        <if test="whereClause != null">
+            ${whereClause}
+        </if>
+    </select>
+
+    <select id="query" parameterType="java.util.Map" resultMap="videoResultMap">
+        select ${fieldsClause} from media_video where 1=1
+        <if test="whereClause != null">
+            ${whereClause}
+        </if>
+        <if test="orderClause != null">
+            ${orderClause}
+        </if>
+        <if test="limit > 0">
+            limit ${limit} offset ${offset}
+        </if>
+    </select>
+
+</mapper>
