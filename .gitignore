@@ -1,6 +1,6 @@
 *.class
 *.jar
 *.war
-#*.iml
+*.iml
 /database/
 /target/
