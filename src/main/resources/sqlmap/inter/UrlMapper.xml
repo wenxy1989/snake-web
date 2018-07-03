@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.snake.inter.model.Url">
+
+    <resultMap type="com.snake.inter.model.Url" id="urlResultMap">
+        <result property="id" column="id_"/>
+        <result property="applicationId" column="application_id"/>
+        <result property="groupId" column="group_id"/>
+        <result property="name" column="name_"/>
+        <result property="url" column="url_"/>
+        <result property="type" column="type_"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="creatorId" column="creator_id"/>
+        <result property="position" column="position_"/>
+        <result property="logic" column="logic_"/>
+        <result property="remark" column="remark_"/>
+        <result property="operate" column="operate_"/>
+        <result property="uploadType" column="upload_type"/>
+        <result property="uploadData" column="upload_data"/>
+        <result property="uploadExample" column="upload_example"/>
+        <result property="resultType" column="result_type"/>
+        <result property="resultData" column="result_data"/>
+        <result property="resultExample" column="result_example"/>
+        <result property="status" column="status_"/>
+    </resultMap>
+
+    <select id="selectAll" resultMap="urlResultMap">
+		select id_,application_id,group_id,name_,url_,type_,remark_,position_,logic_,operate_,upload_type,upload_data,upload_example,result_type,result_data,result_example,status_,created_time,creator_id from inter_url
+	</select>
+
+    <select id="selectSome" parameterType="java.util.Map" resultMap="urlResultMap">
+        select id_,application_id,group_id,name_,url_,type_,remark_,position_,logic_,operate_,upload_type,upload_data,upload_example,result_type,result_data,result_example,status_,created_time,creator_id from inter_url limit #{offset},#{limit}
+    </select>
+
+    <select id="getTotalCount" resultType="java.lang.Integer">
+        select count(1) from inter_url
+    </select>
+
+    <select id="getObject" resultMap="urlResultMap" parameterType="java.lang.Object">
+        select id_,application_id,group_id,name_,url_,type_,remark_,position_,logic_,operate_,upload_type,upload_data,upload_example,result_type,result_data,result_example,status_,created_time,creator_id from inter_url where id_ = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.snake.inter.model.Url">
+        insert into inter_url(id_,application_id,group_id,name_,url_,type_,remark_,position_,logic_,operate_,upload_type,upload_data,upload_example,result_type,result_data,result_example,status_,created_time,creator_id)
+        values(#{id},#{applicationId},#{groupId},#{name},#{url},#{type},#{remark},#{position},#{logic},#{operate},#{uploadType},#{uploadData},#{uploadExample},#{resultType},#{resultData},#{resultExample},#{status},now(),#{creatorId})
+        <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+            select last_insert_id() as id
+        </selectKey>
+    </insert>
+
+    <update id="update" parameterType="com.snake.inter.model.Url">
+        update inter_url
+        <set>
+            <if test="applicationId != null">
+                application_id=#{applicationId},
+            </if>
+            <if test="groupId != null">
+                group_id=#{groupId},
+            </if>
+            <if test="name != null">
+                name_=#{name},
+            </if>
+            <if test="url != null">
+                url_=#{url},
+            </if>
+            <if test="type != null">
+                type_=#{type},
+            </if>
+            <if test="remark != null">
+                remark_=#{remark},
+            </if>
+            <if test="position != null">
+                position_=#{position},
+            </if>
+            <if test="logic != null">
+                logic_=#{logic},
+            </if>
+            <if test="operate != null">
+                operate_=#{operate},
+            </if>
+            <if test="uploadType != null">
+                upload_type=#{uploadType},
+            </if>
+            <if test="uploadData != null">
+                upload_data=#{uploadData},
+            </if>
+            <if test="uploadExample != null">
+                upload_example=#{uploadExample},
+            </if>
+            <if test="resultType != null">
+                result_type=#{resultType},
+            </if>
+            <if test="resultData != null">
+                result_data=#{resultData},
+            </if>
+            <if test="resultExample != null">
+                result_example=#{resultExample},
+            </if>
+            <if test="status != null">
+                status_=#{status},
+            </if>
+        </set>
+        where id_ = #{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Object">
+        delete from inter_url where id_ = #{id}
+    </delete>
+
+    <select id="findOneByMap" resultMap="urlResultMap">
+        select id_,application_id,group_id,name_,url_,type_,remark_,position_,logic_,operate_,upload_type,upload_data,upload_example,result_type,result_data,result_example,status_,created_time,creator_id from inter_url where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} = #{param.value}
+        </foreach>
+        limit 0, 1
+    </select>
+
+    <select id="findOneByObject" parameterType="com.snake.inter.model.Url" resultMap="urlResultMap">
+        select id_,application_id,group_id,name_,url_,type_,remark_,position_,logic_,operate_,upload_type,upload_data,upload_example,result_type,result_data,result_example,status_,created_time,creator_id from inter_url
+        <where>
+            <if test="applicationId != null">
+                and application_id=#{applicationId}
+            </if>
+            <if test="groupId != null">
+                and group_id=#{groupId}
+            </if>
+            <if test="name != null">
+                and name_=#{name}
+            </if>
+            <if test="url != null">
+                and url_=#{url}
+            </if>
+            <if test="type != null">
+                and type_=#{type}
+            </if>
+            <if test="remark != null">
+                and remark_=#{remark}
+            </if>
+            <if test="position != null">
+                and position_=#{position}
+            </if>
+            <if test="logic != null">
+                and logic_=#{logic}
+            </if>
+            <if test="operate != null">
+                and operate_=#{operate}
+            </if>
+            <if test="uploadType != null">
+                and upload_type=#{uploadType}
+            </if>
+            <if test="uploadData != null">
+                and upload_data=#{uploadData}
+            </if>
+            <if test="uploadExample != null">
+                and upload_example=#{uploadExample}
+            </if>
+            <if test="resultType != null">
+                and result_type=#{resultType}
+            </if>
+            <if test="resultData != null">
+                and result_data=#{resultData}
+            </if>
+            <if test="resultExample != null">
+                and result_example=#{resultExample}
+            </if>
+            <if test="status != null">
+                and status_=#{status}
+            </if>
+        </where>
+        limit 0, 1
+    </select>
+
+    <select id="findByObject" parameterType="com.snake.inter.model.Url" resultMap="urlResultMap">
+        select id_,application_id,group_id,name_,url_,type_,remark_,position_,logic_,operate_,upload_type,upload_data,upload_example,result_type,result_data,result_example,status_,created_time,creator_id from inter_url
+        <where>
+            <if test="applicationId != null">
+                and application_id=#{applicationId}
+            </if>
+            <if test="groupId != null">
+                and group_id=#{groupId}
+            </if>
+            <if test="name != null">
+                and name_=#{name}
+            </if>
+            <if test="url != null">
+                and url_=#{url}
+            </if>
+            <if test="type != null">
+                and type_=#{type}
+            </if>
+            <if test="remark != null">
+                and remark_=#{remark}
+            </if>
+            <if test="position != null">
+                and position_=#{position}
+            </if>
+            <if test="logic != null">
+                and logic_=#{logic}
+            </if>
+            <if test="operate != null">
+                and operate_=#{operate}
+            </if>
+            <if test="uploadType != null">
+                and upload_type=#{uploadType}
+            </if>
+            <if test="uploadData != null">
+                and upload_data=#{uploadData}
+            </if>
+            <if test="uploadExample != null">
+                and upload_example=#{uploadExample}
+            </if>
+            <if test="resultType != null">
+                and result_type=#{resultType}
+            </if>
+            <if test="resultData != null">
+                and result_data=#{resultData}
+            </if>
+            <if test="resultExample != null">
+                and result_example=#{resultExample}
+            </if>
+            <if test="status != null">
+                and status_=#{status}
+            </if>
+        </where>
+    </select>
+
+    <select id="findByMap" resultMap="urlResultMap">
+        select id_,application_id,group_id,name_,url_,type_,remark_,position_,logic_,operate_,upload_type,upload_data,upload_example,result_type,result_data,result_example,status_,created_time,creator_id from inter_url where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} = #{param.value}
+        </foreach>
+    </select>
+
+    <select id="findByIn" resultMap="urlResultMap">
+        select id_,application_id,group_id,name_,url_,type_,remark_,position_,logic_,operate_,upload_type,upload_data,upload_example,result_type,result_data,result_example,status_,created_time,creator_id from inter_url where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} IN (#{param.value})
+        </foreach>
+    </select>
+
+    <select id="findByLike" resultMap="urlResultMap">
+        select id_,application_id,group_id,name_,url_,type_,remark_,position_,logic_,operate_,upload_type,upload_data,upload_example,result_type,result_data,result_example,status_,created_time,creator_id from inter_url where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} LIKE #{param.value}
+        </foreach>
+    </select>
+
+    <select id="getCount" parameterType="java.util.Map" resultType="int">
+        select count(1) from inter_url where 1=1
+        <if test="whereClause != null">
+            ${whereClause}
+        </if>
+    </select>
+
+    <select id="query" parameterType="java.util.Map" resultMap="urlResultMap">
+        select ${fieldsClause} from inter_url where 1=1
+        <if test="whereClause != null">
+            ${whereClause}
+        </if>
+        <if test="orderClause != null">
+            ${orderClause}
+        </if>
+        <if test="limit > 0">
+            limit ${limit} offset ${offset}
+        </if>
+    </select>
+
+</mapper>

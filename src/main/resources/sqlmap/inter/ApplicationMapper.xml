@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.snake.inter.model.Application">
+    <resultMap type="com.snake.inter.model.Application" id="applicationResultMap">
+        <result property="id" column="id_"/>
+        <result property="name" column="name_"/>
+        <result property="code" column="code_"/>
+        <result property="type" column="type_"/>
+        <result property="remark" column="remark_"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="creatorId" column="creator_id"/>
+    </resultMap>
+
+    <select id="selectAll" resultMap="applicationResultMap">
+		select id_,name_,code_,type_,remark_,created_time,creator_id from inter_application
+	</select>
+
+    <select id="selectSome" parameterType="java.util.Map" resultMap="applicationResultMap">
+        select id_,name_,code_,type_,remark_,created_time,creator_id from inter_application limit #{offset},#{limit}
+    </select>
+
+    <select id="getTotalCount" resultType="java.lang.Integer">
+        select count(1) from inter_application
+    </select>
+
+    <select id="getObject" resultMap="applicationResultMap" parameterType="java.lang.Object">
+        select id_,name_,code_,type_,remark_,created_time,creator_id from inter_application where id_ = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.snake.inter.model.Application">
+        insert into inter_application(id_,name_,code_,type_,remark_,created_time,creator_id)
+        values(#{id},#{name},#{code},#{type},#{remark},now(),#{creatorId})
+        <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+            select last_insert_id() as id
+        </selectKey>
+    </insert>
+
+    <update id="update" parameterType="com.snake.inter.model.Application">
+        update inter_application
+        <set>
+            <if test="name != null">
+                name_=#{name},
+            </if>
+            <if test="code != null">
+                code_=#{code},
+            </if>
+            <if test="type != null">
+                type_=#{type},
+            </if>
+            <if test="remark != null">
+                remark_=#{remark},
+            </if>
+        </set>
+        where id_ = #{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Object">
+        delete from inter_application where id_ = #{id}
+    </delete>
+
+    <select id="findOneByMap" resultMap="applicationResultMap">
+        select id_,name_,code_,type_,remark_,created_time,creator_id from inter_application where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} = #{param.value}
+        </foreach>
+        limit 0, 1
+    </select>
+
+    <select id="findOneByObject" parameterType="com.snake.inter.model.Application" resultMap="applicationResultMap">
+        select id_,name_,code_,type_,remark_,created_time,creator_id from inter_application
+        <where>
+            <if test="name != null">
+                and name_=#{name}
+            </if>
+            <if test="code != null">
+                and code_=#{code}
+            </if>
+            <if test="type != null">
+                and type_=#{type}
+            </if>
+            <if test="remark != null">
+                and remark_=#{remark}
+            </if>
+        </where>
+        limit 0, 1
+    </select>
+
+    <select id="findByObject" parameterType="com.snake.inter.model.Application" resultMap="applicationResultMap">
+        select id_,name_,code_,type_,remark_,created_time,creator_id from inter_application
+        <where>
+            <if test="name != null">
+                and name_=#{name}
+            </if>
+            <if test="code != null">
+                and code_=#{code}
+            </if>
+            <if test="type != null">
+                and type_=#{type}
+            </if>
+            <if test="remark != null">
+                and remark_=#{remark}
+            </if>
+        </where>
+    </select>
+
+    <select id="findByMap" resultMap="applicationResultMap">
+        select id_,name_,code_,type_,remark_,created_time,creator_id from inter_application where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} = #{param.value}
+        </foreach>
+    </select>
+
+    <select id="findByIn" resultMap="applicationResultMap">
+        select id_,name_,code_,type_,remark_,created_time,creator_id from inter_application where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} IN (#{param.value})
+        </foreach>
+    </select>
+
+    <select id="findByLike" resultMap="applicationResultMap">
+        select id_,name_,code_,type_,remark_,created_time,creator_id from inter_application where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} LIKE #{param.value}
+        </foreach>
+    </select>
+
+    <select id="getCount" parameterType="java.util.Map" resultType="int">
+        select count(1) from inter_application where 1=1
+        <if test="whereClause != null">
+            ${whereClause}
+        </if>
+    </select>
+
+    <select id="query" parameterType="java.util.Map" resultMap="applicationResultMap">
+        select ${fieldsClause} from inter_application where 1=1
+        <if test="whereClause != null">
+            ${whereClause}
+        </if>
+        <if test="orderClause != null">
+            ${orderClause}
+        </if>
+        <if test="limit > 0">
+            limit ${limit} offset ${offset}
+        </if>
+    </select>
+
+</mapper>
