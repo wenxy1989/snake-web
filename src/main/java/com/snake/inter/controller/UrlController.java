@@ -33,7 +33,7 @@ import java.util.List;
 @RequestMapping("/inter/url/")
 public class UrlController extends BasicController {
 
-    @Resource(name = "groupService")
+    @Resource(name = "i_groupService")
     private IGroupService groupService;
     @Resource(name = "urlService")
     private IUrlService urlService;

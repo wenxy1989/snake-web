@@ -27,7 +27,7 @@ public class ApplicationService extends BasicService<Application> implements IAp
     private IModelDao modelDao;
 
     @Autowired
-    @Qualifier("groupDao")
+    @Qualifier("i_groupDao")
     private IGroupDao groupDao;
 
     @Autowired

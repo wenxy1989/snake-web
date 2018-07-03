@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.snake.template.model.Group">
+    <resultMap type="com.snake.template.model.Group" id="groupResultMap">
+        <result property="id" column="id_"/>
+        <result property="name" column="name_"/>
+        <result property="model" column="model_"/>
+        <result property="remark" column="remark_"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="creatorId" column="creator_id"/>
+    </resultMap>
+
+    <select id="selectAll" resultMap="groupResultMap">
+		select id_,name_,model_,remark_,created_time,creator_id from template_group
+	</select>
+
+    <select id="selectSome" parameterType="java.util.Map" resultMap="groupResultMap">
+        select id_,name_,model_,remark_,created_time,creator_id from template_group limit #{offset},#{limit}
+    </select>
+
+    <select id="getTotalCount" resultType="java.lang.Integer">
+        select count(1) from template_group
+    </select>
+
+    <select id="getObject" resultMap="groupResultMap" parameterType="java.lang.Object">
+        select id_,name_,model_,remark_,created_time,creator_id from template_group where id_ = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.snake.template.model.Group">
+        insert into template_group(id_,name_,model_,remark_,created_time,creator_id)
+        values(#{id},#{name},#{model},#{remark},now(),#{creatorId})
+        <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
+            select last_insert_id() as id
+        </selectKey>
+    </insert>
+
+    <update id="update" parameterType="com.snake.template.model.Group">
+        update template_group
+        <set>
+            <if test="name != null">
+                name_=#{name},
+            </if>
+            <if test="model != null">
+                model_=#{model},
+            </if>
+            <if test="remark != null">
+                remark_=#{remark},
+            </if>
+        </set>
+        where id_ = #{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Object">
+        delete from template_group where id_ = #{id}
+    </delete>
+
+    <select id="findOneByMap" resultMap="groupResultMap">
+        select id_,name_,model_,remark_,created_time,creator_id from template_group where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} = #{param.value}
+        </foreach>
+        limit 0, 1
+    </select>
+
+    <select id="findOneByObject" parameterType="com.snake.template.model.Group" resultMap="groupResultMap">
+        select id_,name_,model_,remark_,created_time,creator_id from template_group
+        <where>
+            <if test="name != null">
+                and name_=#{name}
+            </if>
+            <if test="model != null">
+                and model_=#{model}
+            </if>
+            <if test="remark != null">
+                and remark_=#{remark}
+            </if>
+        </where>
+        limit 0, 1
+    </select>
+
+    <select id="findByObject" parameterType="com.snake.template.model.Group" resultMap="groupResultMap">
+        select id_,name_,model_,remark_,created_time,creator_id from template_group
+        <where>
+            <if test="name != null">
+                and name_=#{name}
+            </if>
+            <if test="model != null">
+                and model_=#{model}
+            </if>
+            <if test="remark != null">
+                and remark_=#{remark}
+            </if>
+        </where>
+    </select>
+
+    <select id="findByMap" resultMap="groupResultMap">
+        select id_,name_,model_,remark_,created_time,creator_id from template_group where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} = #{param.value}
+        </foreach>
+    </select>
+
+    <select id="findByIn" resultMap="groupResultMap">
+        select id_,name_,model_,remark_,created_time,creator_id from template_group where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} IN (#{param.value})
+        </foreach>
+    </select>
+
+    <select id="findByLike" resultMap="groupResultMap">
+        select id_,name_,model_,remark_,created_time,creator_id from template_group where 1=1 AND
+        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
+            ${param.name} LIKE #{param.value}
+        </foreach>
+    </select>
+
+    <select id="getCount" parameterType="java.util.Map" resultType="int">
+        select count(1) from template_group where 1=1
+        <if test="whereClause != null">
+            ${whereClause}
+        </if>
+    </select>
+
+    <select id="query" parameterType="java.util.Map" resultMap="groupResultMap">
+        select ${fieldsClause} from template_group where 1=1
+        <if test="whereClause != null">
+            ${whereClause}
+        </if>
+        <if test="orderClause != null">
+            ${orderClause}
+        </if>
+        <if test="limit > 0">
+            limit ${limit} offset ${offset}
+        </if>
+    </select>
+
+</mapper>

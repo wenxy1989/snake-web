@@ -53,7 +53,7 @@ public class ModelService extends BasicService<Model> implements IModelService {
         parameter_createUser = new ModelParameter("创建人名称","createUser","String",50,"wenxy","*","创建人名称",0);
         parameter_updateTime = new ModelParameter("更新时间","updateTime","String",19,"2016-12-27 15:11:55","*","更新时间",0);
         parameter_updateId = new ModelParameter("更新人ID","updateId","Long",11,"11","*","更新人ID",0);
-        parameter_updateUser = new ModelParameter("更信任名称","updateUser","String",50,"wenxy","*","更信任名称",0);
+        parameter_updateUser = new ModelParameter("更信人名称","updateUser","String",50,"wenxy","*","更信人名称",0);
         parameter_Id.setModelId(modelId);
         parameter_Id.setCreatorId(createId);
         parameter_deleted.setModelId(modelId);

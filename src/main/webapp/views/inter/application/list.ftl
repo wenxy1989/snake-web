@@ -85,8 +85,8 @@
                             <td><a href="#">${obj.name}</a></td>
                             <td>${obj.code}</td>
                             <td>${obj.type}</td>
-                            <td class="am-hide-sm-only">${obj.remark}</td>
-                            <td class="am-hide-sm-only">${obj.createdTime}</td>
+                            <td>${obj.remark}</td>
+                            <td>${obj.createdTime}</td>
                             <td>
                                 <div class="am-btn-toolbar">
                                     <div class="am-btn-group am-btn-group-xs">

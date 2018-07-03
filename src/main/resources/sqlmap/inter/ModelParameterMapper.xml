@@ -32,6 +32,14 @@
         select id_,model_id,key_type,name_,code_,type_,is_array,allow_blank,length_,regex_,example_,remark_ from inter_model_parameter where id_ = #{id}
     </select>
 
+    <insert id="batchInsert" parameterType="com.snake.inter.model.ModelParameter">
+        insert into inter_model_parameter(id_,model_id,key_type,name_,code_,type_,is_array,length_,allow_blank,regex_,example_,remark_)
+        values
+        <foreach collection="list" item="each" separator=",">
+            (#{each.id},#{each.modelId},#{each.keyType},#{each.name},#{each.code},#{each.type},#{each.isArray},#{each.length},#{each.allowBlank},#{each.regex},#{each.example},#{each.remark})
+        </foreach>
+    </insert>
+
     <insert id="insert" parameterType="com.snake.inter.model.ModelParameter">
         insert into inter_model_parameter(id_,model_id,key_type,name_,code_,type_,is_array,length_,allow_blank,regex_,example_,remark_)
         values(#{id},#{modelId},#{keyType},#{name},#{code},#{type},#{isArray},#{length},#{allowBlank},#{regex},#{example},#{remark})
