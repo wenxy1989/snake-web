@@ -23,14 +23,6 @@
                         </div>
 
                         <div class="am-form-group">
-                            <label for="user-email" class="am-u-sm-3 am-form-label">编码 / Code</label>
-                            <div class="am-u-sm-9">
-                                <input type="text" name="model" placeholder="编码 / Code" required>
-                                <small>如果分组有对应的模型,可以添加属性</small>
-                            </div>
-                        </div>
-
-                        <div class="am-form-group">
                             <label for="user-intro" class="am-u-sm-3 am-form-label">备注 / Remark</label>
                             <div class="am-u-sm-9">
                                 <textarea class="" rows="5" name="remark" placeholder="备注 / Remark" required></textarea>

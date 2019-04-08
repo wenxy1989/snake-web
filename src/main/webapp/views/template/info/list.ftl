@@ -4,6 +4,9 @@
     function toAdd() {
         window.location.href = '${request.contextPath}/template/info/toAdd';
     }
+    function toGroup() {
+        window.location.href = '${request.contextPath}/template/group/page';
+    }
     function toEdit(id) {
         window.location.href = "${request.contextPath}/template/info/toEdit?id=" + id;
     }
@@ -34,6 +37,9 @@
                         <button type="button" class="am-btn am-btn-primary" onclick="toAdd()">
                             <span class="am-icon-plus">新增</span>
                         </button>
+                        <button type="button" class="am-btn am-btn-primary" onclick="toGroup()">
+                            <span class="am-icon-magnet">分组管理</span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -62,7 +68,7 @@
                     <thead>
                     <tr>
                         <th class="table-id">ID</th>
-                        <th class="am-hide-sm-only">名称</th>
+                        <th class="table-main">名称</th>
                         <th class="table-main">分组</th>
                         <th class="table-main">类型</th>
                         <th class="table-main">更新类型</th>
@@ -76,7 +82,7 @@
                         <#list page.content as obj>
                         <tr>
                             <td class="table-id">${obj.id}</td>
-                            <td class="am-hide-sm-only">${obj.name}</td>
+                            <td class="table-main">${obj.name}</td>
                             <td class="table-main">${obj.group}</td>
                             <td class="table-main">${obj.type}</td>
                             <td class="table-main">${obj.updateType}</td>

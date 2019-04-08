@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Update;
 public class Template{
 
 	private Long id;
+	private Long groupId;//分组ID，不同工程使用不同分组
 	private String group;//中文：模块名称
 	private String name;//模板名，带后缀
 	private String type;//模板框架类型
@@ -22,6 +23,14 @@ public class Template{
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Long getGroupId() {
+		return groupId;
+	}
+
+	public void setGroupId(Long groupId) {
+		this.groupId = groupId;
 	}
 
 	public String getGroup() {

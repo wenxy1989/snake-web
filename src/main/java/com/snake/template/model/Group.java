@@ -1,9 +1,11 @@
 package com.snake.template.model;
 
+import com.snake.resource.dao.MapObject;
+
 /**
  * Created by HP on 2018/7/3.
  */
-public class Group {
+public class Group implements MapObject {
 
     private Long id;
     private String name;

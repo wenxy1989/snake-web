@@ -20,6 +20,7 @@
             <set>
                 <ref bean="roleDao"/>
                 <ref bean="i_groupDao"/>
+                <ref bean="t_groupDao"/>
                 <ref bean="modelDao"/>
             </set>
         </property>

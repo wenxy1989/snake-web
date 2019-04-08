@@ -1,6 +1,6 @@
 <html>
 <#include "/head.ftl"/>
-<#import "/inter/common.ftl" as i_com/>
+<#import "/template/common.ftl" as t_com/>
 <@i_com.selectTypeFunction/>
 <body>
 <#include "/header.ftl"/>
@@ -38,6 +38,8 @@
                             <small>模板分组/模板所在文件夹</small>
                         </div>
                     </div>
+
+                    <@t_com.selectGroup/>
 
                     <div class="am-form-group">
                         <label class="am-u-sm-3 am-form-label">类型 / Type</label>

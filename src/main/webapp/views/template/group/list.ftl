@@ -17,7 +17,7 @@
         window.location.href = "${request.contextPath}/template/url/page?groupId="+id;
     }
     function toAdd(){
-        window.location.href='${request.contextPath}/template/group/toAdd';
+        window.location.href = '${request.contextPath}/template/group/toAdd';
     }
     function toEdit(id){
         window.location.href = "${request.contextPath}/template/group/toEdit?id="+id;
@@ -100,8 +100,6 @@
                         <tr>
                             <th class="table-main">ID</th>
                             <th class="table-main">名称</th>
-                            <th class="table-main">代码</th>
-                            <th class="table-main">状态</th>
                             <th class="table-main">备注</th>
                             <th class="table-main">创建时间</th>
                             <th class="table-main">操作</th>
@@ -112,8 +110,6 @@
                         <tr>
                             <td class="table-main">${obj.id}</td>
                             <td class="table-main"><a href="javascript:void(0)" onclick="toDetails(${obj.id})" >${obj.name}</a></td>
-                            <td class="table-main">${obj.model}</td>
-                            <td class="table-main"><#switch obj.status><#case 0>草稿<#break><#case 1>已提交<#break><#case 2>审核退回<#break><#case 3>已发布<#break></#switch></td>
                             <td class="table-main">${obj.remark}</td>
                             <td class="table-main">${obj.createdTime}</td>
                             <td class="table-main">

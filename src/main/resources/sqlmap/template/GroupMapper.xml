@@ -4,18 +4,17 @@
     <resultMap type="com.snake.template.model.Group" id="groupResultMap">
         <result property="id" column="id_"/>
         <result property="name" column="name_"/>
-        <result property="model" column="model_"/>
         <result property="remark" column="remark_"/>
         <result property="createdTime" column="created_time"/>
         <result property="creatorId" column="creator_id"/>
     </resultMap>
 
     <select id="selectAll" resultMap="groupResultMap">
-		select id_,name_,model_,remark_,created_time,creator_id from template_group
+		select id_,name_,remark_,created_time,creator_id from template_group
 	</select>
 
     <select id="selectSome" parameterType="java.util.Map" resultMap="groupResultMap">
-        select id_,name_,model_,remark_,created_time,creator_id from template_group limit #{offset},#{limit}
+        select id_,name_,remark_,created_time,creator_id from template_group limit #{offset},#{limit}
     </select>
 
     <select id="getTotalCount" resultType="java.lang.Integer">
@@ -23,12 +22,12 @@
     </select>
 
     <select id="getObject" resultMap="groupResultMap" parameterType="java.lang.Object">
-        select id_,name_,model_,remark_,created_time,creator_id from template_group where id_ = #{id}
+        select id_,name_,remark_,created_time,creator_id from template_group where id_ = #{id}
     </select>
 
     <insert id="insert" parameterType="com.snake.template.model.Group">
-        insert into template_group(id_,name_,model_,remark_,created_time,creator_id)
-        values(#{id},#{name},#{model},#{remark},now(),#{creatorId})
+        insert into template_group(id_,name_,remark_,created_time,creator_id)
+        values(#{id},#{name},#{remark},now(),#{creatorId})
         <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
             select last_insert_id() as id
         </selectKey>
@@ -39,9 +38,6 @@
         <set>
             <if test="name != null">
                 name_=#{name},
-            </if>
-            <if test="model != null">
-                model_=#{model},
             </if>
             <if test="remark != null">
                 remark_=#{remark},
@@ -55,7 +51,7 @@
     </delete>
 
     <select id="findOneByMap" resultMap="groupResultMap">
-        select id_,name_,model_,remark_,created_time,creator_id from template_group where 1=1 AND
+        select id_,name_,remark_,created_time,creator_id from template_group where 1=1 AND
         <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
             ${param.name} = #{param.value}
         </foreach>
@@ -63,13 +59,10 @@
     </select>
 
     <select id="findOneByObject" parameterType="com.snake.template.model.Group" resultMap="groupResultMap">
-        select id_,name_,model_,remark_,created_time,creator_id from template_group
+        select id_,name_,remark_,created_time,creator_id from template_group
         <where>
             <if test="name != null">
                 and name_=#{name}
-            </if>
-            <if test="model != null">
-                and model_=#{model}
             </if>
             <if test="remark != null">
                 and remark_=#{remark}
@@ -79,13 +72,10 @@
     </select>
 
     <select id="findByObject" parameterType="com.snake.template.model.Group" resultMap="groupResultMap">
-        select id_,name_,model_,remark_,created_time,creator_id from template_group
+        select id_,name_,remark_,created_time,creator_id from template_group
         <where>
             <if test="name != null">
                 and name_=#{name}
-            </if>
-            <if test="model != null">
-                and model_=#{model}
             </if>
             <if test="remark != null">
                 and remark_=#{remark}
@@ -94,21 +84,21 @@
     </select>
 
     <select id="findByMap" resultMap="groupResultMap">
-        select id_,name_,model_,remark_,created_time,creator_id from template_group where 1=1 AND
+        select id_,name_,remark_,created_time,creator_id from template_group where 1=1 AND
         <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
             ${param.name} = #{param.value}
         </foreach>
     </select>
 
     <select id="findByIn" resultMap="groupResultMap">
-        select id_,name_,model_,remark_,created_time,creator_id from template_group where 1=1 AND
+        select id_,name_,remark_,created_time,creator_id from template_group where 1=1 AND
         <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
             ${param.name} IN (#{param.value})
         </foreach>
     </select>
 
     <select id="findByLike" resultMap="groupResultMap">
-        select id_,name_,model_,remark_,created_time,creator_id from template_group where 1=1 AND
+        select id_,name_,remark_,created_time,creator_id from template_group where 1=1 AND
         <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
             ${param.name} LIKE #{param.value}
         </foreach>
