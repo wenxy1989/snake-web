@@ -1,6 +1,5 @@
 package com.snake.template.model;
 
-import com.snake.inter.model.ModelParameter;
 
 import java.util.Set;
 

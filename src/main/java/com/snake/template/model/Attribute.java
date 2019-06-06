@@ -1,7 +1,6 @@
 package com.snake.template.model;
 
 
-import com.snake.inter.model.ModelParameter;
 
 /**
  * 属性模块实体类 Attribute
