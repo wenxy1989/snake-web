@@ -322,7 +322,7 @@ public class FreeMarkerUtils {
     }
 
     public void buildApplication(Application application, List<com.snake.template.model.Template> templates) {
-        if (null != application) {
+        if (null != application && null != templates && templates.size() > 0) {
             writeCreateSQL(application);
             if (null != application.getModelList() && application.getModelList().size() > 0) {
                 for (int i = 0; i < application.getModelList().size(); i++) {

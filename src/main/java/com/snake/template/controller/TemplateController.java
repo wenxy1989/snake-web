@@ -72,7 +72,7 @@ public class TemplateController extends BasicController {
         try {
             templateService.create(template);
         } catch (ServiceException e) {
-            logger.error("create template error");
+            logger.error("create template error",e);
         }
         return rv;
     }

@@ -10,6 +10,8 @@
     <packaging>war</packaging>
     <name>interface-template</name>
 
+
+
     <properties>
         <springframework.version>3.2.3.RELEASE</springframework.version>
         <!--<springframework.version>4.0.3.RELEASE</springframework.version>-->

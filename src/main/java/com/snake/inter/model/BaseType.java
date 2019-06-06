@@ -10,10 +10,10 @@ public enum  BaseType {
     STRING("String","varchar",20),
     BOOLEAN("Boolean","int",1),
     BYTE("Byte","byte",8),
-    CHAR("Charactor","char",8),
+    CHAR("Character","char",8),
     SHORT("Short","decimal",6),
     INTEGER("Integer","int",11),
-    FLOAT("FLoat","decimal",10),
+    FLOAT("Float","decimal",10),
     DOUBLE("Double","decimal",13),
     LONG("Long","bigint",20);
 
