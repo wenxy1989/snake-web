@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.snake.mysql.model.Database">
+
+    <resultMap type="com.snake.mysql.model.Table" id="tableResultMap">
+        <result property="name" column="TABLE_NAME"/>
+        <result property="comment" column="TABLE_COMMENT"/>
+    </resultMap>
+
+    <resultMap type="com.snake.mysql.model.Column" id="columnResultMap">
+        <result property="name" column="COLUMN_NAME"/>
+        <result property="isNullable" column="IS_NULLABLE"/>
+        <result property="dataType" column="DATA_TYPE"/>
+        <result property="characterLength" column="CHARACTER_MAXIMUM_LENGTH"/>
+        <result property="numberPrecision" column="NUMERIC_PRECISION"/>
+        <result property="numberScale" column="NUMERIC_SCALE"/>
+        <result property="autoIncrement" column="autoincrement"/>
+        <result property="comment" column="COLUMN_COMMENT"/>
+    </resultMap>
+
+    <select id="selectTableList" parameterType="java.util.Map" resultMap="tableResultMap">
+		SELECT TABLE_NAME,TABLE_COMMENT FROM information_schema.TABLES where TABLE_SCHEMA='${database}'
+	</select>
+
+    <select id="selectColumnList" parameterType="java.util.Map" resultMap="columnResultMap">
+		SELECT COLUMN_NAME,IS_NULLABLE,DATA_TYPE,CHARACTER_MAXIMUM_LENGTH,NUMERIC_PRECISION,NUMERIC_SCALE,(EXTRA='auto_increment') as autoincrement,COLUMN_COMMENT
+		FROM information_schema.COLUMNS where TABLE_SCHEMA='${database}' and TABLE_NAME='${table}'
+	</select>
+
+</mapper>

@@ -45,9 +45,8 @@ public class FunctionService extends BasicService<Function> implements IFunction
     }
 
     public List<Function> getFunctionTree() throws ServiceException {
-        List<Function> list = null;
         try {
-            list = this.dao.getRootList();
+            List<Function> list= this.dao.getRootList();
             for(Function levelOne:list){
                 List<Function> levelTwoList =  getChildren(levelOne.getId());
                 if(null != levelTwoList){

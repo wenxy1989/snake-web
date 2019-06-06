@@ -18,6 +18,9 @@
     function toUrl(id){
         window.location.href = "${request.contextPath}/inter/url/"+id+"/page";
     }
+    function toMysql(id){
+        window.location.href = "${request.contextPath}/database/mysql/infoView";
+    }
     function toWrite(id){
         $.post("${request.contextPath}/inter/application/write", {id:id}, function (result) {
             myAlert(result);
@@ -41,6 +44,9 @@
                     <div class="am-btn-group am-btn-group-xs">
                         <button type="button" class="am-btn am-btn-default" onclick="toAdd()">
                             <span class="am-icon-plus"> 新增</span>
+                        </button>
+                        <button type="button" class="am-btn am-btn-default" onclick="toMysql()">
+                            <span class="am-icon-plus">导入MYSQL库</span>
                         </button>
                     </div>
                 </div>
