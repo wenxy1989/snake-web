@@ -7,26 +7,26 @@ import org.apache.commons.lang.StringUtils;
  */
 public enum  BaseType {
 
-    STRING("String","varchar",20),
-    BOOLEAN("Boolean","int",1),
-    BYTE("Byte","byte",8),
-    CHAR("Character","char",8),
-    SHORT("Short","decimal",6),
-    INTEGER("Integer","int",11),
-    FLOAT("Float","decimal",10),
-    DOUBLE("Double","decimal",13),
-    LONG("Long","bigint",20);
+    STRING("String","varchar",20l),
+    BOOLEAN("Boolean","int",1l),
+    BYTE("Byte","byte",8l),
+    CHAR("Character","char",8l),
+    SHORT("Short","decimal",6l),
+    INTEGER("Integer","int",11l),
+    FLOAT("Float","decimal",10l),
+    DOUBLE("Double","decimal",13l),
+    LONG("Long","bigint",20l);
 
     private String type;
     private String mysqlType;
-    private Integer length;
+    private Long length;
 
-    private BaseType(String type,Integer length){
+    private BaseType(String type,Long length){
         this.type = type;
         this.length = length;
     }
 
-    private BaseType(String type,String mysqlType,Integer length){
+    private BaseType(String type,String mysqlType,Long length){
         this.type = type;
         this.mysqlType = mysqlType;
         this.length = length;
@@ -40,7 +40,7 @@ public enum  BaseType {
         return mysqlType;
     }
 
-    public Integer getLength(){
+    public Long getLength(){
         return this.length;
     }
 

@@ -46,14 +46,14 @@ public class ModelService extends BasicService<Model> implements IModelService {
     private static ModelParameter parameter_updateUser;
 
     private List<ModelParameter> getDefaultList(Long modelId,Long createId) {
-        parameter_Id = new ModelParameter("ID","id","Long",11,"11","*","主键",1);
-        parameter_deleted = new ModelParameter("已删除","deleted","Integer",1,"0","*","逻辑删除标志",0);
-        parameter_createTime = new ModelParameter("创建时间","createTime","String",19,"2016-12-27 14:59:16","*","时间格式字符串",0);
-        parameter_createId = new ModelParameter("创建人ID","createId","Long",11,"11","*","创建人ID",0);
-        parameter_createUser = new ModelParameter("创建人名称","createUser","String",50,"wenxy","*","创建人名称",0);
-        parameter_updateTime = new ModelParameter("更新时间","updateTime","String",19,"2016-12-27 15:11:55","*","更新时间",0);
-        parameter_updateId = new ModelParameter("更新人ID","updateId","Long",11,"11","*","更新人ID",0);
-        parameter_updateUser = new ModelParameter("更信人名称","updateUser","String",50,"wenxy","*","更信人名称",0);
+        parameter_Id = new ModelParameter("ID","id","Long",11l,"11","*","主键",1);
+        parameter_deleted = new ModelParameter("已删除","deleted","Integer",1l,"0","*","逻辑删除标志",0);
+        parameter_createTime = new ModelParameter("创建时间","createTime","String",19l,"2016-12-27 14:59:16","*","时间格式字符串",0);
+        parameter_createId = new ModelParameter("创建人ID","createId","Long",11l,"11","*","创建人ID",0);
+        parameter_createUser = new ModelParameter("创建人名称","createUser","String",50l,"wenxy","*","创建人名称",0);
+        parameter_updateTime = new ModelParameter("更新时间","updateTime","String",19l,"2016-12-27 15:11:55","*","更新时间",0);
+        parameter_updateId = new ModelParameter("更新人ID","updateId","Long",11l,"11","*","更新人ID",0);
+        parameter_updateUser = new ModelParameter("更信人名称","updateUser","String",50l,"wenxy","*","更信人名称",0);
         parameter_Id.setModelId(modelId);
         parameter_Id.setCreatorId(createId);
         parameter_deleted.setModelId(modelId);

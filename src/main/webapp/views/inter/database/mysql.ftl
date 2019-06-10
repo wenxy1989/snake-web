@@ -83,7 +83,9 @@
                 dataType: 'json',
                 data: JSON.stringify(data),
                 success: function (result) {
-                    console.log(JSON.stringify(result));
+                    if(result == 'success'){
+                        window.location.href = "${request.contextPath}/inter/application/page"
+                    }
                 }
             })
         }

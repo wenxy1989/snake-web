@@ -1,5 +1,7 @@
 package com.snake.inter.model;
 
+import com.snake.mysql.model.Database;
+
 import java.util.List;
 
 /**
@@ -18,6 +20,15 @@ public class Application {
     private List<Url> urlList;
     private List<Model> modelList;
     private List<Group> groupList;
+
+    public static Application build(Database database) {
+        Application application = new Application();
+        application.setName(database.getName());
+        application.setCode(database.getDatabase());
+        application.setRemark(database.getName());
+        application.setType("service");
+        return application;
+    }
 
     public Long getId() {
         return id;

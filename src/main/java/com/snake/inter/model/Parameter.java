@@ -15,7 +15,7 @@ public class Parameter{
     protected String code;//for example school
     protected String type;//for example String
     protected Boolean isArray;//for example false,type is array
-    protected Integer length;//for example String length is 12,length
+    protected Long length;//for example String length is 12,length
     protected Boolean allowBlank;//for example false
     protected String regex;//for example /*xax**/ string matches
     protected String example;//for example 学校
@@ -73,14 +73,17 @@ public class Parameter{
         this.isArray = isArray;
     }
 
-    public Integer getLength() {
-        if(null == length && org.apache.commons.lang.StringUtils.isNotBlank(this.type)){
-            this.length = BaseType.getType(this.type).getLength();
+    public Long getLength() {
+        if(null == this.length && org.apache.commons.lang.StringUtils.isNotBlank(this.type)){
+            BaseType type = null;
+            if(null != (type = BaseType.getType(this.type))) {
+                this.length = type.getLength();
+            }
         }
-        return length;
+        return this.length;
     }
 
-    public void setLength(Integer length) {
+    public void setLength(Long length) {
         this.length = length;
     }
 

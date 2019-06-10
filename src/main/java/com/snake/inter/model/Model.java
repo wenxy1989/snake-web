@@ -1,5 +1,6 @@
 package com.snake.inter.model;
 
+import com.snake.mysql.model.Table;
 import com.snake.resource.dao.MapObject;
 
 import java.util.List;
@@ -23,6 +24,14 @@ public class Model implements ModelObject,MapObject {
     private Long creatorId;
     private Application application;
     private List<ModelParameter> parameterList;
+
+    public static Model build(Table table) {
+        Model model = new Model();
+        model.setName(table.getComment());
+        model.setCode(table.getName());
+        model.setStatus(0);
+        return model;
+    }
 
     public Long getId() {
         return id;
