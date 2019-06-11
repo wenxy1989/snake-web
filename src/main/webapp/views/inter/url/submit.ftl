@@ -32,7 +32,7 @@
                             </div>
                         </div>
 
-                    <@i_com.selectGroup value=url.groupId />
+                    <@i_com.selectFrame value=url.groupId />
 
                         <div class="am-form-group">
                             <label for="user-phone" class="am-u-sm-3 am-form-label">类型 / Type</label>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.snake.template.model.Template">
-    <resultMap type="com.snake.template.model.Template" id="templateResultMap">
+<mapper namespace="com.snake.template.model.TemplateConfig">
+    <resultMap type="com.snake.template.model.TemplateConfig" id="templateResultMap">
         <result property="id" column="id_"/>
         <result property="name" column="name_"/>
-        <result property="groupId" column="group_id"/>
+        <result property="frameId" column="frame_id"/>
         <result property="group" column="group_"/>
         <result property="type" column="type_"/>
         <result property="updateType" column="update_type"/>
@@ -16,11 +16,11 @@
     </resultMap>
 
     <select id="selectAll" resultMap="templateResultMap">
-		select id_,name_,group_id,group_,type_,update_type,save_path_model,save_file_model,remark_,created_time,creator_id from template_info
+		select id_,name_,frame_id,group_,type_,update_type,save_path_model,save_file_model,remark_,created_time,creator_id from template_info
 	</select>
 
     <select id="selectSome" parameterType="java.util.Map" resultMap="templateResultMap">
-        select id_,name_,group_id,group_,type_,update_type,save_path_model,save_file_model,remark_,created_time,creator_id from template_info limit #{offset},#{limit}
+        select id_,name_,frame_id,group_,type_,update_type,save_path_model,save_file_model,remark_,created_time,creator_id from template_info limit #{offset},#{limit}
     </select>
 
     <select id="getTotalCount" resultType="java.lang.Integer">
@@ -28,18 +28,18 @@
     </select>
 
     <select id="getObject" resultMap="templateResultMap" parameterType="java.lang.Object">
-        select id_,name_,group_id,group_,type_,update_type,save_path_model,save_file_model,remark_,created_time,creator_id from template_info where id_ = #{id}
+        select id_,name_,frame_id,group_,type_,update_type,save_path_model,save_file_model,remark_,created_time,creator_id from template_info where id_ = #{id}
     </select>
 
-    <insert id="insert" parameterType="com.snake.template.model.Template">
-        insert into template_info(id_,name_,group_id,group_,type_,update_type,save_path_model,save_file_model,remark_,created_time,creator_id)
-        values(#{id},#{name},#{groupId},#{group},#{type},#{updateType},#{savePathModel},#{saveFileModel},#{remark},now(),#{creatorId})
+    <insert id="insert" parameterType="com.snake.template.model.TemplateConfig">
+        insert into template_info(id_,name_,frame_id,group_,type_,update_type,save_path_model,save_file_model,remark_,created_time,creator_id)
+        values(#{id},#{name},#{frameId},#{group},#{type},#{updateType},#{savePathModel},#{saveFileModel},#{remark},now(),#{creatorId})
         <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
             select last_insert_id() as id
         </selectKey>
     </insert>
 
-    <update id="update" parameterType="com.snake.template.model.Template">
+    <update id="update" parameterType="com.snake.template.model.TemplateConfig">
         update template_info
         <set>
             <if test="name != null">
@@ -48,8 +48,8 @@
             <if test="group != null">
                 group_=#{group},
             </if>
-            <if test="groupId != null">
-                group_id=#{groupId},
+            <if test="frameId != null">
+                frame_id=#{frameId},
             </if>
             <if test="type != null">
                 type_=#{type},
@@ -75,21 +75,21 @@
     </delete>
 
     <select id="findOneByMap" resultMap="templateResultMap">
-        select id_,name_,group_id,group_,type_,update_type,save_path_model,save_file_model,remark_,created_time,creator_id from template_info where 1=1 AND
+        select id_,name_,frame_id,group_,type_,update_type,save_path_model,save_file_model,remark_,created_time,creator_id from template_info where 1=1 AND
         <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
             ${param.name} = #{param.value}
         </foreach>
         limit 0, 1
     </select>
 
-    <select id="findOneByObject" parameterType="com.snake.template.model.Template" resultMap="templateResultMap">
-        select id_,name_,group_id,group_,type_,update_type,save_path_model,save_file_model,remark_,created_time,creator_id from template_info
+    <select id="findOneByObject" parameterType="com.snake.template.model.TemplateConfig" resultMap="templateResultMap">
+        select id_,name_,frame_id,group_,type_,update_type,save_path_model,save_file_model,remark_,created_time,creator_id from template_info
         <where>
             <if test="name != null">
                 and name_=#{name}
             </if>
-            <if test="groupId != null">
-                and group_id=#{groupId}
+            <if test="frameId != null">
+                and frame_id=#{frameId}
             </if>
             <if test="group != null">
                 and group_=#{group}
@@ -113,14 +113,14 @@
         limit 0, 1
     </select>
 
-    <select id="findByObject" parameterType="com.snake.template.model.Template" resultMap="templateResultMap">
-        select id_,name_,group_id,group_,type_,update_type,save_path_model,save_file_model,remark_,created_time,creator_id from template_info
+    <select id="findByObject" parameterType="com.snake.template.model.TemplateConfig" resultMap="templateResultMap">
+        select id_,name_,frame_id,group_,type_,update_type,save_path_model,save_file_model,remark_,created_time,creator_id from template_info
         <where>
             <if test="name != null">
                 and name_=#{name}
             </if>
-            <if test="groupId != null">
-                and group_id=#{groupId}
+            <if test="frameId != null">
+                and frame_id=#{frameId}
             </if>
             <if test="group != null">
                 and group_=#{group}
@@ -144,21 +144,21 @@
     </select>
 
     <select id="findByMap" resultMap="templateResultMap">
-        select id_,name_,group_id,group_,type_,update_type,save_path_model,save_file_model,remark_,created_time,creator_id from template_info where 1=1 AND
+        select id_,name_,frame_id,group_,type_,update_type,save_path_model,save_file_model,remark_,created_time,creator_id from template_info where 1=1 AND
         <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
             ${param.name} = #{param.value}
         </foreach>
     </select>
 
     <select id="findByIn" resultMap="templateResultMap">
-        select id_,name_,group_id,group_,type_,update_type,save_path_model,save_file_model,remark_,created_time,creator_id from template_info where 1=1 AND
+        select id_,name_,frame_id,group_,type_,update_type,save_path_model,save_file_model,remark_,created_time,creator_id from template_info where 1=1 AND
         <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
             ${param.name} IN (#{param.value})
         </foreach>
     </select>
 
     <select id="findByLike" resultMap="templateResultMap">
-        select id_,name_,group_id,group_,type_,update_type,save_path_model,save_file_model,remark_,created_time,creator_id from template_info where 1=1 AND
+        select id_,name_,frame_id,group_,type_,update_type,save_path_model,save_file_model,remark_,created_time,creator_id from template_info where 1=1 AND
         <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
             ${param.name} LIKE #{param.value}
         </foreach>

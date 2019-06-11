@@ -104,9 +104,9 @@ public class ModelService extends BasicService<Model> implements IModelService {
         }
     }
 
-    public List<Model> getListByApplicationId(Long applicationId) throws ServiceException {
+    public List<Model> getListByApplicationId(Long applicationId,Integer status) throws ServiceException {
         try {
-            return modelDao.getListByApplicationId(applicationId);
+            return modelDao.getListByApplicationId(applicationId,status);
         }catch (DaoException e){
             throw new ServiceException(e);
         }

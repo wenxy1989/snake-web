@@ -32,7 +32,7 @@ public class ResultController extends BasicController {
     @Resource(name = "parameterService")
     private IParameterService parameterService;
 
-    @Resource(name = "i_groupService")
+    @Resource(name = "groupService")
     private IGroupService groupService;
 
     @Resource(name = "modelParameterService")

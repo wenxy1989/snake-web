@@ -1,13 +1,14 @@
 package com.snake.template.controller;
 
 import com.base.Constants;
+import com.base.util.HashMaps;
 import com.snake.system.controller.BasicController;
 import com.base.exception.ServiceException;
 import com.base.util.Condition;
 import com.base.util.Criteria;
 import com.snake.freemarker.FreeMarkerUtils;
 import com.base.util.SimpleCriteria;
-import com.snake.template.model.Template;
+import com.snake.template.model.TemplateConfig;
 import com.snake.template.service.ITemplateService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.data.domain.Page;
@@ -67,7 +68,7 @@ public class TemplateController extends BasicController {
     }
 
     @RequestMapping(value = "add", method = {RequestMethod.POST})
-    public RedirectView add(Template template) {
+    public RedirectView add(TemplateConfig template) {
         RedirectView rv = new RedirectView("page");
         try {
             templateService.create(template);
@@ -81,7 +82,7 @@ public class TemplateController extends BasicController {
     public ModelAndView toEdit(Long id) {
         ModelAndView mv = new ModelAndView("/template/info/edit");
         try {
-            Template object = templateService.getObject(id);
+            TemplateConfig object = templateService.getObject(id);
             mv.addObject("object", object);
         } catch (ServiceException e) {
             logger.error("get template error", e);
@@ -90,7 +91,7 @@ public class TemplateController extends BasicController {
     }
 
     @RequestMapping(value = "edit", method = {RequestMethod.POST})
-    public RedirectView edit(Template template) {
+    public RedirectView edit(TemplateConfig template) {
         RedirectView rv = new RedirectView("page");
         try {
             templateService.update(template);
@@ -115,9 +116,8 @@ public class TemplateController extends BasicController {
     @RequestMapping(value = "export_code")
     public void exportCode(Long id) {
         try {
-            Template template = templateService.getObject(id);
-            Map<String, Object> params = new HashMap<String, Object>();
-            params.put(FreeMarkerUtils.MODULE_NAME, template.getGroup());
+            TemplateConfig template = templateService.getObject(id);
+            Map<String, Object> params = HashMaps.build(String.class,Object.class).add("group",template.getGroup());
             FreeMarkerUtils.getInstance().buildTemplate(template.getGroup(), template.getName(), params, template.getSavePathModel(), template.getSaveFileModel());
         } catch (ServiceException e) {
             logger.error("export template error", e);

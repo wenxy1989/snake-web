@@ -24,6 +24,7 @@ public class Model implements ModelObject,MapObject {
     private Long creatorId;
     private Application application;
     private List<ModelParameter> parameterList;
+    private List<Url> urlList;
 
     public static Model build(Table table) {
         Model model = new Model();

@@ -18,47 +18,34 @@
         <div class="am-g">
 
             <div class="am-u-sm-12 am-u-md-10">
-                <form class="am-form am-form-horizontal" method="post" action="${request.contextPath}/template/info/edit">
+                <form class="am-form am-form-horizontal" method="post" action="${request.contextPath}/template/frame/edit">
 
                     <input type="hidden" name="id" value="${object.id}">
+
+                    <div class="am-form-group">
+                        <label class="am-u-sm-3 am-form-label">分组 / Group</label>
+
+                        <div class="am-u-sm-9">
+                            <select name="group" data-am-selected="{btnSize: 'sm'}" required>
+                                <option value="application">application</option>
+                                <option value="config">config</option>
+                                <option value="controller">controller</option>
+                                <option value="dao">dao</option>
+                                <option value="entity">entity</option>
+                                <option value="inter">inter</option>
+                                <option value="java">java</option>
+                                <option value="page">page</option>
+                                <option value="sql">sql</option>
+                            </select>
+                            <small>模板分组/模板所在文件夹</small>
+                        </div>
+                    </div>
                     <div class="am-form-group">
                         <label class="am-u-sm-3 am-form-label">名称 / Name</label>
 
                         <div class="am-u-sm-9">
                             <input type="text" name="name" placeholder="名称 / Name" value="${object.name}" required>
                             <small>模板文件名</small>
-                        </div>
-                    </div>
-
-                    <div class="am-form-group">
-                        <label class="am-u-sm-3 am-form-label">分组 / Group</label>
-
-                        <div class="am-u-sm-9">
-                            <input type="text" name="group" placeholder="分组 / Group" value="${object.group}" required>
-                            <small>模板分组/模板所在文件夹</small>
-                        </div>
-                    </div>
-
-                    <@t_com.selectGroup/>
-
-                    <div class="am-form-group">
-                        <label class="am-u-sm-3 am-form-label">类型 / Type</label>
-
-                        <div class="am-u-sm-9">
-                            <input type="text" name="type" placeholder="类型 / Type" value="${object.type}" required>
-                            <small>模板类型/生成文件类型/包含技术</small>
-                        </div>
-                    </div>
-
-                    <div class="am-form-group">
-                        <label class="am-u-sm-3 am-form-label">更新类型 / UpdateType</label>
-
-                        <div class="am-u-sm-9">
-                            <select name="updateType" data-am-selected="{btnSize: 'sm'}" required>
-                                <option value="0"<#if parameter.updateType==0> selected="selected" </#if>>每次更新</option>
-                                <option value="1"<#if parameter.updateType==1> selected="selected" </#if>>没有时创建</option>
-                            </select>
-                            <small>更新策略</small>
                         </div>
                     </div>
 
@@ -77,6 +64,32 @@
                         <div class="am-u-sm-9">
                             <input type="text" name="saveFileModel" placeholder="生成文件模板" value="${object.saveFileModel}" required>
                             <small>生成文件模板，按照此规则设定生成的文件名</small>
+                        </div>
+                    </div>
+
+                    <div class="am-form-group">
+                        <label class="am-u-sm-3 am-form-label">更新类型 / UpdateType</label>
+
+                        <div class="am-u-sm-9">
+                            <select name="updateType" data-am-selected="{btnSize: 'sm'}" required>
+                                <option value="0"<#if parameter.updateType==0> selected="selected" </#if>>每次更新</option>
+                                <option value="1"<#if parameter.updateType==1> selected="selected" </#if>>没有时创建</option>
+                            </select>
+                            <small>更新策略</small>
+                        </div>
+                    </div>
+
+                    <@t_com.selectFrame value="${object.groupId}"/>
+
+                    <div class="am-form-group">
+                        <label class="am-u-sm-3 am-form-label">类型 / Type</label>
+
+                        <div class="am-u-sm-9">
+                            <select name="type" data-am-selected="{btnSize: 'sm'}" required>
+                                <option value="application">application</option>
+                                <option value="model">model</option>
+                            </select>
+                            <small>模板文件类型:application-应用相关,model-模块相关</small>
                         </div>
                     </div>
 

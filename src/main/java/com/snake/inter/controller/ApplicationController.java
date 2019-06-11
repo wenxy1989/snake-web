@@ -8,7 +8,9 @@ import com.base.util.*;
 import com.snake.inter.model.Application;
 import com.snake.inter.service.IApplicationService;
 import com.snake.system.model.User;
-import com.snake.template.model.Template;
+import com.snake.template.model.Frame;
+import com.snake.template.model.TemplateConfig;
+import com.snake.template.service.IFrameService;
 import com.snake.template.service.ITemplateService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.data.domain.Page;
@@ -37,6 +39,9 @@ public class ApplicationController extends BasicController {
     @Resource(name = "templateService")
     private ITemplateService templateService;
 
+    @Resource(name = "frameService")
+    private IFrameService frameService;
+
     @RequestMapping(value = "page", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView page(Integer pageNo, Integer size, HttpServletRequest request) {
         ModelAndView mv = new ModelAndView("/inter/application/list");
@@ -57,6 +62,8 @@ public class ApplicationController extends BasicController {
         try {
             Page page = applicationService.getList(cri);
             mv.addObject("page", page);
+            List<Frame> frameList = frameService.getAll();
+            mv.addObject("frameList",frameList);
         } catch (ServiceException e) {
             logger.error("find application page error", e);
         }
@@ -146,18 +153,17 @@ public class ApplicationController extends BasicController {
 
     @ResponseBody
     @RequestMapping(value = "write")
-    public Object write(Long id) {
-        String result =  RESULT_ERROR;
+    public Object write(Long id,Long frameId) {
         try {
             Application application = applicationService.getDetails(id);
-            if(null != application) {
-                List<Template> templates = templateService.getListByType(application.getType());
-                FreeMarkerUtils.getInstance().buildApplication(application, templates);
+            List<TemplateConfig> templates = templateService.getListByFrameId(frameId);
+            if(null != application && null != templates && templates.size() > 0) {
+                FreeMarkerUtils.getInstance().writeApplication(application, templates);
             }
-            result = RESULT_SUCCESS;
+            return RESULT_SUCCESS;
         } catch (ServiceException e) {
             logger.error("write application template code error", e);
+            return e.getMessage();
         }
-        return result;
     }
 }

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
-@Repository("i_groupDao")
+@Repository("groupDao")
 public class GroupDao extends AbstractResourceDao<Group> implements IGroupDao {
 
     public GroupDao() {

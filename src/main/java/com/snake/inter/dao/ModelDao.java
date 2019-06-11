@@ -38,9 +38,10 @@ public class ModelDao extends AbstractResourceDao<Model> implements IModelDao {
         return list;
     }
 
-    public List<Model> getListByApplicationId(Long applicationId) throws DaoException {
+    public List<Model> getListByApplicationId(Long applicationId,Integer status) throws DaoException {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("application_id", applicationId);
+        map.put("status_", status);
         return find(map);
     }
 }

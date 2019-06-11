@@ -1,11 +1,12 @@
 <html>
+<#import "/template/common.ftl" as t_com/>
 <#include "/head.ftl"/>
 <script type="text/javascript">
     function toAdd() {
         window.location.href = '${request.contextPath}/template/info/toAdd';
     }
-    function toGroup() {
-        window.location.href = '${request.contextPath}/template/group/page';
+    function toFrame() {
+        window.location.href = '${request.contextPath}/template/frame/page';
     }
     function toEdit(id) {
         window.location.href = "${request.contextPath}/template/info/toEdit?id=" + id;
@@ -37,14 +38,14 @@
                         <button type="button" class="am-btn am-btn-primary" onclick="toAdd()">
                             <span class="am-icon-plus">新增</span>
                         </button>
-                        <button type="button" class="am-btn am-btn-primary" onclick="toGroup()">
+                        <button type="button" class="am-btn am-btn-primary" onclick="toFrame()">
                             <span class="am-icon-magnet">分组管理</span>
                         </button>
                     </div>
                 </div>
             </div>
             <div class="am-u-sm-12 am-u-md-8">
-                <form method="post" action="${request.contextPath}/template/info/page">
+                <form method="post" action="${request.contextPath}/template/frame/page">
                     <div class="am-u-sm-12 am-u-md-3">
                         <input type="text" name="name" value="${name}" class="am-form-field" placeholder="名称 / Name">
                     </div>
@@ -68,12 +69,10 @@
                     <thead>
                     <tr>
                         <th class="table-id">ID</th>
-                        <th class="table-main">名称</th>
-                        <th class="table-main">分组</th>
+                        <th class="table-main">模板位置</th>
                         <th class="table-main">类型</th>
                         <th class="table-main">更新类型</th>
                         <th class="table-main">保存路径</th>
-                        <th class="table-main">保存文件</th>
                         <th class="table-main">备注</th>
                         <th class="table-main">操作</th>
                     </tr>
@@ -82,12 +81,10 @@
                         <#list page.content as obj>
                         <tr>
                             <td class="table-id">${obj.id}</td>
-                            <td class="table-main">${obj.name}</td>
-                            <td class="table-main">${obj.group}</td>
+                            <td class="table-main">classpath:template/${obj.group}/${obj.name}.ftl</td>
                             <td class="table-main">${obj.type}</td>
-                            <td class="table-main">${obj.updateType}</td>
-                            <td class="table-main">${obj.savePathModel}</td>
-                            <td class="table-main">${obj.saveFileModel}</td>
+                            <td class="table-main"><#if obj.updateType==0>每次更新<#else>没有时创建</#if></td>
+                            <td class="table-main">classpath:<@t_com.modelReplace template="${obj.savePathModel}" />/<@t_com.modelReplace template="${obj.saveFileModel}" /></td>
                             <td class="table-main">${obj.remark}</td>
                             <td class="table-main">
                                 <div class="am-btn-toolbar">
@@ -110,7 +107,7 @@
 
                 <div class="am-cf">
                     <#import "/common/pager.ftl" as pager>
-                    <@pager.guid pageUrl="/template/info/page" page=page />
+                    <@pager.guid pageUrl="/template/frame/page" page=page />
                 </div>
             </#if>
             </div>

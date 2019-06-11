@@ -99,7 +99,7 @@
 </div>
 </#macro>
 
-<#macro selectGroup name="groupId" value=0 appId=1>
+<#macro selectFrame name="groupId" value=0 appId=1>
 <div class="am-form-group">
     <label for="user-phone" class="am-u-sm-3 am-form-label">接口分组</label>
 

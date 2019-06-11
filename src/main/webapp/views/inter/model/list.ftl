@@ -1,59 +1,75 @@
 <html>
 <#include "/head.ftl"/>
 <script type="text/javascript">
-    $(document).ready(function(){
+    $(document).ready(function () {
         var ope_result = "${ope_result}";
-        if(notBlank(ope_result) && ope_result.indexOf(",") > 0){
+        if (notBlank(ope_result) && ope_result.indexOf(",") > 0) {
             var operates = ope_result.split(",");
             var result = operates[0];
             var timeMils = operates[1];
             var nowMils = new Date().getTime();
-            if(Math.abs(timeMils - nowMils) < 1000){
+            if (Math.abs(timeMils - nowMils) < 1000) {
                 myAlert(result);
             }
         }
     });
-    function toAdd(){
-        window.location.href='${request.contextPath}/inter/model/${applicationId}/toAdd';
+
+    function toAdd() {
+        window.location.href = '${request.contextPath}/inter/model/${applicationId}/toAdd';
     }
-    function toEdit(id){
-        window.location.href = "${request.contextPath}/inter/model/${applicationId}/toEdit?id="+id;
+
+    function toEdit(id) {
+        window.location.href = "${request.contextPath}/inter/model/${applicationId}/toEdit?id=" + id;
     }
-    function toDelete(id){
-        myConfirm(" delete ?","删除后无法恢复",function(){
-            window.location.href = "${request.contextPath}/inter/model/${applicationId}/delete?id="+id;
+
+    function toDelete(id) {
+        myConfirm(" delete ?", "删除后无法恢复", function () {
+            window.location.href = "${request.contextPath}/inter/model/${applicationId}/delete?id=" + id;
         });
     }
-    function toDetails(id){
-        window.open("${request.contextPath}/inter/model/${applicationId}/details?id="+id,"_blank");
+
+    function toDetails(id) {
+        window.open("${request.contextPath}/inter/model/${applicationId}/details?id=" + id, "_blank");
     }
-    function toModelInter(id){
-        window.open("${request.contextPath}/inter/model/${applicationId}/inter?id="+id,"_blank");
+
+    function toModelInter(id) {
+        window.open("${request.contextPath}/inter/model/${applicationId}/inter?id=" + id, "_blank");
     }
-    function toInterUrl(){
-        window.location.href ="${request.contextPath}/inter/url/${applicationId}/page";
+
+    function toInterUrl() {
+        window.location.href = "${request.contextPath}/inter/url/${applicationId}/page";
     }
-    function parameterList(id){
-        window.open("${request.contextPath}/inter/model/parameter/page?modelId="+id);
+
+    function parameterList(id) {
+        window.open("${request.contextPath}/inter/model/parameter/page?modelId=" + id);
     }
-    function doSubmit(id){
-        myConfirm(" do Submit ?","",function(){
-            window.location.href = "${request.contextPath}/inter/model/${applicationId}/submit?id="+id;
+
+    function doSubmit(id) {
+        myConfirm(" do Submit ?", "", function () {
+            window.location.href = "${request.contextPath}/inter/model/${applicationId}/submit?id=" + id;
         });
     }
-    function doPublish(id){
-        myConfirm(" do Publish ?","",function(){
-            window.location.href = "${request.contextPath}/inter/model/${applicationId}/publish?id="+id;
+
+    function doPublish(id) {
+        myConfirm(" do Publish ?", "", function () {
+            window.location.href = "${request.contextPath}/inter/model/${applicationId}/publish?id=" + id;
         });
     }
-    function doReturn(id){
-        myConfirm(" do Retrun ?","",function(){
-            window.location.href = "${request.contextPath}/inter/model/${applicationId}/return?id="+id;
+
+    function doReturn(id) {
+        myConfirm(" do Retrun ?", "", function () {
+            window.location.href = "${request.contextPath}/inter/model/${applicationId}/return?id=" + id;
         });
     }
-    function writeCode() {
-        $.post("${request.contextPath}/inter/model/${applicationId}/writeCode", function (result) {
+    var selectedId = 0
+    function toWrite(id){
+        selectedId = id
+        $('#template_frame_modal').modal();
+    }
+    function writeTemplate(frameId){
+        $.post("${request.contextPath}/inter/model/${applicationId}/write", {id:selectedId,frameId:frameId}, function (result) {
             myAlert(result);
+            $('#template_frame_modal').modal('close');
         });
     }
 </script>
@@ -65,31 +81,33 @@
     <div class="admin-content">
 
         <div class="am-cf am-padding">
-            <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">数据模型</strong> / <small>列表</small></div>
+            <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">数据模型</strong> /
+                <small>列表</small>
+            </div>
         </div>
 
         <div class="am-g">
             <div class="am-u-sm-12 am-u-md-2">
                 <div class="am-btn-toolbar">
-            <@com.security url="/inter/model/${applicationId}/add">
-                    <div class="am-btn-group am-btn-group-xs">
-                        <button type="button" class="am-btn am-btn-primary" onclick="toAdd()">
-                            <span class="am-icon-plus"> 新增</span>
-                        </button>
-                    </div>
-            </@com.security>
+                    <@com.security url="/inter/model/${applicationId}/add">
+                        <div class="am-btn-group am-btn-group-xs">
+                            <button type="button" class="am-btn am-btn-primary" onclick="toAdd()">
+                                <span class="am-icon-plus"> 新增</span>
+                            </button>
+                        </div>
+                    </@com.security>
                     <div class="am-btn-group am-btn-group-xs">
                         <button type="button" class="am-btn am-btn-primary" onclick="toInterUrl()">
                             <span class="am-icon-expand">接口管理</span>
                         </button>
                     </div>
-            <@com.security url="/inter/model/wirteCode">
-                <div class="am-btn-group am-btn-group-xs">
-                    <button type="button" class="am-btn am-btn-primary" onclick="writeCode()">
-                        <span class="am-icon-print">生成代码</span>
-                    </button>
-                </div>
-            </@com.security>
+                    <@com.security url="/inter/model/wirteCode">
+                        <div class="am-btn-group am-btn-group-xs">
+                            <button type="button" class="am-btn am-btn-primary" onclick="writeCode()">
+                                <span class="am-icon-print">生成代码</span>
+                            </button>
+                        </div>
+                    </@com.security>
                 </div>
             </div>
             <div class="am-u-sm-12 am-u-md-9">
@@ -142,64 +160,91 @@
                         </thead>
                         <tbody>
                         <#list page.content as obj>
-                        <tr>
-                            <td class="table-main">${obj.id}</td>
-                            <td class="table-main"><a href="javascript:toDetails(${obj.id})"><span class="am-icon-code"></span>${obj.name}</a></td>
-                            <td class="table-main">${obj.code}</td>
-                            <td class="table-main"><#switch obj.status><#case 0>草稿<#break><#case 1>已提交<#break><#case 2>审核退回<#break><#case 3>已发布<#break></#switch></td>
-                            <td class="table-main">${obj.remark}</td>
-                            <td class="table-main">${obj.createdTime}</td>
-                            <td class="table-main">
-                                <div class="am-btn-toolbar am-btn-group am-btn-group-xs">
-                                    <#if obj.status == 0 || obj.status == 2>
-                                        <a href="javascript:parameterList(${obj.id})" class="am-btn am-btn-default am-btn-xs am-text-secondary">
-                                            <span class="am-icon-code-fork">模型属性</span>
-                                        </a>
-                                        <a href="javascript:toModelInter(${obj.id})" class="am-btn am-btn-default am-btn-xs am-text-secondary">
-                                            <span class="am-icon-code">默认接口</span>
-                                        </a>
-                                        <#--<a href="javascript:doSubmit(${obj.id})" class="am-btn am-btn-default am-btn-xs am-text-secondary">
-                                            <span class="am-icon-pencil-square-o">提交</span>
-                                        </a>-->
-                                    <#elseif obj.status == 1>
-                                        <@com.security url="/inter/model/${applicationId}/publish">
-                                        <a href="javascript:doPublish(${obj.id})" class="am-btn am-btn-default am-btn-xs am-text-secondary">
-                                            <span class="am-icon-pencil-square-o">发布</span>
-                                        </a>
-                                        </@com.security>
-                                        <@com.security url="/inter/model/${applicationId}/return">
-                                        <a href="javascript:doReturn(${obj.id})" class="am-btn am-btn-default am-btn-xs am-text-secondary">
-                                            <span class="am-icon-pencil-square-o">重议</span>
-                                        </a>
-                                        </@com.security>
-                                    </#if>
-                                    <#if obj.status == 0>
-                                        <@com.security url="/inter/model/${applicationId}/edit">
-                                        <a href="javascript:toEdit(${obj.id})" class="am-btn am-btn-default am-btn-xs am-text-secondary">
-                                            <span class="am-icon-pencil-square-o">编辑</span>
-                                        </a>
-                                        </@com.security>
-                                        <@com.security url="/inter/model/${applicationId}/delete">
-                                        <a href="javascript:toDelete(${obj.id})" class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only">
-                                            <span class="am-icon-trash-o">删除</span>
-                                        </a>
-                                        </@com.security>
-                                    </#if>
-                                </div>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td class="table-main">${obj.id}</td>
+                                <td class="table-main"><a href="javascript:toDetails(${obj.id})"><span
+                                                class="am-icon-code"></span>${obj.name}</a></td>
+                                <td class="table-main">${obj.code}</td>
+                                <td class="table-main"><#switch obj.status><#case 0>草稿<#break><#case 1>已提交<#break><#case 2>审核退回<#break><#case 3>已发布<#break></#switch></td>
+                                <td class="table-main">${obj.remark}</td>
+                                <td class="table-main">${obj.createdTime}</td>
+                                <td class="table-main">
+                                    <div class="am-btn-toolbar am-btn-group am-btn-group-xs">
+                                        <#if obj.status == 0 || obj.status == 2>
+                                            <a href="javascript:parameterList(${obj.id})"
+                                               class="am-btn am-btn-default am-btn-xs am-text-secondary">
+                                                <span class="am-icon-code-fork">模型属性</span>
+                                            </a>
+                                            <a href="javascript:toModelInter(${obj.id})"
+                                               class="am-btn am-btn-default am-btn-xs am-text-secondary">
+                                                <span class="am-icon-code">默认接口</span>
+                                            </a>
+                                            <a href="javascript:doSubmit(${obj.id})"
+                                               class="am-btn am-btn-default am-btn-xs am-text-secondary">
+                                                <span class="am-icon-pencil-square-o">提交</span>
+                                            </a>
+                                        <#elseif obj.status == 1>
+                                            <@com.security url="/inter/model/${applicationId}/publish">
+                                                <a href="javascript:doPublish(${obj.id})"
+                                                   class="am-btn am-btn-default am-btn-xs am-text-secondary">
+                                                    <span class="am-icon-pencil-square-o">发布</span>
+                                                </a>
+                                            </@com.security>
+                                            <@com.security url="/inter/model/${applicationId}/return">
+                                                <a href="javascript:doReturn(${obj.id})"
+                                                   class="am-btn am-btn-default am-btn-xs am-text-secondary">
+                                                    <span class="am-icon-pencil-square-o">重议</span>
+                                                </a>
+                                            </@com.security>
+                                        </#if>
+                                        <#if obj.status == 0>
+                                            <@com.security url="/inter/model/${applicationId}/edit">
+                                                <a href="javascript:toEdit(${obj.id})"
+                                                   class="am-btn am-btn-default am-btn-xs am-text-secondary">
+                                                    <span class="am-icon-pencil-square-o">编辑</span>
+                                                </a>
+                                            </@com.security>
+                                            <@com.security url="/inter/model/${applicationId}/delete">
+                                                <a href="javascript:toDelete(${obj.id})"
+                                                   class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only">
+                                                    <span class="am-icon-trash-o">删除</span>
+                                                </a>
+                                            </@com.security>
+                                        </#if>
+                                    </div>
+                                </td>
+                            </tr>
                         </#list>
                         </tbody>
                     </table>
 
                     <div class="am-cf">
-                    <#import "/common/pager.ftl" as pager>
-                    <@pager.guid pageUrl="/inter/model/${applicationId}/page" page=page />
+                        <#import "/common/pager.ftl" as pager>
+                        <@pager.guid pageUrl="/inter/model/${applicationId}/page" page=page />
                     </div>
                 </form>
             </div>
-
         </div>
+
+        <div class="am-popup" id="template_frame_modal">
+            <div class="am-popup-inner">
+                <div class="am-popup-hd">
+                    <h4 class="am-popup-title">选择模板</h4>
+                    <span data-am-modal-close class="am-close"></span>
+                </div>
+                <div class="am-popup-bd">
+                    <ul class="am-list">
+                        <#list frameList as frame>
+                            <li class="am-g am-list-item-dated">
+                                <a href="javascript:void(0)" onclick="writeTemplate(${frame.id})" class="am-list-item-hd">${frame.name}</a>
+                                <span class="am-list-date">${frame.createdTime}</span>
+                            </li>
+                        </#list>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
     </div>
     <!-- content end -->
 </div>

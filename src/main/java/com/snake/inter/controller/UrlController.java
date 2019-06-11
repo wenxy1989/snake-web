@@ -1,18 +1,12 @@
 package com.snake.inter.controller;
 
 import com.base.Constants;
+import com.snake.inter.model.*;
+import com.snake.inter.service.*;
 import com.snake.system.controller.BasicController;
 import com.base.exception.ServiceException;
 import com.snake.freemarker.FreeMarkerUtils;
 import com.base.util.*;
-import com.snake.inter.model.Group;
-import com.snake.inter.model.Result;
-import com.snake.inter.model.Upload;
-import com.snake.inter.model.Url;
-import com.snake.inter.service.IGroupService;
-import com.snake.inter.service.IResultService;
-import com.snake.inter.service.IUploadService;
-import com.snake.inter.service.IUrlService;
 import com.snake.system.model.User;
 import com.snake.system.service.IParameterService;
 import org.apache.commons.lang.StringUtils;
@@ -33,7 +27,9 @@ import java.util.List;
 @RequestMapping("/inter/url/")
 public class UrlController extends BasicController {
 
-    @Resource(name = "i_groupService")
+    @Resource(name = "applicationService")
+    private IApplicationService applicationService;
+    @Resource(name = "groupService")
     private IGroupService groupService;
     @Resource(name = "urlService")
     private IUrlService urlService;
@@ -355,8 +351,8 @@ public class UrlController extends BasicController {
         String result = RESULT_ERROR;
         try {
 //        String templatePath = sysParameterService.getObjectByCode("school-book-template-inter-folder").getStringValue();
-            String outputPath = sysParameterService.getObjectByCode("school-book-output-base-path").getStringValue();
-            FreeMarkerUtils freeMarker = FreeMarkerUtils.getNewInstance(outputPath);
+            Application application = applicationService.getObject(applicationId);
+            FreeMarkerUtils freeMarker = FreeMarkerUtils.getNewInstance(application.getCode());
             List<Group> groupList = groupService.getListByApplicationId(applicationId);
             if (null != groupList && groupList.size() > 0) {
                 for (Group group : groupList) {

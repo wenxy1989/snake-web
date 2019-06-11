@@ -1,8 +1,7 @@
 package com.snake.template.dao;
 
-import com.base.dao.MybatisBasicDao;
 import com.snake.resource.dao.AbstractResourceDao;
-import com.snake.template.model.Group;
+import com.snake.template.model.Frame;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -11,13 +10,13 @@ import java.util.Map;
 /**
  * Created by HP on 2018/7/3.
  */
-@Repository("t_groupDao")
-public class GroupDao extends AbstractResourceDao<Group> implements IGroupDao {
+@Repository("frameDao")
+public class FrameDao extends AbstractResourceDao<Frame> implements IFrameDao {
 
-    private static Map<Object, Group> map = new HashMap<Object, Group>();
+    private static Map<Object, Frame> map = new HashMap<Object, Frame>();
 
-    public GroupDao() {
-        super(Group.class);
+    public FrameDao() {
+        super(Frame.class);
     }
 
     public final static Object getFinalList() {
@@ -29,7 +28,7 @@ public class GroupDao extends AbstractResourceDao<Group> implements IGroupDao {
     }
 
     @Override
-    public Map<Object, Group> getMap() {
+    public Map<Object, Frame> getMap() {
         return map;
     }
 }

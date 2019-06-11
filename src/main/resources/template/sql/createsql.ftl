@@ -2,8 +2,8 @@
 create database ${app.database};
 use ${app.database};
 <#list app.objs as module>
-drop table if exists ${module.table};
-create table ${module.table}(
+drop table if exists ${model.code.table};
+create table ${model.code.table}(
 id_ bigint PRIMARY KEY AUTO_INCREMENT comment '主键',
 <#list module.attrs as attribute>
 ${attribute.column} ${attribute.dataType}<#if attribute.dataLength??>(${attribute.dataLength})</#if> <#if attribute.autoIncrement?? && attribute.autoIncrement==1>PRIMARY KEY AUTO_INCREMENT </#if> <#if attribute.allowBlank?? && attribute.allowBlank==0>not null </#if><#if attribute.name??> comment'${attribute.name}'</#if>,
@@ -15,5 +15,5 @@ creator_id bigint comment '创建人id'
 ${unque.name} (${attribute.content})<#if unque_has_next>,</#if>
 </#list>
 </#if>
-)engine=innodb charset=utf8 comment='${module.name}';
+)engine=innodb charset=utf8 comment='${model.code.name}';
 </#list>

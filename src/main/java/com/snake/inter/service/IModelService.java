@@ -9,5 +9,5 @@ import java.util.List;
 public interface IModelService extends IBasicService<Model> {
     public Model getObjectByCode(String code) throws ServiceException;
 
-    public List<Model> getListByApplicationId(Long applicationId) throws ServiceException;
+    public List<Model> getListByApplicationId(Long applicationId,Integer status) throws ServiceException;
 }

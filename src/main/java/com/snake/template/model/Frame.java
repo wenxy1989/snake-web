@@ -5,7 +5,7 @@ import com.snake.resource.dao.MapObject;
 /**
  * Created by HP on 2018/7/3.
  */
-public class Group implements MapObject {
+public class Frame implements MapObject {
 
     private Long id;
     private String name;

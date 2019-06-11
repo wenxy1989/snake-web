@@ -3,19 +3,12 @@ package com.snake.template.service;
 
 import com.base.exception.ServiceException;
 import com.base.service.IBasicService;
-import com.snake.template.model.Template;
+import com.snake.template.model.TemplateConfig;
 
 import java.util.List;
 
 
-public interface ITemplateService extends IBasicService<Template> {
+public interface ITemplateService extends IBasicService<TemplateConfig> {
 
-	/**
-	 * 得到base框架对应的模板类型集合
-	 * @param string
-	 * @return
-	 */
-	public List<Template> getListByType(String string) throws ServiceException;
-
-	public List<Template> getListByCode(String code)throws ServiceException;
+    List<TemplateConfig> getListByFrameId(Long groupId) throws ServiceException;
 }

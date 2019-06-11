@@ -31,7 +31,7 @@ import java.util.List;
 @RequestMapping("/inter/group/")
 public class InterGroupController extends BasicController {
 
-    @Resource(name = "i_groupService")
+    @Resource(name = "groupService")
     private IGroupService groupService;
     @Resource(name = "urlService")
     private IUrlService urlService;

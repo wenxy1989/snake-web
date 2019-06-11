@@ -1,10 +1,10 @@
-package com.${application}.${module}.model;
+package com.${application}.${model.code}.model;
 /**
- * ${module}实体类 ${module?cap_first}
+ * ${model.code}实体类 ${model.code?cap_first}
  * @author {author}
  * @version 1.00 ,Date: {date?string("yyyy-MM-dd HH:mm:ss")}
  */
-public class ${module?cap_first }{
+public class ${model.code?cap_first }{
 
 	private Long id;
 	<#if attributes?exists>

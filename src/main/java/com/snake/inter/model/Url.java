@@ -20,7 +20,7 @@ public class Url{
     private String name;//名称
     private String url;//访问地址
     private Integer type;//0-get,1-post,2-put,3-delete,4-stream
-    private Integer position;//0-header,1-payload
+    private Integer position;//0-header,1-body
     private String remark;//备注
     private String logic;//处理逻辑,例:一般查询/通过用户id获取用户参加过的活动信息并返回最近三个月内的活动信息/查找用户登录名含有'wxy'的用户信息并返回
     private String operate;//数据操作1-select,2-insert,3-update,4-delete

@@ -7,7 +7,7 @@
 <script type="text/javascript">
 function doDelete(id){
 	if(confirm("delete?")){
-		window.location.href = "${"$"}{basePath }/${module}/delete?id=" + id;
+		window.location.href = "${"$"}{basePath }/${model.code}/delete?id=" + id;
 	}
 }
 </script>
@@ -34,14 +34,14 @@ function doDelete(id){
 	</#list>
 	<td>${"$"}{obj.createdTime }</td>
 	<td>
-	<a href="${"$"}{basePath }/${module}/toEdit?id=${"$"}{obj.id }">edit</a>
+	<a href="${"$"}{basePath }/${model.code}/toEdit?id=${"$"}{obj.id }">edit</a>
 	<a href="#" onclick="doDelete(${"$"}{obj.id })">delete</a>
 	</td>
 	</tr>
     </c:forEach>
 	</table>
 	</c:if>
-	<a href="${"$"}{basePath }/${module}/toCreate" class="btn btn-lg btn-success">NEW</a>
+	<a href="${"$"}{basePath }/${model.code}/toCreate" class="btn btn-lg btn-success">NEW</a>
 	</div>
 </body>
 </html>

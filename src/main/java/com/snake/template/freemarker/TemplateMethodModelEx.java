@@ -1,6 +1,7 @@
 package com.snake.template.freemarker;
 
-import com.snake.template.dao.GroupDao;
+import com.base.util.StringTools;
+import com.snake.template.dao.FrameDao;
 import freemarker.template.TemplateModelException;
 import org.apache.commons.lang.StringUtils;
 
@@ -23,14 +24,16 @@ public class TemplateMethodModelEx implements freemarker.template.TemplateMethod
                 argument3 = arguments.get(2) + "";
             }
             if ("resource".equals(command) && StringUtils.isNotBlank(argument2)) {
-                if ("template_group_list".equals(argument2)) {
-                    result = GroupDao.getFinalList();
+                if ("template_frame_list".equals(argument2)) {
+                    result = FrameDao.getFinalList();
                 }
-            }else if("get".equals(command) && StringUtils.isNotBlank(argument2) && StringUtils.isNotBlank(argument3)){
+            } else if ("get".equals(command) && StringUtils.isNotBlank(argument2) && StringUtils.isNotBlank(argument3)) {
                 Long id = Long.valueOf(argument3);
-                if ("template_group".equals(argument2)) {
-                    result = GroupDao.getFinalObject(id);
+                if ("template_frame".equals(argument2)) {
+                    result = FrameDao.getFinalObject(id);
                 }
+            } else if ("replace_model".equals(command) && StringUtils.isNotBlank(argument2) && StringUtils.isNotBlank(argument3)) {
+                result = StringTools.parseModel(argument2, argument3);
             }
         }
         return result;

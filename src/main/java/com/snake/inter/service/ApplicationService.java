@@ -27,7 +27,7 @@ public class ApplicationService extends BasicService<Application> implements IAp
     private IModelDao modelDao;
 
     @Autowired
-    @Qualifier("i_groupDao")
+    @Qualifier("groupDao")
     private IGroupDao groupDao;
 
     @Autowired
@@ -66,7 +66,7 @@ public class ApplicationService extends BasicService<Application> implements IAp
         try {
             Application application = getDao().getObject(id);
             if (null != application) {
-                List<Model> modelList = modelDao.getListByApplicationId(application.getId());
+                List<Model> modelList = modelDao.getListByApplicationId(application.getId(),3);
                 if (null != modelList && modelList.size() > 0) {
                     for(Model model : modelList){
                         List<ModelParameter> parameterList = modelParameterDao.getListByModelId(model.getId());

@@ -8,7 +8,7 @@ import com.base.util.SimpleCriteria;
 import com.snake.template.model.Action;
 import com.snake.template.model.Attribute;
 import com.snake.template.model.Module;
-import com.snake.template.model.Template;
+import com.snake.template.model.TemplateConfig;
 import com.snake.template.service.IActionService;
 import com.snake.template.service.IAttributeService;
 import com.snake.template.service.IModuleService;
@@ -105,30 +105,6 @@ public class ModuleController extends BasicController {
             logger.error("delete module error");
         }
         return rv;
-    }
-
-    @ResponseBody
-    @RequestMapping(value = "export_code")
-    public void exportCode(Long id) {
-        try {
-            Module module = service.getObject(id);
-            List<Attribute> attributes = attributeService.getListByModuleId(module.getId());
-            List<Action> actions = actionService.getListByModuleId(module.getId());
-            Map<String, Object> params = new HashMap<String, Object>();
-            params.put("attributes", attributes);
-            params.put("actions", actions);
-            params.put(FreeMarkerUtils.CLASS_NAME, new String(module.getClassName()));
-            params.put(FreeMarkerUtils.MODULE_CODE, module.getClassName().toLowerCase());
-            params.put(FreeMarkerUtils.MODULE_NAME, module.getName());
-            params.put("author", "wenxy");
-            params.put("date", new Date());
-            List<Template> templates = templateService.getListByType("base_template");
-            for (Template each : templates) {
-                FreeMarkerUtils.getInstance().buildTemplate(each.getGroup(), each.getName(), params, each.getSavePathModel(), each.getSaveFileModel());
-            }
-        } catch (ServiceException e) {
-            logger.error("export module error",e);
-        }
     }
 
 }

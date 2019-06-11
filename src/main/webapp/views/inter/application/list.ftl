@@ -21,9 +21,15 @@
     function toMysql(id){
         window.location.href = "${request.contextPath}/database/mysql/infoView";
     }
+    var selectedId = 0
     function toWrite(id){
-        $.post("${request.contextPath}/inter/application/write", {id:id}, function (result) {
+        selectedId = id
+        $('#template_frame_modal').modal();
+    }
+    function writeTemplate(frameId){
+        $.post("${request.contextPath}/inter/application/write", {id:selectedId,frameId:frameId}, function (result) {
             myAlert(result);
+            $('#template_frame_modal').modal('close');
         });
     }
 </script>
@@ -125,8 +131,27 @@
                     </div>
                 </form>
             </div>
-
         </div>
+
+        <div class="am-modal" id="template_frame_modal">
+            <div class="am-modal-dialog">
+                <div class="am-modal-hd">
+                    <h4 class="am-titlebar-title">选择模板</h4>
+                    <span data-am-modal-close class="am-close"></span>
+                </div>
+                <div class="am-modal-bd">
+                    <ul class="am-list">
+                        <#list frameList as frame>
+                        <li class="am-g am-list-item-dated">
+                            <a href="javascript:void(0)" onclick="writeTemplate(${frame.id})" class="am-list-item-hd">${frame.name}</a>
+                            <span class="am-list-date">${frame.createdTime}</span>
+                        </li>
+                        </#list>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
     </div>
     <!-- content end -->
 </div>

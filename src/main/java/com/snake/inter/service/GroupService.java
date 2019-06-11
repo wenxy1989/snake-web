@@ -14,11 +14,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Service("i_groupService")
+@Service("groupService")
 public class GroupService extends BasicService<Group> implements IGroupService {
 
     @Autowired
-    @Qualifier("i_groupDao")
+    @Qualifier("groupDao")
     private IGroupDao dao;
 
     @Override

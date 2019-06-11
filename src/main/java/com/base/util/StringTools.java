@@ -23,19 +23,21 @@ public class StringTools extends StringUtils {
 
     /**
      * 判断字符串是否为空
+     *
      * @param str
      * @return
      */
-    public static boolean isNull(String str){
-        if(str==null||str.trim().equals("")||str.trim().equalsIgnoreCase("null")){
+    public static boolean isNull(String str) {
+        if (str == null || str.trim().equals("") || str.trim().equalsIgnoreCase("null")) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
 
     /**
      * 得到一个字符串的长度,显示的长度,一个汉字或日韩文长度为2,英文字符长度为1
+     *
      * @param s 需要得到长度的字符串
      * @return int 得到的字符串长度
      */
@@ -56,6 +58,7 @@ public class StringTools extends StringUtils {
 
     /**
      * 得到一个字符串的长度,显示的长度,一个汉字或日韩文长度为1,英文字符长度为0.5
+     *
      * @param s 需要得到长度的字符串
      * @return int 得到的字符串长度
      */
@@ -76,7 +79,7 @@ public class StringTools extends StringUtils {
             }
         }
         //进位取整
-        return  Math.ceil(valueLength);
+        return Math.ceil(valueLength);
     }
 
 
@@ -194,17 +197,18 @@ public class StringTools extends StringUtils {
 
     /**
      * 验证字符串是否是数字
+     *
      * @param str
      * @return
      */
-    public static boolean isNum(String str){
+    public static boolean isNum(String str) {
         Pattern pattern = Pattern.compile("[0-9]*");
         return pattern.matcher(str).matches();
     }
 
     public static String valueOf(Long l) {
         String str = "";
-        if(null != l){
+        if (null != l) {
             str = String.valueOf(l);
         }
         return str;
@@ -212,7 +216,7 @@ public class StringTools extends StringUtils {
 
     public static String valueOf(Integer i) {
         String str = "";
-        if(null != i){
+        if (null != i) {
             str = String.valueOf(i);
         }
         return str;
@@ -220,14 +224,14 @@ public class StringTools extends StringUtils {
 
     public static String valueOf(Double d) {
         String str = "";
-        if(null != d){
+        if (null != d) {
             str = String.valueOf(d);
         }
         return str;
     }
 
     public static String valueOf(String s) {
-        if(null == s){
+        if (null == s) {
             s = "";
         }
         return s;
@@ -235,15 +239,15 @@ public class StringTools extends StringUtils {
 
     public static String valueOf(String[] array) {
         String _value = "";
-        if(null != array && array.length > 0){
-            for(int i = 0;i<array.length;i++){
+        if (null != array && array.length > 0) {
+            for (int i = 0; i < array.length; i++) {
                 String str = array[i];
-                if(i != 0){
+                if (i != 0) {
                     _value += ",";
                 }
                 _value += str;
             }
-        }else{
+        } else {
             _value = "";
         }
         return _value;
@@ -282,7 +286,7 @@ public class StringTools extends StringUtils {
         return columnName;
     }
 
-    public static CharSequence getFirstLarge(String str) {
+    public static String getFirstLarge(String str) {
         String large = "module";
         if (notEmpty(str)) {
             large = str.substring(0, 1).toUpperCase() + str.substring(1);
@@ -290,7 +294,7 @@ public class StringTools extends StringUtils {
         return large;
     }
 
-    public static CharSequence getFirstLittle(String str) {
+    public static String getFirstLittle(String str) {
         String little = "module";
         if (notEmpty(str)) {
             little = str.substring(0, 1).toLowerCase() + str.substring(1);
@@ -298,8 +302,15 @@ public class StringTools extends StringUtils {
         return little;
     }
 
-    public static String parseModel(String pathModel,String model){
-        return pathModel.replace("@{large}", getFirstLarge(model)).replace("@{little}", getFirstLittle(model));
+    public static String parseModel(String template, String model) {
+        return parseTemplate(template, "", "", model);
+    }
+
+    public static String parseTemplate(String template, String application, String group, String model) {
+        return template.replaceAll("\\@\\{large\\}", getFirstLarge(model))
+                .replaceAll("\\@\\{little\\}", getFirstLittle(model))
+                .replaceAll("\\@\\{application\\}", application)
+                .replaceAll("\\@\\{group\\}", group);
 
     }
 }

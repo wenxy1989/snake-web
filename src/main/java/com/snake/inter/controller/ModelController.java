@@ -13,7 +13,9 @@ import com.snake.inter.service.IModelParameterService;
 import com.snake.inter.service.IModelService;
 import com.snake.system.model.User;
 import com.snake.system.service.IParameterService;
-import com.snake.template.model.Template;
+import com.snake.template.model.Frame;
+import com.snake.template.model.TemplateConfig;
+import com.snake.template.service.IFrameService;
 import com.snake.template.service.ITemplateService;
 import net.minidev.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
@@ -44,6 +46,8 @@ public class ModelController extends BasicController {
     private IModelParameterService modelParameterService;
     @Resource(name = "templateService")
     private ITemplateService templateService;
+    @Resource(name = "frameService")
+    private IFrameService frameService;
     @Resource(name = "sysParameterService")
     private IParameterService sysParameterService;
 
@@ -165,6 +169,8 @@ public class ModelController extends BasicController {
         try {
             Page page = modelService.getList(cri);
             mv.addObject("page", page);
+            List<Frame> frameList = frameService.getAll();
+            mv.addObject("frameList",frameList);
         } catch (ServiceException e) {
             logger.error("find interface model page error", e);
         }
@@ -426,56 +432,22 @@ public class ModelController extends BasicController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "{applicationId}/writeCode", method = RequestMethod.POST)
-    public String writeApplicationCode(@PathVariable Long applicationId) {
-        String result = RESULT_ERROR;
-        try {
-            Application application = applicationService.getObject(applicationId);
-            if (null != application) {
-                List<Template> templateList = templateService.getListByType(application.getType());
-                String outputPath = sysParameterService.getObjectByCode("school-book-output-base-path").getStringValue();
-                FreeMarkerUtils freeMarker = FreeMarkerUtils.getNewInstance(outputPath);
-                List<Model> modelList = modelService.getListByApplicationId(applicationId);
-                if (null != modelList && modelList.size() > 0) {
-                    for (Model model : modelList) {
-                        if (null != model && StringUtils.isNotBlank(model.getCode())) {
-                            List parameters = modelParameterService.getListByModelId(model.getId());
-                            model.setParameterList(parameters);
-                            freeMarker.writeModel(model,templateList);
-                            result = RESULT_SUCCESS;
-                        }
-                    }
-                    application.setModelList(modelList);
-                    freeMarker.writeCreateSQL(application);
-                }
-            }
-        } catch (Exception e) {
-            logger.error("write model list to code error", e);
-        }
-        return result;
-    }
-
-    @ResponseBody
-    @RequestMapping(value = "writeCode", method = RequestMethod.POST)
-    public String writeCode(Long id) {
-        String result = RESULT_ERROR;
+    @RequestMapping(value = "write", method = RequestMethod.POST)
+    public String write(Long id, Long frameId) {
         try {
             Model model = modelService.getObject(id);
-            if (null != model && StringUtils.isNotBlank(model.getCode())) {
-                Application application = applicationService.getObject(model.getApplicationId());
-                List<Template> templateList = templateService.getListByType(application.getType());
-                model.setApplication(application);
-                List parameters = modelParameterService.getListByModelId(id);
-                String outputPath = sysParameterService.getObjectByCode("school-book-output-base-path").getStringValue();
-                FreeMarkerUtils freeMarker = FreeMarkerUtils.getNewInstance(outputPath);
+            List<TemplateConfig> templateList = templateService.getListByFrameId(frameId);
+            if (null != model && StringUtils.isNotBlank(model.getCode()) && null != templateList && templateList.size() > 0) {
+                List parameters = modelParameterService.getListByModelId(model.getId());
                 model.setParameterList(parameters);
-                freeMarker.writeModel(model, templateList);
-                result = RESULT_SUCCESS;
+                FreeMarkerUtils.getNewInstance(model.getCode()).writeModel(model, templateList);
+                return RESULT_SUCCESS;
             }
         } catch (Exception e) {
             logger.error("write model to code error", e);
+            return e.getMessage();
         }
-        return result;
+        return RESULT_ERROR;
     }
 
 }
