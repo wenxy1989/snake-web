@@ -1,7 +1,4 @@
 package com.snake.inter.service;
-
-import com.base.exception.DaoException;
-import com.base.exception.ServiceException;
 import com.base.service.BasicService;
 import com.snake.inter.dao.IGroupDao;
 import com.snake.inter.model.Group;
@@ -26,23 +23,23 @@ public class GroupService extends BasicService<Group> implements IGroupService {
         return dao;
     }
 
-    public Group getObjectByModel(String model) throws ServiceException {
+    public Group getObjectByModel(String model) throws Exception {
         try {
             Map<String,Object> map = new HashMap<String, Object>();
             map.put("model_",model);
             return dao.findOne(map);
-        } catch (DaoException e) {
-            throw new ServiceException(e);
+        } catch (Exception e) {
+            throw new Exception(e);
         }
     }
 
-    public List<Group> getListByApplicationId(Long applicationId) throws ServiceException {
+    public List<Group> getListByApplicationId(Long applicationId) throws Exception {
         try {
             Map<String,Object> map = new HashMap<String, Object>();
             map.put("application_id",applicationId);
             return dao.find(map);
-        } catch (DaoException e) {
-            throw new ServiceException(e);
+        } catch (Exception e) {
+            throw new Exception(e);
         }
     }
 }

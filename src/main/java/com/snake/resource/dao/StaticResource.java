@@ -1,6 +1,4 @@
 package com.snake.resource.dao;
-
-import com.base.exception.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -26,7 +24,7 @@ public class StaticResource {
         this.resourceDaoSet = resourceDaoSet;
     }
 
-    public void initStaticObjects() throws ServiceException {
+    public void initStaticObjects() throws Exception {
         if (null != resourceDaoSet && resourceDaoSet.size() > 0) {
             for (IResourceDao resourceDao : resourceDaoSet) {
                 resourceDao.initStaticObjects();

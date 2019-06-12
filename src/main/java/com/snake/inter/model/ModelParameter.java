@@ -1,8 +1,6 @@
 package com.snake.inter.model;
 
-import com.base.Constants;
 import com.snake.mysql.model.Column;
-import org.apache.commons.lang.StringUtils;
 
 /**
  * Created by HP on 2016/10/13.

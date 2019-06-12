@@ -1,7 +1,4 @@
 package com.snake.inter.service;
-
-import com.base.exception.DaoException;
-import com.base.exception.ServiceException;
 import com.base.service.BasicService;
 import com.snake.inter.model.Result;
 import com.snake.inter.dao.IResultDao;
@@ -28,23 +25,23 @@ public class ResultService extends BasicService<Result> implements IResultServic
         return resultDao;
     }
 
-    public List<Result> getListByUrlId(Long urlId) throws ServiceException {
+    public List<Result> getListByUrlId(Long urlId) throws Exception {
         try {
             Map<String,Object> map = new HashMap<String, Object>();
             map.put("url_id",urlId);
             return resultDao.find(map);
-        }catch (DaoException e){
-            throw new ServiceException(e);
+        }catch (Exception e){
+            throw new Exception(e);
         }
     }
 
-    public Result getObjectByCode(String code) throws ServiceException {
+    public Result getObjectByCode(String code) throws Exception {
         try {
             Map<String,Object> map = new HashMap<String, Object>();
             map.put("code_",code);
             return resultDao.findOne(map);
-        }catch (DaoException e){
-            throw new ServiceException(e);
+        }catch (Exception e){
+            throw new Exception(e);
         }
     }
 }

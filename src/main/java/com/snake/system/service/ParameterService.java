@@ -1,6 +1,4 @@
 package com.snake.system.service;
-
-import com.base.exception.ServiceException;
 import com.base.service.BasicService;
 import com.snake.system.dao.IParameterDao;
 import com.snake.system.model.Parameter;
@@ -28,13 +26,13 @@ public class ParameterService extends BasicService<Parameter> implements IParame
         return dao;
     }
 
-    public Parameter getObjectByCode(String code) throws ServiceException {
+    public Parameter getObjectByCode(String code) throws Exception {
         try {
             Map<String,Object> map = new HashMap<String, Object>();
             map.put("code_",code);
             return this.dao.findOne(map);
         }catch (Exception e){
-            throw new ServiceException("根据idCard获取用户列表失败",e);
+            throw new Exception("根据idCard获取用户列表失败",e);
         }
     }
 }

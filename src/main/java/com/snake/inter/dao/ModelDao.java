@@ -1,6 +1,4 @@
 package com.snake.inter.dao;
-
-import com.base.exception.DaoException;
 import com.snake.inter.model.Model;
 import com.snake.resource.dao.AbstractResourceDao;
 import org.springframework.stereotype.Repository;
@@ -38,7 +36,7 @@ public class ModelDao extends AbstractResourceDao<Model> implements IModelDao {
         return list;
     }
 
-    public List<Model> getListByApplicationId(Long applicationId,Integer status) throws DaoException {
+    public List<Model> getListByApplicationId(Long applicationId,Integer status) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("application_id", applicationId);
         map.put("status_", status);

@@ -1,7 +1,6 @@
 package com.snake.inter.controller;
 
 import com.snake.system.controller.BasicController;
-import com.base.exception.ServiceException;
 import com.base.util.Condition;
 import com.base.util.Criteria;
 import com.base.util.DateTimeUtils;
@@ -68,7 +67,7 @@ public class UploadController extends BasicController {
             mv.addObject("url", url);
             Page page = uploadService.getList(cri);
             mv.addObject("page", page);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("find interface upload page error", e);
         }
         mv.addObject("urlId", urlId);
@@ -112,7 +111,7 @@ public class UploadController extends BasicController {
         try {
             Upload upload = uploadService.getObject(id);
             mv.addObject("upload", upload);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("find interface upload error.", e);
         }
         mv.addObject("urlId", urlId);
@@ -158,12 +157,12 @@ public class UploadController extends BasicController {
         try {
             Parameter parameter = parameterService.getObject(parameterId);
             if (null != parameter) {
-                Upload upload = parameter.cloneParameter(new Upload());
+                Upload upload = parameter.clone(Upload.class);
                 upload.setUrlId(urlId);
                 uploadService.create(upload);
                 result = RESULT_SUCCESS;
             }
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("add parameter to url upload error", e);
         }
         return result;
@@ -177,14 +176,14 @@ public class UploadController extends BasicController {
             List<ModelParameter> parameters = modelParameterService.getListByModelId(modelId);
             if (null != parameters && parameters.size() > 0) {
                 for (ModelParameter parameter : parameters) {
-                    Upload obj = parameter.cloneParameter(new Upload());
+                    Upload obj = parameter.clone(Upload.class);
                     obj.setUrlId(urlId);
                     obj.setAllowBlank(false);
                     uploadService.create(obj);
                 }
                 resultCode = RESULT_SUCCESS;
             }
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("add parameter to url result error", e);
         }
         return resultCode;

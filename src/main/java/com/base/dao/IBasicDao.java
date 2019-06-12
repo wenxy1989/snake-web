@@ -8,8 +8,6 @@ package com.base.dao;
  * <p>Description:DAO基础接口 </p>
  *
  */
-
-import com.base.exception.DaoException;
 import com.base.util.Criteria;
 
 import java.util.List;
@@ -24,9 +22,9 @@ public interface IBasicDao<T> {
      * 从数据库读取所有对象
      *
      * @return list 对象的记录集合
-     * @throws com.base.exception.DaoException
+     * @throws com.base.exception.Exception
      */
-    public List<T> getAll() throws DaoException;
+    public List<T> getAll() throws Exception;
 
     /**
      * 从数据库读取所有对象
@@ -34,118 +32,118 @@ public interface IBasicDao<T> {
      * @param first 第一条记录
      * @param limit 最大记录数
      * @return 包含对象的记录集合
-     * @throws com.base.exception.DaoException
+     * @throws com.base.exception.Exception
      */
-    public List<T> getList(int first, int limit) throws DaoException;
+    public List<T> getList(int first, int limit) throws Exception;
 
     /**
      * 得到对象的总数量
      *
      * @return 对象的总数量
-     * @throws com.base.exception.DaoException
+     * @throws com.base.exception.Exception
      */
-    public Integer getCount() throws DaoException;
+    public Integer getCount() throws Exception;
 
     /**
      * 根据id得到符合条件的该对象，对象不存在时返回空
      *
      * @param key 对象的ID
      * @return 符合条件的该对象
-     * @throws com.base.exception.DaoException
+     * @throws com.base.exception.Exception
      */
-    public T getObject(Long key) throws DaoException;
+    public T getObject(Long key) throws Exception;
 
     /**
      * 将对象信息持久化
      *
      * @param object
-     * @throws com.base.exception.DaoException
+     * @throws com.base.exception.Exception
      */
-    public void create(T object) throws DaoException;
+    public void create(T object) throws Exception;
 
     /**
      * 修改对象信息
      *
      * @param object
-     * @throws com.base.exception.DaoException
+     * @throws com.base.exception.Exception
      */
-    public void update(T object) throws DaoException;
+    public void update(T object) throws Exception;
 
     /**
      * 根据条件删除对象的信息
      *
      * @param id 要删除对象的ID
-     * @throws com.base.exception.DaoException
+     * @throws com.base.exception.Exception
      */
-    public void delete(Object id) throws DaoException;
+    public void delete(Object id) throws Exception;
 
     /**
      * 简单查询，将map中的条件组合进行"="查询
      * @param map 查询条件,其中key是字段名,value是条件
      * @return list 包含符合条件对象的记录集合
-     * @throws com.base.exception.DaoException
+     * @throws com.base.exception.Exception
      */
-    public T findOne(Map<String, Object> map) throws DaoException;
+    public T findOne(Map<String, Object> map) throws Exception;
 
     /**
      * 根据对象进行单一查询
      * @param object 查询的对象
      * @return 符合条件的单一对象
-     * @throws DaoException
+     * @throws Exception
      */
-    public T findOne(T object) throws DaoException;
+    public T findOne(T object) throws Exception;
 
     /**
      * 简单查询，将map中的条件组合进行"="查询
      * @param map 查询条件,其中key是字段名,value是条件
      * @return list 包含符合条件对象的记录集合
-     * @throws com.base.exception.DaoException
+     * @throws com.base.exception.Exception
      */
-    public List<T> find(Map<String, Object> map) throws DaoException;
+    public List<T> find(Map<String, Object> map) throws Exception;
 
     /**
      * 根据对象进行列表查询
      * @param object 查询的对象
      * @return 符合条件的对象列表
-     * @throws DaoException
+     * @throws Exception
      */
-    public List<T> find(T object) throws DaoException;
+    public List<T> find(T object) throws Exception;
 
     /**
      * 根据in条件查询
      *
      * @param map 查询条件,多个值时请用,分割
      * @return list 包含符合条件对象的记录集合
-     * @throws com.base.exception.DaoException
+     * @throws com.base.exception.Exception
      */
-    public List<T> findByIn(Map<String, Object> map) throws DaoException;
+    public List<T> findByIn(Map<String, Object> map) throws Exception;
 
     /**
      * 得到符合条件的该对象,用Like进行查询
      *
      * @param map 查询条件,其中key是字段名,value是条件
      * @return list 包含符合条件对象的记录集合
-     * @throws com.base.exception.DaoException
+     * @throws com.base.exception.Exception
      */
-    public List<T> findByLike(Map<String, Object> map) throws DaoException;
+    public List<T> findByLike(Map<String, Object> map) throws Exception;
 
     /**
      * 根据传入的Criteria条件查询，返回结果集
      *
      * @param c 传入的Criteria条件查询对象
      * @return 返回符合条件的结果集
-     * @throws com.base.exception.DaoException
+     * @throws com.base.exception.Exception
      */
-    public List<T> getList(final Criteria c) throws DaoException;
+    public List<T> getList(final Criteria c) throws Exception;
 
     /**
      * 根据传入的Criteria条件查询，返回结果数量
      *
      * @param c 传入的Criteria条件查询对象
      * @return 结果数量
-     * @throws com.base.exception.DaoException
+     * @throws com.base.exception.Exception
      */
-    public Integer getCount(Criteria c) throws DaoException;
+    public Integer getCount(Criteria c) throws Exception;
 
-    public void batchInsert(List<T> list) throws DaoException;
+    public void batchInsert(List<T> list) throws Exception;
 }

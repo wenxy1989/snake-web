@@ -1,8 +1,6 @@
 package com.base.service;
 
 import com.base.dao.IBasicDao;
-import com.base.exception.DaoException;
-import com.base.exception.ServiceException;
 import com.base.util.Criteria;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,128 +24,106 @@ public abstract class BasicService<T> implements IBasicService<T> {
     public abstract IBasicDao<T> getDao();
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
-    public List<T> getAll() throws ServiceException {
+    public List<T> getAll() throws Exception {
         try {
             return getDao().getAll();
-        } catch (DaoException e) {
-            throw new ServiceException("ERROR:", e);
         } catch (Exception e) {
-            throw new ServiceException("ERROR:", e);
+            throw new Exception("ERROR:", e);
         }
     }
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
-    public List<T> getList(int first, int limit) throws ServiceException {
+    public List<T> getList(int first, int limit) throws Exception {
         try {
             return getDao().getList(first, limit);
-        } catch (DaoException e) {
-            throw new ServiceException("ERROR:", e);
         } catch (Exception e) {
-            throw new ServiceException("ERROR:", e);
+            throw new Exception("ERROR:", e);
         }
     }
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
-    public Integer getCount() throws ServiceException {
+    public Integer getCount() throws Exception {
         try {
             return getDao().getCount();
-        } catch (DaoException e) {
-            throw new ServiceException("ERROR:", e);
         } catch (Exception e) {
-            throw new ServiceException("ERROR:", e);
+            throw new Exception("ERROR:", e);
         }
     }
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
-    public T getObject(Long key) throws ServiceException {
+    public T getObject(Long key) throws Exception {
         try {
             return getDao().getObject(key);
-        } catch (DaoException e) {
-            throw new ServiceException("ERROR:", e);
         } catch (Exception e) {
-            throw new ServiceException("ERROR:", e);
+            throw new Exception("ERROR:", e);
         }
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {Throwable.class})
-    public void create(T object) throws ServiceException {
+    public void create(T object) throws Exception {
         try {
             getDao().create(object);
-        } catch (DaoException e) {
-            throw new ServiceException("ERROR:", e);
         } catch (Exception e) {
-            throw new ServiceException("ERROR:", e);
+            throw new Exception("ERROR:", e);
         }
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {Throwable.class})
-    public void update(T object) throws ServiceException {
+    public void update(T object) throws Exception {
         try {
             getDao().update(object);
-        } catch (DaoException e) {
-            throw new ServiceException("ERROR:", e);
         } catch (Exception e) {
-            throw new ServiceException("ERROR:", e);
+            throw new Exception("ERROR:", e);
         }
     }
 
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {Throwable.class})
-    public void delete(Object id) throws ServiceException {
+    public void delete(Object id) throws Exception {
         try {
             getDao().delete(id);
-        } catch (DaoException e) {
-            throw new ServiceException("ERROR:", e);
         } catch (Exception e) {
-            throw new ServiceException("ERROR:", e);
+            throw new Exception("ERROR:", e);
         }
     }
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
-    public T findOne(Map<String, Object> map) throws ServiceException {
+    public T findOne(Map<String, Object> map) throws Exception {
         try {
             return getDao().findOne(map);
-        } catch (DaoException e) {
-            throw new ServiceException("ERROR:", e);
         } catch (Exception e) {
-            throw new ServiceException("ERROR:", e);
+            throw new Exception("ERROR:", e);
         }
     }
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
-    public List<T> find(Map<String, Object> map) throws ServiceException {
+    public List<T> find(Map<String, Object> map) throws Exception {
         try {
             return getDao().find(map);
-        } catch (DaoException e) {
-            throw new ServiceException("ERROR:", e);
         } catch (Exception e) {
-            throw new ServiceException("ERROR:", e);
+            throw new Exception("ERROR:", e);
         }
     }
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
-    public List<T> findByIn(Map<String, Object> map) throws ServiceException {
+    public List<T> findByIn(Map<String, Object> map) throws Exception {
         try {
             return getDao().findByIn(map);
-        } catch (DaoException e) {
-            throw new ServiceException("ERROR:", e);
         } catch (Exception e) {
-            throw new ServiceException("ERROR:", e);
+            throw new Exception("ERROR:", e);
         }
     }
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
-    public List<T> findByLike(Map<String, Object> map) throws ServiceException {
+    public List<T> findByLike(Map<String, Object> map) throws Exception {
         try {
             return getDao().findByLike(map);
-        } catch (DaoException e) {
-            throw new ServiceException("ERROR:", e);
         } catch (Exception e) {
-            throw new ServiceException("ERROR:", e);
+            throw new Exception("ERROR:", e);
         }
     }
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
-    public Page<T> getList(Criteria c) throws ServiceException {
+    public Page<T> getList(Criteria c) throws Exception {
         try {
             int count = getDao().getCount(c);
             List<T> list = getDao().getList(c);
@@ -183,43 +159,35 @@ public abstract class BasicService<T> implements IBasicService<T> {
                 }
             }, count);
             return page;
-        } catch (DaoException e) {
-            throw new ServiceException("ERROR:", e);
         } catch (Exception e) {
-            throw new ServiceException("ERROR:", e);
+            throw new Exception("ERROR:", e);
         }
     }
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
-    public List<T> getPageList(Criteria c) throws ServiceException {
+    public List<T> getPageList(Criteria c) throws Exception {
         try {
             return getDao().getList(c);
-        } catch (DaoException e) {
-            throw new ServiceException("ERROR:", e);
         } catch (Exception e) {
-            throw new ServiceException("ERROR:", e);
+            throw new Exception("ERROR:", e);
         }
     }
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
-    public Integer getCount(Criteria c) throws ServiceException {
+    public Integer getCount(Criteria c) throws Exception {
         try {
             return getDao().getCount(c);
-        } catch (DaoException e) {
-            throw new ServiceException("ERROR:", e);
         } catch (Exception e) {
-            throw new ServiceException("ERROR:", e);
+            throw new Exception("ERROR:", e);
         }
     }
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
-    public T findOne(T object) throws ServiceException {
+    public T findOne(T object) throws Exception {
         try {
             return (T) getDao().findOne(object);
-        } catch (DaoException e) {
-            throw new ServiceException("ERROR:", e);
         } catch (Exception e) {
-            throw new ServiceException("ERROR:", e);
+            throw new Exception("ERROR:", e);
         }
     }
 
@@ -228,22 +196,20 @@ public abstract class BasicService<T> implements IBasicService<T> {
      *
      * @param object 查询的对象
      * @return 符合条件的对象列表
-     * @throws com.base.exception.ServiceException
+     * @throws com.base.exception.Exception
      */
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
-    public List<T> find(T object) throws ServiceException {
+    public List<T> find(T object) throws Exception {
         try {
             return getDao().find(object);
-        } catch (DaoException e) {
-            throw new ServiceException("ERROR:", e);
         } catch (Exception e) {
-            throw new ServiceException("ERROR:", e);
+            throw new Exception("ERROR:", e);
         }
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {Throwable.class})
-    public void batchInsert(List<T> list) throws ServiceException {
+    public void batchInsert(List<T> list) throws Exception {
         int size = 100;
         int count = 0;
         try {
@@ -263,8 +229,8 @@ public abstract class BasicService<T> implements IBasicService<T> {
                     getDao().batchInsert(each);
                 }
             }
-        } catch (DaoException e) {
-            throw new ServiceException(e);
+        } catch (Exception e) {
+            throw new Exception(e);
         }
     }
 }

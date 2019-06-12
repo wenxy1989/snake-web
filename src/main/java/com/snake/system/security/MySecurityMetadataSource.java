@@ -1,7 +1,6 @@
 package com.snake.system.security;
 
 import com.base.Constants;
-import com.base.exception.ServiceException;
 import com.snake.resource.dao.StaticResource;
 import com.snake.system.dao.RoleDao;
 import com.snake.system.model.Function;
@@ -159,7 +158,7 @@ public class MySecurityMetadataSource implements FilterInvocationSecurityMetadat
                     }
                 }
             }
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             log.error("加载所有角色与权限的关系失败", e);
         }
     }

@@ -1,6 +1,4 @@
 package com.snake.system.service;
-
-import com.base.exception.ServiceException;
 import com.base.service.IBasicService;
 import com.snake.system.model.User;
 
@@ -11,9 +9,9 @@ import com.snake.system.model.User;
  */
 public interface IUserService extends IBasicService<User> {
 
-    public User getUserByEmail(String email) throws ServiceException;
+    public User getUserByEmail(String email) throws Exception;
 
-    public User getUserByMobile(String mobile) throws ServiceException;
+    public User getUserByMobile(String mobile) throws Exception;
 
-    public User getUserByLoginName(String loginName) throws ServiceException;
+    public User getUserByLoginName(String loginName) throws Exception;
 }

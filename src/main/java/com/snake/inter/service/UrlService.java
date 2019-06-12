@@ -1,7 +1,4 @@
 package com.snake.inter.service;
-
-import com.base.exception.DaoException;
-import com.base.exception.ServiceException;
 import com.base.service.BasicService;
 import com.snake.inter.dao.IUrlDao;
 import com.snake.inter.model.Url;
@@ -27,31 +24,31 @@ public class UrlService extends BasicService<Url> implements IUrlService {
         return urlDao;
     }
 
-    public Url getObjectByUrl(String url) throws ServiceException {
+    public Url getObjectByUrl(String url) throws Exception {
         try {
             Map<String,Object> map = new HashMap<String, Object>();
             map.put("url_",url);
             return urlDao.findOne(map);
-        }catch (DaoException e){
-            throw new ServiceException(e);
+        }catch (Exception e){
+            throw new Exception(e);
         }
     }
 
-    public List<Url> getListByGroupId(Long groupId) throws ServiceException {
+    public List<Url> getListByGroupId(Long groupId) throws Exception {
         try {
             Map<String,Object> map = new HashMap<String, Object>();
             map.put("group_id",groupId);
             return urlDao.find(map);
-        }catch (DaoException e){
-            throw new ServiceException(e);
+        }catch (Exception e){
+            throw new Exception(e);
         }
     }
 
-    public List<Url> getListByApplicationId(Long applicationId) throws ServiceException {
+    public List<Url> getListByApplicationId(Long applicationId) throws Exception {
         try {
             return urlDao.getListByApplicationId(applicationId);
-        }catch (DaoException e){
-            throw new ServiceException(e);
+        }catch (Exception e){
+            throw new Exception(e);
         }
     }
 }

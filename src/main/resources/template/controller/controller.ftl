@@ -22,8 +22,8 @@ import java.util.Map;
 import java.util.HashMap;
 
 /**
-** ${group.name} : ${group.remark}
-** create at ${group.createdTime} by user id ${group.creatorId}
+** ${model.name} : ${model.remark}
+** create at ${model.createdTime} by user id ${model.creatorId}
 **/
 @Controller
 @RequestMapping("/${model.code?uncap_first}")

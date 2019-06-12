@@ -1,6 +1,4 @@
 package com.base.dao;
-
-import com.base.exception.DaoException;
 import com.base.util.Criteria;
 import com.base.util.Parameter;
 import org.apache.ibatis.session.SqlSession;
@@ -28,11 +26,11 @@ public abstract class MybatisBasicDao<T> implements IBasicDao<T> {
         this.namespace = modelClass.getName();
     }
 
-    public List<T> getAll() throws DaoException {
+    public List<T> getAll() throws Exception {
         return this.sqlSession.selectList(namespace + ".selectAll");
     }
 
-    public List<T> getList(int first, int limit) throws DaoException {
+    public List<T> getList(int first, int limit) throws Exception {
         HashMap<String, Integer> map = new HashMap<String, Integer>();
 
         map.put("offset", first);
@@ -41,15 +39,15 @@ public abstract class MybatisBasicDao<T> implements IBasicDao<T> {
         return this.sqlSession.selectList(namespace + ".selectSome", map);
     }
 
-    public Integer getCount() throws DaoException {
+    public Integer getCount() throws Exception {
         return (Integer) this.sqlSession.selectOne(namespace + ".getTotalCount");
     }
 
-    public T getObject(Long key) throws DaoException {
+    public T getObject(Long key) throws Exception {
         return (T) this.sqlSession.selectOne(namespace + ".getObject", key);
     }
 
-    public void create(T object) throws DaoException {
+    public void create(T object) throws Exception {
         try {
             this.sqlSession.insert(namespace + ".insert", object);
         } catch (Exception e) {
@@ -57,20 +55,20 @@ public abstract class MybatisBasicDao<T> implements IBasicDao<T> {
             if (throwable.getMessage().toLowerCase().contains("duplicate entry")) {
                 logger.error("Duplicate entry", object);
             } else {
-                throw new DaoException(e);
+                throw new Exception(e);
             }
         }
     }
 
-    public void update(T object) throws DaoException {
+    public void update(T object) throws Exception {
         this.sqlSession.update(namespace + ".update", object);
     }
 
-    public void delete(Object id) throws DaoException {
+    public void delete(Object id) throws Exception {
         this.sqlSession.delete(namespace + ".delete", id);
     }
 
-    public T findOne(Map<String, Object> map) throws DaoException {
+    public T findOne(Map<String, Object> map) throws Exception {
         StringBuilder sb = new StringBuilder();
         List<Parameter> params = new ArrayList<Parameter>();
         Set<String> keys = map.keySet();
@@ -81,11 +79,11 @@ public abstract class MybatisBasicDao<T> implements IBasicDao<T> {
         return (T) this.sqlSession.selectOne(namespace + ".findOneByMap", params);
     }
 
-    public T findOne(T object) throws DaoException {
+    public T findOne(T object) throws Exception {
         return (T) this.sqlSession.selectOne(namespace + ".findOneByObject", object);
     }
 
-    public List<T> find(Map<String, Object> map) throws DaoException {
+    public List<T> find(Map<String, Object> map) throws Exception {
         StringBuilder sb = new StringBuilder();
         List<Parameter> params = new ArrayList<Parameter>();
         Set<String> keys = map.keySet();
@@ -96,11 +94,11 @@ public abstract class MybatisBasicDao<T> implements IBasicDao<T> {
         return this.sqlSession.selectList(namespace + ".findByMap", params);
     }
 
-    public List<T> find(T object) throws DaoException {
+    public List<T> find(T object) throws Exception {
         return this.sqlSession.selectList(namespace + ".findByObject", object);
     }
 
-    public List<T> findByIn(Map<String, Object> map) throws DaoException {
+    public List<T> findByIn(Map<String, Object> map) throws Exception {
         StringBuilder sb = new StringBuilder();
         List<Parameter> params = new ArrayList<Parameter>();
         Set<String> keys = map.keySet();
@@ -111,7 +109,7 @@ public abstract class MybatisBasicDao<T> implements IBasicDao<T> {
         return this.sqlSession.selectList(namespace + ".findByIn", params);
     }
 
-    public List<T> findByLike(Map<String, Object> map) throws DaoException {
+    public List<T> findByLike(Map<String, Object> map) throws Exception {
         StringBuilder sb = new StringBuilder();
         List<Parameter> params = new ArrayList<Parameter>();
         Set<String> keys = map.keySet();
@@ -122,7 +120,7 @@ public abstract class MybatisBasicDao<T> implements IBasicDao<T> {
         return this.sqlSession.selectList(namespace + ".findByLike", params);
     }
 
-    public List<T> getList(Criteria c) throws DaoException {
+    public List<T> getList(Criteria c) throws Exception {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("fieldsClause", c.getFieldClause());
         map.put("whereClause", c.getWhereClause());
@@ -133,7 +131,7 @@ public abstract class MybatisBasicDao<T> implements IBasicDao<T> {
         return this.sqlSession.selectList(namespace + ".query", map);
     }
 
-    public Integer getCount(Criteria c) throws DaoException {
+    public Integer getCount(Criteria c) throws Exception {
         int count = 0;
 
         HashMap<String, Object> map = new HashMap<String, Object>();
@@ -145,7 +143,7 @@ public abstract class MybatisBasicDao<T> implements IBasicDao<T> {
         return count;
     }
 
-    public void batchInsert(List<T> list) throws DaoException {
+    public void batchInsert(List<T> list) throws Exception {
         this.sqlSession.insert(namespace + ".batchInsert", list);
     }
 }

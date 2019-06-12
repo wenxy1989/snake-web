@@ -1,8 +1,8 @@
 package com.snake.inter.controller;
 
 import com.base.Constants;
+import com.snake.inter.model.Model;
 import com.snake.system.controller.BasicController;
-import com.base.exception.ServiceException;
 import com.snake.freemarker.FreeMarkerUtils;
 import com.base.util.*;
 import com.snake.inter.model.Application;
@@ -64,7 +64,7 @@ public class ApplicationController extends BasicController {
             mv.addObject("page", page);
             List<Frame> frameList = frameService.getAll();
             mv.addObject("frameList",frameList);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("find application page error", e);
         }
         return mv;
@@ -76,7 +76,7 @@ public class ApplicationController extends BasicController {
         try {
             Application application = applicationService.getObject(id);
             mv.addObject("application", application);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("find application error.", e);
         }
         return mv;
@@ -115,7 +115,7 @@ public class ApplicationController extends BasicController {
         try {
             Application application = applicationService.getObject(id);
             mv.addObject("application", application);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("find application error.", e);
         }
         return mv;
@@ -155,13 +155,9 @@ public class ApplicationController extends BasicController {
     @RequestMapping(value = "write")
     public Object write(Long id,Long frameId) {
         try {
-            Application application = applicationService.getDetails(id);
-            List<TemplateConfig> templates = templateService.getListByFrameId(frameId);
-            if(null != application && null != templates && templates.size() > 0) {
-                FreeMarkerUtils.getInstance().writeApplication(application, templates);
-            }
+            applicationService.write(id,frameId);
             return RESULT_SUCCESS;
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("write application template code error", e);
             return e.getMessage();
         }

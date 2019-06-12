@@ -1,7 +1,6 @@
 package com.snake.inter.controller;
 
 import com.snake.system.controller.BasicController;
-import com.base.exception.ServiceException;
 import com.base.util.Condition;
 import com.base.util.Criteria;
 import com.base.util.DateTimeUtils;
@@ -66,7 +65,7 @@ public class ModelParameterController extends BasicController {
             mv.addObject("model", model);
             Page page = modelParameterService.getList(cri);
             mv.addObject("page", page);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("find interface result page error", e);
         }
         return mv;
@@ -80,7 +79,7 @@ public class ModelParameterController extends BasicController {
     }
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
-    public RedirectView add(ModelParameter parameter, Long modelId,HttpServletRequest request) {
+    public RedirectView add(ModelParameter parameter, Long modelId, HttpServletRequest request) {
         RedirectView rv = new RedirectView("page");
         String resultCode = RESULT_ERROR;
         try {
@@ -113,7 +112,7 @@ public class ModelParameterController extends BasicController {
         try {
             ModelParameter parameter = modelParameterService.getObject(id);
             mv.addObject("parameter", parameter);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("find interface result error.", e);
         }
         return mv;
@@ -158,14 +157,14 @@ public class ModelParameterController extends BasicController {
         try {
             Parameter parameter = parameterService.getObject(parameterId);
             if (null != parameter) {
-                ModelParameter modelParameter = parameter.cloneParameter(new ModelParameter());
+                ModelParameter modelParameter = parameter.clone(ModelParameter.class);
                 modelParameter.setKeyType(0);
                 modelParameter.setModelId(modelId);
                 modelParameter.setAllowBlank(false);
                 modelParameterService.create(modelParameter);
                 resultCode = RESULT_SUCCESS;
             }
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("add Parameter to model parameter error", e);
         }
         return resultCode;

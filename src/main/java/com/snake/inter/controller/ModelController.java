@@ -2,7 +2,6 @@ package com.snake.inter.controller;
 
 import com.base.Constants;
 import com.snake.system.controller.BasicController;
-import com.base.exception.ServiceException;
 import com.snake.freemarker.FreeMarkerUtils;
 import com.base.util.*;
 import com.snake.inter.model.Application;
@@ -48,91 +47,6 @@ public class ModelController extends BasicController {
     private ITemplateService templateService;
     @Resource(name = "frameService")
     private IFrameService frameService;
-    @Resource(name = "sysParameterService")
-    private IParameterService sysParameterService;
-
-    @RequestMapping(value = "page", method = {RequestMethod.GET, RequestMethod.POST})
-    public ModelAndView page(Integer pageNo, Integer size, HttpServletRequest request) {
-        ModelAndView mv = new ModelAndView("/inter/model/list");
-        responseTip(mv, request);
-        String name = request.getParameter("name");
-        String model = request.getParameter("model");
-        String status = request.getParameter("status");
-        String mine = request.getParameter("mine");
-        status = org.apache.commons.lang.StringUtils.isNotBlank(status) ? status : "0";
-        mine = org.apache.commons.lang.StringUtils.isNotBlank(mine) ? mine : "0";
-        Criteria cri = new SimpleCriteria();
-        if (org.apache.commons.lang.StringUtils.isNotBlank(name)) {
-            cri.addCondition(0, new Condition("name_", "like", name + "%"));
-            mv.addObject("name", name);
-        }
-        if (org.apache.commons.lang.StringUtils.isNotBlank(model)) {
-            cri.addCondition(0, new Condition("model_", "like", model + "%"));
-            mv.addObject("model", model);
-        }
-        if (org.apache.commons.lang.StringUtils.isNotBlank(status)) {
-            cri.addCondition(0, new Condition("status_", "=", Integer.valueOf(status)));
-            mv.addObject("status", status);
-        }
-        if ("1".equals(mine)) {
-            Long userId = getLoginUserId(request);
-            cri.addCondition(0, new Condition("creator_id", "=", userId));
-            mv.addObject("mine", mine);
-        }
-        mv.addObject("mine", mine);
-        cri.setFetchSize(size == null ? Constants.PAGE_SIZE : size);
-        cri.setPageNo(pageNo == null ? 1 : pageNo);
-        try {
-            Page page = modelService.getList(cri);
-            mv.addObject("page", page);
-        } catch (ServiceException e) {
-            logger.error("find interface model page error", e);
-        }
-        return mv;
-    }
-
-    @RequestMapping(value = "select")
-    public ModelAndView select(Integer pageNo, Integer size, HttpServletRequest request, HttpServletResponse response) {
-        ModelAndView mv = new ModelAndView("/inter/model/select");
-        responseTip(mv, request);
-        String name = request.getParameter("name");
-        String code = request.getParameter("code");
-        String params = request.getParameter("params");
-        mv.addObject("params", params);
-        Criteria cri = new SimpleCriteria();
-        cri.setPageNo(pageNo == null ? 1 : pageNo);
-        cri.setFetchSize(size == null ? Constants.PAGE_SIZE : size);
-        if (org.apache.commons.lang.StringUtils.isNotBlank(params) && !params.contains("/")) {
-            cri.setLike(params);
-            try {
-                Page page = modelService.getList(cri);
-                mv.addObject("page", page);
-            } catch (ServiceException e) {
-                logger.error("find interface model by like page error", e);
-            }
-        } else {
-            if (org.apache.commons.lang.StringUtils.isNotBlank(params) && params.contains("/")) {
-                String[] paramArray = params.split("/");
-                name = paramArray[0];
-                code = paramArray[1];
-            }
-            if (org.apache.commons.lang.StringUtils.isNotBlank(name)) {
-                cri.addCondition(0, new Condition("name_", "like", name + "%"));
-                mv.addObject("name", name);
-            }
-            if (org.apache.commons.lang.StringUtils.isNotBlank(code)) {
-                cri.addCondition(0, new Condition("code_", "like", code + "%"));
-                mv.addObject("code", code);
-            }
-            try {
-                Page page = modelService.getList(cri);
-                mv.addObject("page", page);
-            } catch (ServiceException e) {
-                logger.error("find interface model page error", e);
-            }
-        }
-        return mv;
-    }
 
     @RequestMapping(value = "{applicationId}/page", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView applicationPage(@PathVariable Long applicationId, Integer pageNo, Integer size, HttpServletRequest request) {
@@ -171,7 +85,7 @@ public class ModelController extends BasicController {
             mv.addObject("page", page);
             List<Frame> frameList = frameService.getAll();
             mv.addObject("frameList",frameList);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("find interface model page error", e);
         }
         mv.addObject("applicationId", applicationId);
@@ -197,7 +111,7 @@ public class ModelController extends BasicController {
             model.setStatus(0);//草稿
             modelService.create(model);
             result = RESULT_ADD_SUCCESS;
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("create interface model error", e);
         }
         rv.addStaticAttribute("applicationId", applicationId);
@@ -212,7 +126,7 @@ public class ModelController extends BasicController {
         try {
             Model model = modelService.getObject(id);
             mv.addObject("model", model);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("find interface model error.", e);
         }
         return mv;
@@ -323,7 +237,7 @@ public class ModelController extends BasicController {
             try {
                 Page page = modelService.getList(cri);
                 mv.addObject("page", page);
-            } catch (ServiceException e) {
+            } catch (Exception e) {
                 logger.error("find interface model by like page error", e);
             }
         } else {
@@ -343,7 +257,7 @@ public class ModelController extends BasicController {
             try {
                 Page page = modelService.getList(cri);
                 mv.addObject("page", page);
-            } catch (ServiceException e) {
+            } catch (Exception e) {
                 logger.error("find interface model page error", e);
             }
         }
@@ -359,7 +273,7 @@ public class ModelController extends BasicController {
             List<ModelParameter> parameters = modelParameterService.getListByModelId(id);
             mv.addObject("parameters", parameters);
             mv.addObject("now", new Date());
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("find interface model error.", e);
         }
         return mv;
@@ -385,7 +299,7 @@ public class ModelController extends BasicController {
         Model object = null;
         try {
             object = modelService.getObject(id);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("load model object error", e);
         }
         return object;
@@ -399,7 +313,7 @@ public class ModelController extends BasicController {
             object = modelService.getObject(id);
             List list = modelParameterService.getListByModelId(id);
             object.setParameterList(list);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("load model object error", e);
         }
         return object;
@@ -425,7 +339,7 @@ public class ModelController extends BasicController {
                 result.put("code", model.getCode());
                 result.put("example", model.getExampleJsonString());
             }
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("load model loadExampleJson error", e);
         }
         return result;
@@ -440,7 +354,7 @@ public class ModelController extends BasicController {
             if (null != model && StringUtils.isNotBlank(model.getCode()) && null != templateList && templateList.size() > 0) {
                 List parameters = modelParameterService.getListByModelId(model.getId());
                 model.setParameterList(parameters);
-                FreeMarkerUtils.getNewInstance(model.getCode()).writeModel(model, templateList);
+                FreeMarkerUtils.getInstance().writeModel(model.getApplication(),model, templateList);
                 return RESULT_SUCCESS;
             }
         } catch (Exception e) {

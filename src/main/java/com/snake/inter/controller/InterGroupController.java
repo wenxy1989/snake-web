@@ -2,7 +2,6 @@ package com.snake.inter.controller;
 
 import com.base.Constants;
 import com.snake.system.controller.BasicController;
-import com.base.exception.ServiceException;
 import com.snake.freemarker.FreeMarkerUtils;
 import com.base.util.*;
 import com.snake.inter.model.Group;
@@ -13,6 +12,8 @@ import com.snake.inter.service.IUploadService;
 import com.snake.inter.service.IUrlService;
 import com.snake.system.model.User;
 import com.snake.system.service.IParameterService;
+import com.snake.template.model.TemplateConfig;
+import com.snake.template.service.ITemplateService;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,6 +40,8 @@ public class InterGroupController extends BasicController {
     private IUploadService uploadService;
     @Resource(name = "resultService")
     private IResultService resultService;
+    @Resource(name = "templateService")
+    private ITemplateService templateService;
 
     @Resource(name = "sysParameterService")
     private IParameterService sysParameterService;
@@ -77,7 +80,7 @@ public class InterGroupController extends BasicController {
         try {
             Page page = groupService.getList(cri);
             mv.addObject("page", page);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("find interface group page error", e);
         }
         return mv;
@@ -119,7 +122,7 @@ public class InterGroupController extends BasicController {
         try {
             Page page = groupService.getList(cri);
             mv.addObject("page", page);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("find interface group page error", e);
         }
         return mv;
@@ -144,7 +147,7 @@ public class InterGroupController extends BasicController {
             group.setStatus(0);//草稿
             groupService.create(group);
             result = RESULT_ADD_SUCCESS;
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("create interface group error", e);
         }
         rv.addStaticAttribute("applicationId",applicationId);
@@ -159,7 +162,7 @@ public class InterGroupController extends BasicController {
         try {
             Group group = groupService.getObject(id);
             mv.addObject("group", group);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("find interface group error.", e);
         }
         return mv;
@@ -213,19 +216,17 @@ public class InterGroupController extends BasicController {
             mv.addObject("group", group);
             mv.addObject("urlList", urlList);
             mv.addObject("now", new Date());
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("find interface group details error.", e);
         }
         return mv;
     }
 
     @ResponseBody
-    @RequestMapping(value = "writeCode", method = RequestMethod.POST)
-    public Object writeCode(Long id) {
+    @RequestMapping(value = "write", method = RequestMethod.POST)
+    public Object writeCode(Long id,Long frameId) {
         String result = RESULT_ERROR;
         try {
-            String outputPath = sysParameterService.getObjectByCode("school-book-output-base-path").getStringValue();
-            FreeMarkerUtils freeMarker = FreeMarkerUtils.getNewInstance(outputPath);
             Group group = groupService.getObject(id);
             List<Url> urlList = urlService.getListByGroupId(group.getId());
             if(null != urlList && urlList.size() > 0) {
@@ -235,11 +236,12 @@ public class InterGroupController extends BasicController {
                     url.setUploadParameters(uploads);
                     url.setResultParameters(results);
                 }
+                group.setUrlList(urlList);
+                List<TemplateConfig> configList = templateService.getListByFrameId(frameId);
+                FreeMarkerUtils.getInstance().writeInter(group.getApplication(),group,configList);
+                result = RESULT_SUCCESS;
             }
-            group.setUrlList(urlList);
-            freeMarker.writeInter(group);
-            result = RESULT_SUCCESS;
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("write interface group inters error.", e);
         }
         return result;
@@ -251,7 +253,7 @@ public class InterGroupController extends BasicController {
         Group object = null;
         try{
             object = groupService.getObject(id);
-        }catch (ServiceException e){
+        }catch (Exception e){
             logger.error("load group object error",e);
         }
         return object;

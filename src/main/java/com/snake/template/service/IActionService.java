@@ -1,7 +1,4 @@
 package com.snake.template.service;
-
-
-import com.base.exception.ServiceException;
 import com.base.service.IBasicService;
 import com.snake.template.model.Action;
 
@@ -15,6 +12,6 @@ public interface IActionService extends IBasicService<Action> {
 	 * @param moduleId
 	 * @return
 	 */
-	public List<Action> getListByModuleId(Long moduleId) throws ServiceException;
+	public List<Action> getListByModuleId(Long moduleId) throws Exception;
 
 }

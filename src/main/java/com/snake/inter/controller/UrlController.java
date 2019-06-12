@@ -4,11 +4,12 @@ import com.base.Constants;
 import com.snake.inter.model.*;
 import com.snake.inter.service.*;
 import com.snake.system.controller.BasicController;
-import com.base.exception.ServiceException;
 import com.snake.freemarker.FreeMarkerUtils;
 import com.base.util.*;
 import com.snake.system.model.User;
 import com.snake.system.service.IParameterService;
+import com.snake.template.model.TemplateConfig;
+import com.snake.template.service.ITemplateService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -37,6 +38,8 @@ public class UrlController extends BasicController {
     private IUploadService uploadService;
     @Resource(name = "resultService")
     private IResultService resultService;
+    @Resource(name = "templateService")
+    private ITemplateService templateService;
 
     @Resource(name = "sysParameterService")
     private IParameterService sysParameterService;
@@ -84,7 +87,7 @@ public class UrlController extends BasicController {
         try {
             Page page = urlService.getList(cri);
             mv.addObject("page", page);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("find interface url page error", e);
         }
         return mv;
@@ -135,7 +138,7 @@ public class UrlController extends BasicController {
         try {
             Page page = urlService.getList(cri);
             mv.addObject("page", page);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("find interface url page error", e);
         }
         mv.addObject("applicationId", applicationId);
@@ -196,7 +199,7 @@ public class UrlController extends BasicController {
                 }
                 mv.addObject("url", url);
             }
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("find interface url error.", e);
         }
         mv.addObject("applicationId", applicationId);
@@ -211,7 +214,7 @@ public class UrlController extends BasicController {
             if (null != url) {
                 mv.addObject("url", url);
             }
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("find interface url error.", e);
         }
         mv.addObject("applicationId", applicationId);
@@ -338,7 +341,7 @@ public class UrlController extends BasicController {
             mv.addObject("url", url);
             mv.addObject("uploads", uploads);
             mv.addObject("results", results);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("find interface url error.", e);
         }
         mv.addObject("applicationId", applicationId);
@@ -347,13 +350,13 @@ public class UrlController extends BasicController {
 
     @ResponseBody
     @RequestMapping(value = "{applicationId}/writeCode")
-    public Object writeCode(@PathVariable Long applicationId) {
+    public Object writeCode(@PathVariable Long applicationId,Long frameId) {
         String result = RESULT_ERROR;
         try {
 //        String templatePath = sysParameterService.getObjectByCode("school-book-template-inter-folder").getStringValue();
             Application application = applicationService.getObject(applicationId);
-            FreeMarkerUtils freeMarker = FreeMarkerUtils.getNewInstance(application.getCode());
             List<Group> groupList = groupService.getListByApplicationId(applicationId);
+            List<TemplateConfig> configList = templateService.getListByFrameId(frameId);
             if (null != groupList && groupList.size() > 0) {
                 for (Group group : groupList) {
                     List<Url> urlList = urlService.getListByGroupId(group.getId());
@@ -366,11 +369,11 @@ public class UrlController extends BasicController {
                         }
                     }
                     group.setUrlList(urlList);
-                    freeMarker.writeInter(group);
+                    FreeMarkerUtils.getInstance().writeInter(application,group,configList);
                 }
             }
             result = RESULT_SUCCESS;
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("write interface url error.", e);
         }
         return result;

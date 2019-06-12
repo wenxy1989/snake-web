@@ -1,7 +1,6 @@
 package com.snake.system.controller;
 
 import com.base.Constants;
-import com.base.exception.ServiceException;
 import com.base.util.Condition;
 import com.base.util.Criteria;
 import com.base.util.DateTimeUtils;
@@ -50,7 +49,7 @@ public class IndexController extends BasicController {
         try {
             Page page = indexService.getList(cri);
             mv.addObject("page", page);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("获取首页设置信息失败", e);
         }
         return mv;
@@ -63,7 +62,7 @@ public class IndexController extends BasicController {
         try {
             indexService.delete(id);
             result = RESULT_DELETE_SUCCESS;
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("delete from index error", e);
         }
         rv.addStaticAttribute(OPE_RESULT,result);
@@ -85,7 +84,7 @@ public class IndexController extends BasicController {
             Page page = userService.getList(cri);
             mv.addObject("page", page);
             mv.addObject("type",Constants.INDEX_TYPE_USER);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("获取用户信息失败", e);
         }
         return mv;
@@ -101,7 +100,7 @@ public class IndexController extends BasicController {
             Page page = roleService.getList(cri);
             mv.addObject("page", page);
             mv.addObject("type",Constants.INDEX_TYPE_ROLE);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("获取角色信息失败", e);
         }
         return mv;
@@ -125,7 +124,7 @@ public class IndexController extends BasicController {
         try {
             Page page = functionService.getList(cri);
             mv.addObject("page", page);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("获取角色信息失败", e);
         }
         return mv;
@@ -153,7 +152,7 @@ public class IndexController extends BasicController {
                     indexService.update(object);
                 }
             }
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("设置首页失败", e);
         }
         return rv;

@@ -5,8 +5,8 @@
 
 	<resultMap type="com.web.${application.code}.entity.${model.code?cap_first}" id="${model.code}ResultMap">
   		<result property="id" column="id_"/>
-		<#list attributes as attribute>
-  		<result property="${attribute.code}" column="${attribute.column}"/>
+		<#list parameters as attribute>
+  		<result property="${attribute.code}" column="${attribute.code}"/>
   		</#list>
   		<result property="createdTime" column="created_time"/>
   		<result property="creatorId" column="creator_id"/>
@@ -22,13 +22,13 @@
 
     <insert id="insert" parameterType="com.web.${application.code}.entity${model.code?cap_first}">
         INSERT INTO ${obj.table}(
-     <#list attributes as attribute>
-        ${attribute.column},
+     <#list parameters as attribute>
+        ${attribute.code},
      </#list>
         created_time,
         creator_id)
         VALUES(
-    <#list attributes as attribute>
+    <#list parameters as attribute>
         #${"{"}${attribute.code},jdbcType=${attribute.dataType}},
     </#list>
         #${"{"}createdTime,jdbcType=VARCHAR},
@@ -39,9 +39,9 @@
     <update id="update" parameterType="com.web.${application.code}.entity${model.code?cap_first}">
         update ${obj.table}
         <set>
-        <#list attributes as attribute>
+        <#list parameters as attribute>
             <if test="${attribute.code} != null">
-            ${attribute.column} = #${"{"}${attribute.code}},
+            ${attribute.code} = #${"{"}${attribute.code}},
             </if>
         </#list>
             <if test="createdTime != null">
@@ -68,9 +68,9 @@
             <if test="id != null">
                 and id_=#${"{"}id}
             </if>
-            <#list attributes as attribute>
+            <#list parameters as attribute>
             <if test="${attribute.code} != null">
-                and ${attribute.column}=#${"{"}${attribute.code}}
+                and ${attribute.code}=#${"{"}${attribute.code}}
             </if>
             </#list>
             <if test="createdTime != null">
@@ -93,9 +93,9 @@
     <select id="findByObject" parameterType="com.web.${application.code}.entity${model.code?cap_first}" resultMap="${model.code}ResultMap">
         select * from ${obj.table}
         <where>
-        <#list attributes as attribute>
+        <#list parameters as attribute>
             <if test="${attribute.code} != null">
-                and ${attribute.column}=#${"{"}${attribute.code}}
+                and ${attribute.code}=#${"{"}${attribute.code}}
             </if>
         </#list>
             <if test="createdTime != null">
@@ -143,22 +143,22 @@
         limit ${"$"}${"{"}limit} offset ${"$"}${"{"}offset}
     </select>
 
-	<#list attributes as attribute>
+	<#list parameters as attribute>
 	<#if attribute.useType == 'onetoone'>
     <select id="getObjectBy${attribute.code?cap_first}" parameterType="java.lang.${attribute.javaType}" resultMap="${model.code}ResultMap">
-        select * from ${obj.table} where ${attribute.column}=${"#"}{${attribute.code?uncap_first}}
+        select * from ${obj.table} where ${attribute.code}=${"#"}{${attribute.code?uncap_first}}
     </select>
     
     <delete id="deleteBy${attribute.code?cap_first}" parameterType="java.lang.${attribute.javaType}">
-        delete from ${obj.table} where ${attribute.column}=${"#"}{${attribute.code?uncap_first}}
+        delete from ${obj.table} where ${attribute.code}=${"#"}{${attribute.code?uncap_first}}
     </delete>
     <#elseif attribute.useType == 'onetomany'>
     <select id="getListBy${attribute.code?cap_first}" parameterType="java.lang.${attribute.javaType}" resultMap="${model.code}ResultMap">
-        select * from ${obj.table} where ${attribute.column}=${"#"}{${attribute.code?uncap_first}}
+        select * from ${obj.table} where ${attribute.code}=${"#"}{${attribute.code?uncap_first}}
     </select>
     
     <delete id="deleteBy${attribute.code?cap_first}" parameterType="java.lang.${attribute.javaType}">
-        delete from ${obj.table} where ${attribute.column}=${"#"}{${attribute.code?uncap_first}}
+        delete from ${obj.table} where ${attribute.code}=${"#"}{${attribute.code?uncap_first}}
     </delete>
 	</#if>
 	</#list>

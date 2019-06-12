@@ -1,6 +1,7 @@
 package com.snake.inter.model;
 
 import com.base.Constants;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.List;
 
@@ -8,7 +9,7 @@ import java.util.List;
  * 参数定义
  * Created by wenxy on 2016/3/27.
  */
-public class Parameter{
+public class Parameter {
 
     protected Long id;
     protected String name;//for example 学校
@@ -74,9 +75,9 @@ public class Parameter{
     }
 
     public Long getLength() {
-        if(null == this.length && org.apache.commons.lang.StringUtils.isNotBlank(this.type)){
+        if (null == this.length && StringUtils.isNotBlank(this.type)) {
             BaseType type = null;
-            if(null != (type = BaseType.getType(this.type))) {
+            if (null != (type = BaseType.getType(this.type))) {
                 this.length = type.getLength();
             }
         }
@@ -138,68 +139,66 @@ public class Parameter{
     public String getMysqlType() {
         String result = null;
         BaseType type = BaseType.getType(getType());
-        if(null != type){
+        if (null != type) {
             result = type.getMysqlType();
         }
         return result;
     }
 
-    public Parameter clone(){
-        Parameter obj = new Parameter();
-        obj.setName(this.name);
-        obj.setCode(this.code);
-        obj.setAllowBlank(this.allowBlank);
-        obj.setType(this.type);
-        obj.setIsArray(this.isArray);
-        obj.setLength(this.length);
-        obj.setRegex(this.regex);
-        obj.setExample(this.example);
-        obj.setRemark(this.remark);
-        return obj;
+    @Override
+    public Parameter clone() throws CloneNotSupportedException {
+        return this.clone(Parameter.class);
     }
 
-    public <R extends Parameter> R cloneParameter(R result){
-        result.setName(this.name);
-        result.setCode(this.code);
-        result.setAllowBlank(this.allowBlank);
-        result.setType(this.type);
-        result.setIsArray(this.isArray);
-        result.setLength(this.length);
-        result.setRegex(this.regex);
-        result.setExample(this.example);
-        result.setRemark(this.remark);
-        return result;
+    public <R extends Parameter> R clone(Class<R> clazz) throws CloneNotSupportedException {
+        try {
+            R obj = clazz.newInstance();
+            obj.setName(this.name);
+            obj.setCode(this.code);
+            obj.setAllowBlank(this.allowBlank);
+            obj.setType(this.type);
+            obj.setIsArray(this.isArray);
+            obj.setLength(this.length);
+            obj.setRegex(this.regex);
+            obj.setExample(this.example);
+            obj.setRemark(this.remark);
+            return obj;
+        } catch (IllegalAccessException e) {
+            throw new CloneNotSupportedException(e.getMessage());
+        } catch (InstantiationException e) {
+            throw new CloneNotSupportedException(e.getMessage());
+        }
     }
 
-    private String addMarks(String value,String symbol){
+    private String addMarks(String value, String symbol) {
         return symbol + value + symbol;
     }
 
-    public String getExampleValue(){
+    public String getExampleValue() {
         String value = null;
-        if("String".equals(this.type) || null == BaseType.getType(this.type)){
-            value = addMarks(this.example,Constants.SYMBOL_QUOTE);
-        }else{
+        if ("String".equals(this.type) || null == BaseType.getType(this.type)) {
+            value = addMarks(this.example, Constants.SYMBOL_QUOTE);
+        } else {
             value = this.example;
         }
         return value;
     }
 
-    public String getExampleValueJsonString(){
+    public String getExampleValueJsonString() {
         StringBuffer sb = new StringBuffer();
-        if(this.isArray) {
+        if (this.isArray) {
             sb.append("[");
             sb.append(getExampleValue());
             sb.append(Constants.SYMBOL_COMMA);
             sb.append(getExampleValue());
             sb.append("]");
-        }else{
+        } else {
             sb.append(getExampleValue());
         }
         return sb.toString();
     }
 
-    public String getExampleJsonString(){
+    public String getExampleJsonString() {
         StringBuffer sb = new StringBuffer();
         sb.append(Constants.SYMBOL_QUOTE).append(code).append(Constants.SYMBOL_QUOTE);
         sb.append(Constants.SYMBOL_COLON);
@@ -207,13 +206,13 @@ public class Parameter{
         return sb.toString();
     }
 
-    public static String getExampleJsonString(List<? extends Parameter> parameterList){
+    public static String getExampleJsonString(List<? extends Parameter> parameterList) {
         StringBuffer sb = new StringBuffer("{");
-        if(null != parameterList && parameterList.size() > 0) {
-            for (int i=0;i<parameterList.size();i++) {
+        if (null != parameterList && parameterList.size() > 0) {
+            for (int i = 0; i < parameterList.size(); i++) {
                 Parameter parameter = parameterList.get(i);
                 sb.append(parameter.getExampleJsonString());
-                if(i<parameterList.size()-1){
+                if (i < parameterList.size() - 1) {
                     sb.append(Constants.SYMBOL_COMMA);
                 }
             }

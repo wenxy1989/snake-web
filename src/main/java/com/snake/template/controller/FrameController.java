@@ -1,7 +1,6 @@
 package com.snake.template.controller;
 
 import com.base.Constants;
-import com.base.exception.ServiceException;
 import com.base.util.Condition;
 import com.base.util.Criteria;
 import com.base.util.DateTimeUtils;
@@ -44,7 +43,7 @@ public class FrameController extends BasicController {
         try {
             Page page = frameService.getList(cri);
             mv.addObject("page", page);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("find interface group page error", e);
         }
         return mv;
@@ -67,7 +66,7 @@ public class FrameController extends BasicController {
             group.setCreatorId(creatorId);
             frameService.create(group);
             result = RESULT_ADD_SUCCESS;
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("create interface group error", e);
         }
         rv.addStaticAttribute(OPE_RESULT, result);
@@ -80,7 +79,7 @@ public class FrameController extends BasicController {
         try {
             Frame group = frameService.getObject(id);
             mv.addObject("group", group);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("find interface group error.", e);
         }
         return mv;

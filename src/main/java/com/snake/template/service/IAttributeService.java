@@ -1,7 +1,4 @@
 package com.snake.template.service;
-
-
-import com.base.exception.ServiceException;
 import com.base.service.IBasicService;
 import com.snake.template.model.Attribute;
 
@@ -15,6 +12,6 @@ public interface IAttributeService extends IBasicService<Attribute> {
 	 * @param moduleId
 	 * @return
 	 */
-	public List<Attribute> getListByModuleId(Long moduleId) throws ServiceException;
+	public List<Attribute> getListByModuleId(Long moduleId) throws Exception;
 
 }

@@ -1,6 +1,4 @@
 package com.snake.inter.service;
-
-import com.base.exception.ServiceException;
 import com.base.service.IBasicService;
 import com.snake.inter.model.Application;
 
@@ -10,7 +8,7 @@ import com.snake.inter.model.Application;
 public interface IApplicationService extends IBasicService<Application> {
 
 
-    public Application getObjectByCode(String code) throws ServiceException;
+    Application getObjectByCode(String code) throws Exception;
 
-    public Application getDetails(Long id) throws ServiceException;
+    void write(Long id, Long frameId) throws Exception;
 }

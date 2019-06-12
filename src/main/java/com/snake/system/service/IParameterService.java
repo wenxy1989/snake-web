@@ -1,6 +1,4 @@
 package com.snake.system.service;
-
-import com.base.exception.ServiceException;
 import com.base.service.IBasicService;
 import com.snake.system.model.Parameter;
 
@@ -11,6 +9,6 @@ import com.snake.system.model.Parameter;
  */
 public interface IParameterService extends IBasicService<Parameter> {
 
-    public Parameter getObjectByCode(String code) throws ServiceException;
+    public Parameter getObjectByCode(String code) throws Exception;
 
 }

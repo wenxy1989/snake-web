@@ -302,15 +302,14 @@ public class StringTools extends StringUtils {
         return little;
     }
 
-    public static String parseModel(String template, String model) {
-        return parseTemplate(template, "", "", model);
+    public static String parsePath(String template, String application) {
+        return parsePath(template, application, "");
     }
 
-    public static String parseTemplate(String template, String application, String group, String model) {
+    public static String parsePath(String template, String application, String model) {
         return template.replaceAll("\\@\\{large\\}", getFirstLarge(model))
                 .replaceAll("\\@\\{little\\}", getFirstLittle(model))
-                .replaceAll("\\@\\{application\\}", application)
-                .replaceAll("\\@\\{group\\}", group);
+                .replaceAll("\\@\\{app\\}", application);
 
     }
 }

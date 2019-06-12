@@ -1,7 +1,6 @@
 package com.snake.system.controller;
 
 import com.base.Constants;
-import com.base.exception.ServiceException;
 import com.snake.system.security.MySecurityMetadataSource;
 import com.base.util.Condition;
 import com.base.util.Criteria;
@@ -63,7 +62,7 @@ public class RoleController extends BasicController {
         try {
             Page page = roleService.getList(cri);
             mv.addObject("page",page);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("获取角色信息失败", e);
         }
         return mv;
@@ -107,7 +106,7 @@ public class RoleController extends BasicController {
         try {
             Role role = roleService.getObject(id);
             mv.addObject("role", role);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("获取角色信息失败.",e);
         }
         return mv;
@@ -186,7 +185,7 @@ public class RoleController extends BasicController {
             Role role = roleService.getObject(id);
             mv.addObject("functions",functions);
             mv.addObject("role",role);
-        }catch(ServiceException e){
+        }catch(Exception e){
             logger.error("获取全部菜单信息失败",e);
         }
         return mv;
@@ -198,7 +197,7 @@ public class RoleController extends BasicController {
         List<Long> ids = null;
         try{
             ids = roleService.loadFunctionIdsById(id);
-        }catch (ServiceException e){
+        }catch (Exception e){
             logger.error("根据角色id获取的菜单ids",e);
         }
         return ids;
@@ -219,7 +218,7 @@ public class RoleController extends BasicController {
                 }
                 roles.add(role);
             }
-        }catch (ServiceException e){
+        }catch (Exception e){
             logger.error("获取所有角色信息失败",e);
         }
         return roles;
@@ -234,7 +233,7 @@ public class RoleController extends BasicController {
             if(role != null){
                 result = RESULT_SUCCESS;
             }
-        }catch (ServiceException e){
+        }catch (Exception e){
             logger.error("根据编码获取角色信息失败",e);
         }
         return result;
@@ -253,7 +252,7 @@ public class RoleController extends BasicController {
                         functionService.addFunctionRole(new Long(functionId), id);
                         Function function = functionService.getObject(new Long(functionId));
                         MySecurityMetadataSource.addSecurityConfig(function.getUrl(),role.getCode());
-                    }catch (ServiceException e){
+                    }catch (Exception e){
                         logger.error("添加角色菜单授权失败",e);
                     }
                 }
@@ -266,13 +265,13 @@ public class RoleController extends BasicController {
                         functionService.removeFunctionRole(functionId, id);
                         Function function = functionService.getObject(functionId);
                         MySecurityMetadataSource.removeSecurityConfig(function.getUrl(),role.getCode());
-                    }catch (ServiceException e){
+                    }catch (Exception e){
                         logger.error("移除角色菜单授权失败",e);
                     }
                 }
             }
             result = "role_authorization_success";
-        }catch (ServiceException e){
+        }catch (Exception e){
             logger.error("根据角色id更新角色菜单授权失败",e);
         }
         rv.addStaticAttribute(OPE_RESULT,result);

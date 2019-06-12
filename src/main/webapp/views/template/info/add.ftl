@@ -18,7 +18,7 @@
         <div class="am-g">
 
             <div class="am-u-sm-12 am-u-md-10">
-                <form class="am-form am-form-horizontal" method="post" action="${request.contextPath}/template/frame/add">
+                <form class="am-form am-form-horizontal" method="post" action="${request.contextPath}/template/info/add">
 
                     <div class="am-form-group">
                         <label class="am-u-sm-3 am-form-label">分组 / Group</label>

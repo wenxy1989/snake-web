@@ -1,7 +1,6 @@
 package com.snake.inter.dao;
 
 import com.base.dao.MybatisBasicDao;
-import com.base.exception.DaoException;
 import com.snake.inter.dao.IUrlDao;
 import com.snake.inter.model.Url;
 import org.springframework.stereotype.Repository;
@@ -17,13 +16,13 @@ public class UrlDao extends MybatisBasicDao<Url> implements IUrlDao {
         super(Url.class);
     }
 
-    public List<Url> getListByApplicationId(Long applicationId) throws DaoException {
+    public List<Url> getListByApplicationId(Long applicationId) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("application_id", applicationId);
         return find(map);
     }
 
-    public List<Url> getListByGroupId(Long groupId) throws DaoException {
+    public List<Url> getListByGroupId(Long groupId) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("group_id", groupId);
         return find(map);

@@ -1,7 +1,6 @@
 package com.snake.system.controller;
 
 import com.base.Constants;
-import com.base.exception.ServiceException;
 import com.base.util.Condition;
 import com.base.util.Criteria;
 import com.base.util.DateTimeUtils;
@@ -56,7 +55,7 @@ public class ParameterController extends BasicController {
         try {
             Page page = parameterService.getList(cri);
             mv.addObject("page", page);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("获取属性信息失败", e);
         }
         return mv;
@@ -97,7 +96,7 @@ public class ParameterController extends BasicController {
         try {
             Parameter parameter = parameterService.getObject(id);
             mv.addObject("obj", parameter);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("获取属性信息失败.", e);
         }
         return mv;

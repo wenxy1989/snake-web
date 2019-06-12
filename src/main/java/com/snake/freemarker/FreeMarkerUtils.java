@@ -23,7 +23,7 @@ public class FreeMarkerUtils {
     private transient Logger logger = Logger.getLogger(getClass());
 
     private static final String SYSTEM_ENCODING = "UTF-8";
-    private int type = 0;//0-经常更新、一般不做手动修改的元素,1-经常手动修改的、不经常更新元素
+    private static Boolean attach = false;
     private static FreeMarkerUtils instance;
 
     public static FreeMarkerUtils getInstance() {
@@ -33,20 +33,9 @@ public class FreeMarkerUtils {
         return instance;
     }
 
-    private Boolean attach = false;
-    private String templateFolder = null;
-    private String outputFolder = null;
     private Configuration templateConfiguration;
 
     private FreeMarkerUtils() {
-    }
-
-    private FreeMarkerUtils(String outputFolder) {
-        this.outputFolder = outputFolder;
-    }
-
-    public static FreeMarkerUtils getNewInstance(String outputFolder) {
-        return new FreeMarkerUtils(outputFolder);
     }
 
     private String getClassPath() {
@@ -55,22 +44,14 @@ public class FreeMarkerUtils {
 
     private Configuration getConfiguration() throws Exception {
         if (null == this.templateConfiguration) {
-            String templatePath = getClassPath() + "/template/";
-            if (StringUtils.isNotBlank(this.templateFolder)) {
-                templatePath = templatePath + this.templateFolder + "/";
-            }
             this.templateConfiguration = new Configuration();
-            this.templateConfiguration.setDirectoryForTemplateLoading(new File(templatePath));
+            this.templateConfiguration.setDirectoryForTemplateLoading(new File(getClassPath() + "/template/"));
         }
         return this.templateConfiguration;
     }
 
-    private Template getTemplate(String group, String template) throws Exception {
-        return getTemplate(group + "/" + template);
-    }
-
-    private Template getTemplate(String template) throws Exception {
-        return getConfiguration().getTemplate(template, SYSTEM_ENCODING);
+    private Template getTemplate(TemplateConfig config) throws Exception {
+        return getConfiguration().getTemplate(config.getGroup() + "/" + config.getName(), SYSTEM_ENCODING);
     }
 
     private String buildFile(String pathName, String fileName) {
@@ -83,7 +64,7 @@ public class FreeMarkerUtils {
         return realPath;
     }
 
-    private String buildPath(String pathHead, String... paths) {
+    public String buildPath(String pathHead, String... paths) {
         StringBuffer sb = new StringBuffer(getClassPath());
         sb.append(pathHead);
         if (null != paths && paths.length > 0) {
@@ -101,13 +82,18 @@ public class FreeMarkerUtils {
         return realPath;
     }
 
-    private boolean exists(String fileName) {
+    public static boolean exists(String fileName) {
         File file = new File(fileName);
         return file.exists();
     }
 
-    private void writeTemplate(Template template, Map<String, Object> map, String saveFileName) {
-        if (this.type == 1 && exists(saveFileName)) {//不更新必须简单元素
+    public static void writeTemplate(Template template, Map<String, Object> map, String saveFileName) {
+        writeTemplate(template, map, saveFileName, 0);
+    }
+
+    //type:0-经常更新、一般不做手动修改的元素,1-经常手动修改的、不经常更新元素
+    public static void writeTemplate(Template template, Map<String, Object> map, String saveFileName, int type) {
+        if (type == 1 && exists(saveFileName)) {//不更新必须简单元素
             return;
         }
         Writer out = null;
@@ -133,76 +119,50 @@ public class FreeMarkerUtils {
         }
     }
 
-    public void buildTemplate(String templateName, Map<String, Object> params, String savePathName, String saveFileName) {
+    public void buildTemplate(TemplateConfig config, Map<String, Object> params, String application) {
         try {
-            this.type = 0;
-            Template template = getTemplate(templateName);
-            savePathName = buildPath(outputFolder, savePathName);
-            String saveFileRealName = buildFile(savePathName, saveFileName);
-            writeTemplate(template, params, saveFileRealName);
+            String savePathName = buildPath(application, StringTools.parsePath(config.getSavePathModel(), application));
+            String saveFileRealName = buildFile(savePathName, StringTools.parsePath(config.getSaveFileModel(), application));
+            writeTemplate(getTemplate(config), params, saveFileRealName);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void buildTemplate(String templateName, Map<String, Object> params, String savePathName, String saveFileName, int type) {
+    public void buildTemplate(TemplateConfig config, Map<String, Object> params, String application, String model) {
         try {
-            this.type = type;
-            Template template = getTemplate(templateName);
-            savePathName = buildPath(outputFolder, savePathName);
-            String saveFileRealName = buildFile(savePathName, saveFileName);
-            writeTemplate(template, params, saveFileRealName);
+            String savePathName = buildPath(application, StringTools.parsePath(config.getSavePathModel(), application, model));
+            String saveFileRealName = buildFile(savePathName, StringTools.parsePath(config.getSaveFileModel(), application, model));
+            writeTemplate(getTemplate(config), params, saveFileRealName);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void buildTemplate(String group, String templateName, Map<String, Object> params, String savePathName, String saveFileName) {
-        try {
-            Template template = getTemplate(group, templateName);
-            savePathName = buildPath(outputFolder, savePathName);
-            String saveFileRealName = buildFile(savePathName, saveFileName);
-            writeTemplate(template, params, saveFileRealName);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void writeInter(Group group) {
-        if (null != group && null != group.getUrlList() && group.getUrlList().size() > 0) {
-            templateFolder = "inter";
+    public void writeInter(Application application, Group group, List<TemplateConfig> configList) {
+        if (null != group && null != configList && configList.size() > 0) {
             Map<String, Object> params = new HashMap<String, Object>();
             params.put("model", group.getModel());
             params.put("group", group);
             params.put("urlList", group.getUrlList());
             params.put("now", new Date());
-            {//api_controller java
-                String template = "api_controller.ftl";
-                String savePath = "src/main/java/com/school/inter/controller";
-                String saveFile = StringTools.parseModel("@{large}APIController.java", group.getModel());
-                buildTemplate(template, params, savePath, saveFile);
-            }
-            {//api_controller_tests java
-                String template = "api_controller_tests.ftl";
-                String savePath = "src/test/java/com/school/inter/controller/test";
-                String saveFile = StringTools.parseModel("@{large}APIControllerTests.java", group.getModel());
-                buildTemplate(template, params, savePath, saveFile);
+            for (TemplateConfig config : configList) {
+                buildTemplate(config, params, application.getCode());
             }
         }
     }
 
-    public void writeModel(Model model, List<TemplateConfig> templates) {
-        if (null != model && null != model.getParameterList() && model.getParameterList().size() > 0 && null != templates && templates.size() > 0) {
+    public void writeModel(Application application, Model model, List<TemplateConfig> templates) {
+        if (null != model && null != templates && templates.size() > 0) {
             Map<String, Object> params = HashMaps.build(String.class, Object.class)
                     .add("now", new Date())
-                    .add("application", model.getApplication())
+                    .add("application", application)
                     .add("model", model)
                     .add("parameters", model.getParameterList());
-            for (TemplateConfig template : templates) {
-                templateFolder = template.getGroup();
-                String savePath = StringTools.parseModel(template.getSavePathModel(), model.getCode());
-                String saveFile = StringTools.parseModel(template.getSaveFileModel(), model.getCode());
-                buildTemplate(template.getName(), params, savePath, saveFile, template.getUpdateType());
+            for (TemplateConfig config : templates) {
+                if ("model".equals(config.getType())) {
+                    buildTemplate(config, params, application.getCode(), model.getCode());
+                }
             }
         }
     }
@@ -212,18 +172,18 @@ public class FreeMarkerUtils {
             Map<String, Object> params = HashMaps.build(String.class, Object.class)
                     .add("now", new Date())
                     .add("application", application);
-            if (null != application.getModelList() && application.getModelList().size() > 0) {
-                for (int i = 0; i < application.getModelList().size(); i++) {
-                    Model model = application.getModelList().get(i);
-                    writeModel(model, templates);
+            for (TemplateConfig config : templates) {
+                if ("application".equals(config.getType())) {
+                    buildTemplate(config, params, application.getCode());
                 }
             }
+            /*
             if (null != application.getGroupList() && application.getGroupList().size() > 0) {
                 for (int i = 0; i < application.getGroupList().size(); i++) {
                     Group group = application.getGroupList().get(i);
-                    writeInter(group);
+                    writeInter(application, group, templates);
                 }
-            }
+            }*/
         }
     }
 }

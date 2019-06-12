@@ -1,7 +1,6 @@
 package com.snake.template.controller;
 
 import com.snake.system.controller.BasicController;
-import com.base.exception.ServiceException;
 import com.base.util.Condition;
 import com.base.util.Criteria;
 import com.base.util.SimpleCriteria;
@@ -36,7 +35,7 @@ public class AttributeController extends BasicController {
             mv.addObject("moduleId",moduleId);
             Page page = service.getList(criteria);
             mv.addObject("page", page);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("get template attribute page error",e);
         }
         return mv;
@@ -55,7 +54,7 @@ public class AttributeController extends BasicController {
         try {
             Attribute object = service.getObject(id);
             mv.addObject("object", object);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("get attribute error",e);
         }
         return mv;
@@ -66,7 +65,7 @@ public class AttributeController extends BasicController {
         RedirectView rv = new RedirectView("page");
         try {
             service.create(attribute);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("create attribute error",e);
         }
         rv.addStaticAttribute("moduleId",attribute.getModuleId());
@@ -78,7 +77,7 @@ public class AttributeController extends BasicController {
         RedirectView rv = new RedirectView("page");
         try {
             service.update(attribute);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("update attribute error", e);
         }
         rv.addStaticAttribute("moduleId",attribute.getModuleId());
@@ -90,7 +89,7 @@ public class AttributeController extends BasicController {
         RedirectView rv = new RedirectView("page");
         try {
             service.delete(id);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("delete attribute error",e);
         }
         rv.addStaticAttribute("moduleId",moduleId);

@@ -2,7 +2,6 @@ package com.snake.inter.controller;
 
 import com.base.Constants;
 import com.snake.system.controller.BasicController;
-import com.base.exception.ServiceException;
 import com.base.util.Condition;
 import com.base.util.Criteria;
 import com.base.util.DateTimeUtils;
@@ -54,7 +53,7 @@ public class ParameterController extends BasicController {
         try {
             Page page = parameterService.getList(cri);
             mv.addObject("page", page);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("find interface parameter page error", e);
         }
         return mv;
@@ -97,7 +96,7 @@ public class ParameterController extends BasicController {
         try {
             Parameter parameter = parameterService.getObject(id);
             mv.addObject("parameter", parameter);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("find interface parameter error.", e);
         }
         return mv;
@@ -150,7 +149,7 @@ public class ParameterController extends BasicController {
             try {
                 Page page = parameterService.getList(cri);
                 mv.addObject("page", page);
-            } catch (ServiceException e) {
+            } catch (Exception e) {
                 logger.error("find interface parameter by like page error", e);
             }
         } else {
@@ -177,7 +176,7 @@ public class ParameterController extends BasicController {
             try {
                 Page page = parameterService.getList(cri);
                 mv.addObject("page", page);
-            } catch (ServiceException e) {
+            } catch (Exception e) {
                 logger.error("find interface parameter page error", e);
             }
         }

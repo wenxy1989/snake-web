@@ -18,7 +18,7 @@
         <div class="am-g">
 
             <div class="am-u-sm-12 am-u-md-10">
-                <form class="am-form am-form-horizontal" method="post" action="${request.contextPath}/template/frame/edit">
+                <form class="am-form am-form-horizontal" method="post" action="${request.contextPath}/template/info/edit">
 
                     <input type="hidden" name="id" value="${object.id}">
 
@@ -27,15 +27,15 @@
 
                         <div class="am-u-sm-9">
                             <select name="group" data-am-selected="{btnSize: 'sm'}" required>
-                                <option value="application">application</option>
-                                <option value="config">config</option>
-                                <option value="controller">controller</option>
-                                <option value="dao">dao</option>
-                                <option value="entity">entity</option>
-                                <option value="inter">inter</option>
-                                <option value="java">java</option>
-                                <option value="page">page</option>
-                                <option value="sql">sql</option>
+                                <option value="application"<#if object.group=='application'> selected="true"</#if>>application</option>
+                                <option value="config"<#if object.group=='config'> selected="true"</#if>>config</option>
+                                <option value="controller"<#if object.group=='controller'> selected="true"</#if>>controller</option>
+                                <option value="dao"<#if object.group=='dao'> selected="true"</#if>>dao</option>
+                                <option value="entity"<#if object.group=='entity'> selected="true"</#if>>entity</option>
+                                <option value="inter"<#if object.group=='inter'> selected="true"</#if>>inter</option>
+                                <option value="java"<#if object.group=='java'> selected="true"</#if>>java</option>
+                                <option value="page"<#if object.group=='page'> selected="true"</#if>>page</option>
+                                <option value="sql"<#if object.group=='sql'> selected="true"</#if>>sql</option>
                             </select>
                             <small>模板分组/模板所在文件夹</small>
                         </div>
@@ -72,8 +72,8 @@
 
                         <div class="am-u-sm-9">
                             <select name="updateType" data-am-selected="{btnSize: 'sm'}" required>
-                                <option value="0"<#if parameter.updateType==0> selected="selected" </#if>>每次更新</option>
-                                <option value="1"<#if parameter.updateType==1> selected="selected" </#if>>没有时创建</option>
+                                <option value="0"<#if object.updateType==0> selected="selected" </#if>>每次更新</option>
+                                <option value="1"<#if object.updateType==1> selected="selected" </#if>>没有时创建</option>
                             </select>
                             <small>更新策略</small>
                         </div>
@@ -85,9 +85,9 @@
                         <label class="am-u-sm-3 am-form-label">类型 / Type</label>
 
                         <div class="am-u-sm-9">
-                            <select name="type" data-am-selected="{btnSize: 'sm'}" required>
-                                <option value="application">application</option>
-                                <option value="model">model</option>
+                            <select name="type" data-am-selected="{btnSize: 'sm'}" value="${object.type}" required>
+                                <option value="application"<#if object.type=='application'> selected="true"</#if>>application</option>
+                                <option value="model"<#if object.type=='model'> selected="true"</#if>>model</option>
                             </select>
                             <small>模板文件类型:application-应用相关,model-模块相关</small>
                         </div>

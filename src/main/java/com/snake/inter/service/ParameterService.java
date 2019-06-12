@@ -1,7 +1,5 @@
 package com.snake.inter.service;
 
-import com.base.exception.DaoException;
-import com.base.exception.ServiceException;
 import com.base.service.BasicService;
 import com.snake.inter.dao.IParameterDao;
 import com.snake.inter.model.Parameter;
@@ -28,18 +26,18 @@ public class ParameterService extends BasicService<Parameter> implements IParame
         return parameterDao;
     }
 
-    public Parameter getObjectByCode(String code) throws ServiceException {
+    public Parameter getObjectByCode(String code) throws Exception {
         try {
-            Map<String,Object> map = new HashMap<String, Object>();
-            map.put("code_",code);
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("code_", code);
             return parameterDao.findOne(map);
-        }catch (DaoException e){
-            throw new ServiceException(e);
+        } catch (Exception e) {
+            throw new Exception(e);
         }
     }
 
     @Override
-    public Parameter findOne(Parameter object) throws ServiceException {
+    public Parameter findOne(Parameter object) throws Exception {
         Parameter parameter = object.clone();
         parameter.setRemark(null);
         return super.findOne(parameter);

@@ -1,6 +1,4 @@
 package com.snake.system.dao;
-
-import com.base.exception.DaoException;
 import com.snake.resource.dao.AbstractResourceDao;
 import com.snake.system.model.Role;
 import org.springframework.stereotype.Repository;
@@ -32,15 +30,15 @@ public class RoleDao extends AbstractResourceDao<Role> implements IRoleDao {
         return map.values();
     }
 
-    public void changePwd(Role role) throws DaoException {
+    public void changePwd(Role role) throws Exception {
         this.sqlSession.update(Role.class.getName() + ".changePwd", role);
     }
 
-    public List<Long> getFunctionIdsById(Long roleId) throws DaoException {
+    public List<Long> getFunctionIdsById(Long roleId) throws Exception {
         return this.sqlSession.selectList(Role.class.getName() + ".getFunctionIdsById", roleId);
     }
 
-    public void deleteRoleFunctionById(Long id) throws DaoException {
+    public void deleteRoleFunctionById(Long id) throws Exception {
         this.sqlSession.delete(Role.class.getName() + ".deleteRoleFunctionById", id);
     }
 }

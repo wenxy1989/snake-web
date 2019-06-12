@@ -1,6 +1,4 @@
 package com.snake.inter.dao;
-
-import com.base.exception.DaoException;
 import com.snake.inter.model.Group;
 import com.snake.resource.dao.AbstractResourceDao;
 import org.springframework.stereotype.Repository;
@@ -35,7 +33,7 @@ public class GroupDao extends AbstractResourceDao<Group> implements IGroupDao {
         return list;
     }
 
-    public List<Group> getListByApplicationId(Long applicationId) throws DaoException {
+    public List<Group> getListByApplicationId(Long applicationId) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("application_id", applicationId);
         return find(map);

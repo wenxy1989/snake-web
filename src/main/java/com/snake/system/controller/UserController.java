@@ -1,6 +1,4 @@
 package com.snake.system.controller;
-
-import com.base.exception.ServiceException;
 import com.base.util.*;
 import com.base.Constants;
 import com.snake.system.model.User;
@@ -85,7 +83,7 @@ public class UserController extends BasicController {
             cri.addOrder(0,"created_time desc");
             Page<User> page = userService.getList(cri);
             mv.addObject("page",page);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("获取用户信息失败", e);
         }
         return mv;
@@ -102,7 +100,7 @@ public class UserController extends BasicController {
         try{
             User user = userService.getObject(id);
             mv.addObject("user",user);
-        }catch (ServiceException e){
+        }catch (Exception e){
             logger.error("获取用户对象失败",e);
         }
         return mv;
@@ -161,7 +159,7 @@ public class UserController extends BasicController {
         try {
             User user = userService.getObject(id);
             mv.addObject("user", user);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("获取用户信息失败.",e);
         }
         return mv;
@@ -221,7 +219,7 @@ public class UserController extends BasicController {
             if(user != null){
                 result =RESULT_SUCCESS;
             }
-        }catch (ServiceException e){
+        }catch (Exception e){
             logger.error("check login name error",e);
         }
         return result;
@@ -241,7 +239,7 @@ public class UserController extends BasicController {
             if(user != null){
                 result = RESULT_SUCCESS;
             }
-        }catch (ServiceException e){
+        }catch (Exception e){
             logger.error("check email error",e);
         }
         return result;
@@ -261,7 +259,7 @@ public class UserController extends BasicController {
             if(user != null){
                 result = RESULT_SUCCESS;
             }
-        }catch (ServiceException e){
+        }catch (Exception e){
             logger.error("check mobile error",e);
         }
         return result;
@@ -282,7 +280,7 @@ public class UserController extends BasicController {
             user.setStatus(Constants.STATUS_DISABLE);
             userService.update(user);
             result = "disable_user_success";
-        }catch (ServiceException e){
+        }catch (Exception e){
             logger.error("disable user error",e);
         }
         rv.addStaticAttribute(OPE_RESULT,result);
@@ -304,7 +302,7 @@ public class UserController extends BasicController {
             user.setStatus(Constants.STATUS_ENABLE);
             userService.update(user);
             result = "enable_user_success";
-        }catch (ServiceException e){
+        }catch (Exception e){
             logger.error("启用用户失败",e);
         }
         rv.addStaticAttribute(OPE_RESULT,result);
@@ -328,7 +326,7 @@ public class UserController extends BasicController {
             updateUser.setLoginPwd(md5Pwd);
             userService.update(user);
             result = RESULT_SUCCESS;
-        }catch (ServiceException e){
+        }catch (Exception e){
             logger.error("重置用户密码失败",e);
         }
         return  result;
@@ -364,7 +362,7 @@ public class UserController extends BasicController {
         try{
             User user = userService.getObject(getLoginUser(request).getId());
             mv.addObject("user",user);
-        }catch (ServiceException e){
+        }catch (Exception e){
             logger.error("查找我的信息失败",e);
         }
         return mv;
@@ -380,7 +378,7 @@ public class UserController extends BasicController {
         try{
             userService.update(user);
             result = "update_my_info_success";
-        }catch (ServiceException e){
+        }catch (Exception e){
             logger.error("更新我的信息失败",e);
         }
         rv.addStaticAttribute(OPE_RESULT, result);
@@ -393,7 +391,7 @@ public class UserController extends BasicController {
         try{
             User user = userService.getObject(getLoginUser(request).getId());
             mv.addObject("user",user);
-        }catch (ServiceException e){
+        }catch (Exception e){
             logger.error("查找我的信息失败",e);
         }
         return mv;
@@ -416,7 +414,7 @@ public class UserController extends BasicController {
                 userService.update(user);
                 result = "update_my_pwd_success";
             }
-        }catch (ServiceException e){
+        }catch (Exception e){
             logger.error("重置我的密码失败",e);
         }
         rv.addStaticAttribute(OPE_RESULT,result);

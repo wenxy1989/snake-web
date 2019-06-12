@@ -1,8 +1,6 @@
 package com.snake.system.service;
 
 import com.base.dao.IBasicDao;
-import com.base.exception.DaoException;
-import com.base.exception.ServiceException;
 import com.base.service.BasicService;
 import com.snake.system.dao.IRoleDao;
 import com.snake.system.model.Role;
@@ -36,50 +34,50 @@ public class RoleService extends BasicService<Role> implements IRoleService {
         return this.dao;
     }
 
-    public void changePwd(Role role) throws ServiceException {
+    public void changePwd(Role role) throws Exception {
         try{
             dao.changePwd(role);
         }catch(Exception e){
-            throw new ServiceException("修改密码失败",e);
+            throw new Exception("修改密码失败",e);
         }
     }
 
-    public List<Role> getList() throws ServiceException {
+    public List<Role> getList() throws Exception {
         try {
             return this.dao.getAll();
         }catch (Exception e){
-            throw new ServiceException("获取用户列表失败",e);
+            throw new Exception("获取用户列表失败",e);
         }
     }
 
-    public Role getObjectByCode(String code) throws ServiceException {
+    public Role getObjectByCode(String code) throws Exception {
         try {
             Map<String,Object> map = new HashMap<String, Object>();
             map.put("code_",code);
             return this.dao.findOne(map);
         }catch (Exception e){
-            throw new ServiceException("根据idCard获取用户列表失败",e);
+            throw new Exception("根据idCard获取用户列表失败",e);
         }
     }
 
-    public List<Long> loadFunctionIdsById(Long id) throws ServiceException {
+    public List<Long> loadFunctionIdsById(Long id) throws Exception {
         try {
             return this.dao.getFunctionIdsById(id);
         }catch (Exception e){
-            throw new ServiceException("根据角色id获取的菜单ids失败",e);
+            throw new Exception("根据角色id获取的菜单ids失败",e);
         }
     }
 
-    public void deleteRoleFunctionById(Long id) throws ServiceException {
+    public void deleteRoleFunctionById(Long id) throws Exception {
         try {
             this.dao.deleteRoleFunctionById(id);
         }catch (Exception e){
-            throw new ServiceException("根据角色id删除角色菜单信息失败",e);
+            throw new Exception("根据角色id删除角色菜单信息失败",e);
         }
     }
 
     @Transactional(propagation = Propagation.REQUIRED,rollbackFor ={Throwable.class })
-    public void testTran(Long id)throws ServiceException{
+    public void testTran(Long id)throws Exception{
         try{
             this.dao.delete(id);
             User user = new User();
@@ -92,15 +90,15 @@ public class RoleService extends BasicService<Role> implements IRoleService {
             user.setCreatedTime("2014-09-10 10:20:00");
             this.userDao.create(user);
         }catch(Exception e){
-            throw new ServiceException("事务测试失败.",e);
+            throw new Exception("事务测试失败.",e);
         }
     }
 
-    public List<Role> getListByUserId(Long userId) throws ServiceException {
+    public List<Role> getListByUserId(Long userId) throws Exception {
         try {
             return this.dao.getAll();//todo
-        } catch (DaoException e) {
-            throw new ServiceException(e);
+        } catch (Exception e) {
+            throw new Exception(e);
         }
     }
 }

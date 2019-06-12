@@ -1,7 +1,6 @@
 package com.snake.resource.dao;
 
 import com.base.dao.MybatisBasicDao;
-import com.base.exception.DaoException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,7 +28,7 @@ public abstract class AbstractResourceDao<T extends MapObject> extends MybatisBa
                     add(object);
                 }
             }
-        } catch (DaoException e) {
+        } catch (Exception e) {
             logger.error("load all error",e);
         }
     }
@@ -55,26 +54,26 @@ public abstract class AbstractResourceDao<T extends MapObject> extends MybatisBa
     }
 
     @Override
-    public void create(T object) throws DaoException {
+    public void create(T object) throws Exception {
         super.create(object);
         add(object);
     }
 
     @Override
-    public void update(T object) throws DaoException {
+    public void update(T object) throws Exception {
         super.update(object);
         replace(object);
     }
 
     @Override
-    public void delete(Object id) throws DaoException {
+    public void delete(Object id) throws Exception {
         super.delete(id);
         T object = get(id);
         remove(object);
     }
 
     @Override
-    public void batchInsert(List<T> list) throws DaoException {
+    public void batchInsert(List<T> list) throws Exception {
         super.batchInsert(list);
         if(null != list && list.size() > 0){
             for(T object : list){

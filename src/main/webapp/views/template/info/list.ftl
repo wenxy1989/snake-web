@@ -45,7 +45,7 @@
                 </div>
             </div>
             <div class="am-u-sm-12 am-u-md-8">
-                <form method="post" action="${request.contextPath}/template/frame/page">
+                <form method="post" action="${request.contextPath}/template/info/page">
                     <div class="am-u-sm-12 am-u-md-3">
                         <input type="text" name="name" value="${name}" class="am-form-field" placeholder="名称 / Name">
                     </div>
@@ -69,10 +69,10 @@
                     <thead>
                     <tr>
                         <th class="table-id">ID</th>
-                        <th class="table-main">模板位置</th>
+                        <th class="table-main">模板位置(classpath:template/)</th>
                         <th class="table-main">类型</th>
                         <th class="table-main">更新类型</th>
-                        <th class="table-main">保存路径</th>
+                        <th class="table-main">保存路径(classpath:)</th>
                         <th class="table-main">备注</th>
                         <th class="table-main">操作</th>
                     </tr>
@@ -81,10 +81,10 @@
                         <#list page.content as obj>
                         <tr>
                             <td class="table-id">${obj.id}</td>
-                            <td class="table-main">classpath:template/${obj.group}/${obj.name}.ftl</td>
+                            <td class="table-main">${obj.group}/${obj.name}</td>
                             <td class="table-main">${obj.type}</td>
                             <td class="table-main"><#if obj.updateType==0>每次更新<#else>没有时创建</#if></td>
-                            <td class="table-main">classpath:<@t_com.modelReplace template="${obj.savePathModel}" />/<@t_com.modelReplace template="${obj.saveFileModel}" /></td>
+                            <td class="table-main"><@t_com.modelReplace template="${obj.savePathModel}" />/<@t_com.modelReplace template="${obj.saveFileModel}" /></td>
                             <td class="table-main">${obj.remark}</td>
                             <td class="table-main">
                                 <div class="am-btn-toolbar">
@@ -107,7 +107,7 @@
 
                 <div class="am-cf">
                     <#import "/common/pager.ftl" as pager>
-                    <@pager.guid pageUrl="/template/frame/page" page=page />
+                    <@pager.guid pageUrl="/template/info/page" page=page />
                 </div>
             </#if>
             </div>

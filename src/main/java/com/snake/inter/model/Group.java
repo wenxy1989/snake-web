@@ -18,6 +18,8 @@ public class Group implements MapObject {
     private Integer status;
     private String createdTime;
     private Long creatorId;
+
+    private Application application;
     private List<Url> urlList;
 
     public Long getId() {
@@ -82,6 +84,14 @@ public class Group implements MapObject {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Application getApplication() {
+        return application;
+    }
+
+    public void setApplication(Application application) {
+        this.application = application;
     }
 
     public List<Url> getUrlList() {

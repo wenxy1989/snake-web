@@ -1,7 +1,4 @@
 package com.snake.template.service;
-
-import com.base.exception.DaoException;
-import com.base.exception.ServiceException;
 import com.base.service.BasicService;
 import com.snake.template.dao.IActionDao;
 import com.snake.template.model.Action;
@@ -23,13 +20,13 @@ public class ActionService extends BasicService<Action> implements IActionServic
 		return dao;
 	}
 
-	public List<Action> getListByModuleId(Long moduleId) throws ServiceException {
+	public List<Action> getListByModuleId(Long moduleId) throws Exception {
         try {
             Map<String,Object> map = new HashMap<String, Object>();
             map.put("module_id",moduleId);
             return getDao().find(map);
-        } catch (DaoException e) {
-            throw new ServiceException(e);
+        } catch (Exception e) {
+            throw new Exception(e);
         }
     }
 

@@ -1,7 +1,6 @@
 package com.snake.inter.dao;
 
 import com.base.dao.MybatisBasicDao;
-import com.base.exception.DaoException;
 import com.snake.inter.dao.IModelParameterDao;
 import com.snake.inter.model.ModelParameter;
 import org.springframework.stereotype.Repository;
@@ -16,7 +15,7 @@ public class ModelParameterDao extends MybatisBasicDao<ModelParameter> implement
     public ModelParameterDao() {
         super(ModelParameter.class);
     }
-    public List<ModelParameter> getListByModelId(Long modelId) throws DaoException {
+    public List<ModelParameter> getListByModelId(Long modelId) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("model_id", modelId);
         return find(map);

@@ -303,7 +303,7 @@
     </dependencies>
 
     <build>
-        <finalName>snake-media</finalName>
+        <finalName>snake-web</finalName>
         <directory>${basedir}/target</directory>
         <plugins>
             <plugin>

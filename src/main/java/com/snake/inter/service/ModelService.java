@@ -1,7 +1,4 @@
 package com.snake.inter.service;
-
-import com.base.exception.DaoException;
-import com.base.exception.ServiceException;
 import com.base.service.BasicService;
 import com.snake.inter.dao.IModelDao;
 import com.snake.inter.dao.IModelParameterDao;
@@ -84,31 +81,31 @@ public class ModelService extends BasicService<Model> implements IModelService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED,rollbackFor ={Throwable.class })
-    public void create(Model object) throws ServiceException {
+    public void create(Model object) throws Exception {
         try {
             getDao().create(object);
             List<ModelParameter> list = getDefaultList(object.getId(),object.getCreatorId());
             modelParameterDao.batchInsert(list);
-        } catch (DaoException e) {
-            throw new ServiceException(e);
+        } catch (Exception e) {
+            throw new Exception(e);
         }
     }
 
-    public Model getObjectByCode(String code) throws ServiceException {
+    public Model getObjectByCode(String code) throws Exception {
         try {
             Map<String,Object> map = new HashMap<String, Object>();
             map.put("code_",code);
             return modelDao.findOne(map);
-        }catch (DaoException e){
-            throw new ServiceException(e);
+        }catch (Exception e){
+            throw new Exception(e);
         }
     }
 
-    public List<Model> getListByApplicationId(Long applicationId,Integer status) throws ServiceException {
+    public List<Model> getListByApplicationId(Long applicationId,Integer status) throws Exception {
         try {
             return modelDao.getListByApplicationId(applicationId,status);
-        }catch (DaoException e){
-            throw new ServiceException(e);
+        }catch (Exception e){
+            throw new Exception(e);
         }
     }
 }

@@ -1,7 +1,4 @@
 package com.snake.system.service;
-
-import com.base.exception.DaoException;
-import com.base.exception.ServiceException;
 import com.base.service.BasicService;
 import com.snake.system.dao.IUserDao;
 import com.snake.system.model.User;
@@ -27,33 +24,33 @@ public class UserService extends BasicService<User> implements IUserService {
         return this.dao;
     }
 
-    public User getUserByLoginName(String loginName) throws ServiceException {
+    public User getUserByLoginName(String loginName) throws Exception {
         try{
             Map<String,Object> map = new HashMap<String, Object>();
             map.put("login_name",loginName);
             return dao.findOne(map);
-        }catch (DaoException e){
-            throw new ServiceException(e);
+        }catch (Exception e){
+            throw new Exception(e);
         }
     }
 
-    public User getUserByEmail(String email) throws ServiceException {
+    public User getUserByEmail(String email) throws Exception {
         try{
             Map<String,Object> map = new HashMap<String, Object>();
             map.put("email_",email);
             return dao.findOne(map);
-        }catch (DaoException e){
-            throw new ServiceException(e);
+        }catch (Exception e){
+            throw new Exception(e);
         }
     }
 
-    public User getUserByMobile(String mobile) throws ServiceException {
+    public User getUserByMobile(String mobile) throws Exception {
         try{
             Map<String,Object> map = new HashMap<String, Object>();
             map.put("mobile_",mobile);
             return dao.findOne(map);
-        }catch (DaoException e){
-            throw new ServiceException(e);
+        }catch (Exception e){
+            throw new Exception(e);
         }
     }
 

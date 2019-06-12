@@ -170,15 +170,15 @@
                                 <td class="table-main">${obj.createdTime}</td>
                                 <td class="table-main">
                                     <div class="am-btn-toolbar am-btn-group am-btn-group-xs">
+                                        <a href="javascript:parameterList(${obj.id})"
+                                           class="am-btn am-btn-default am-btn-xs am-text-secondary">
+                                            <span class="am-icon-code-fork">模型属性</span>
+                                        </a>
+                                        <a href="javascript:toModelInter(${obj.id})"
+                                           class="am-btn am-btn-default am-btn-xs am-text-secondary">
+                                            <span class="am-icon-code">默认接口</span>
+                                        </a>
                                         <#if obj.status == 0 || obj.status == 2>
-                                            <a href="javascript:parameterList(${obj.id})"
-                                               class="am-btn am-btn-default am-btn-xs am-text-secondary">
-                                                <span class="am-icon-code-fork">模型属性</span>
-                                            </a>
-                                            <a href="javascript:toModelInter(${obj.id})"
-                                               class="am-btn am-btn-default am-btn-xs am-text-secondary">
-                                                <span class="am-icon-code">默认接口</span>
-                                            </a>
                                             <a href="javascript:doSubmit(${obj.id})"
                                                class="am-btn am-btn-default am-btn-xs am-text-secondary">
                                                 <span class="am-icon-pencil-square-o">提交</span>
@@ -197,7 +197,7 @@
                                                 </a>
                                             </@com.security>
                                         </#if>
-                                        <#if obj.status == 0>
+<#--                                        <#if obj.status == 0>-->
                                             <@com.security url="/inter/model/${applicationId}/edit">
                                                 <a href="javascript:toEdit(${obj.id})"
                                                    class="am-btn am-btn-default am-btn-xs am-text-secondary">
@@ -210,7 +210,7 @@
                                                     <span class="am-icon-trash-o">删除</span>
                                                 </a>
                                             </@com.security>
-                                        </#if>
+<#--                                        </#if>-->
                                     </div>
                                 </td>
                             </tr>

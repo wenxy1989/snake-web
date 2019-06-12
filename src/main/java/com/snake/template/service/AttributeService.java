@@ -1,7 +1,4 @@
 package com.snake.template.service;
-
-import com.base.exception.DaoException;
-import com.base.exception.ServiceException;
 import com.base.service.BasicService;
 import com.snake.template.dao.IAttributeDao;
 import com.snake.template.model.Attribute;
@@ -23,13 +20,13 @@ public class AttributeService extends BasicService<Attribute> implements IAttrib
 		return dao;
 	}
 
-	public List<Attribute> getListByModuleId(Long moduleId) throws ServiceException {
+	public List<Attribute> getListByModuleId(Long moduleId) throws Exception {
         try {
             Map<String,Object> map = new HashMap<String, Object>();
             map.put("module_id",moduleId);
             return getDao().find(map);
-        } catch (DaoException e) {
-            throw new ServiceException(e);
+        } catch (Exception e) {
+            throw new Exception(e);
         }
 	}
 

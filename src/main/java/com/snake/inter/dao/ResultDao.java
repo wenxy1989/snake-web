@@ -1,7 +1,6 @@
 package com.snake.inter.dao;
 
 import com.base.dao.MybatisBasicDao;
-import com.base.exception.DaoException;
 import com.snake.inter.dao.IResultDao;
 import com.snake.inter.model.Result;
 import org.springframework.stereotype.Repository;
@@ -17,7 +16,7 @@ public class ResultDao extends MybatisBasicDao<Result> implements IResultDao {
         super(Result.class);
     }
 
-    public List<Result> getListByUrlId(Long modelId) throws DaoException {
+    public List<Result> getListByUrlId(Long modelId) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("url_id", modelId);
         return find(map);

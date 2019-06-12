@@ -1,7 +1,6 @@
 package com.snake.system.controller;
 
 import com.base.Constants;
-import com.base.exception.ServiceException;
 import com.snake.system.security.MySecurityMetadataSource;
 import com.base.util.*;
 import com.snake.system.model.Function;
@@ -77,7 +76,7 @@ public class FunctionController extends BasicController {
             mv.addObject("page",page);
             Function function = functionService.getObject(parentId);
             mv.addObject("function",function);
-        }catch (ServiceException e){
+        }catch (Exception e){
             logger.error("获取菜单信息失败",e);
         }
         return mv;
@@ -96,7 +95,7 @@ public class FunctionController extends BasicController {
             //todo
             mv.addObject("selectTid",selectTid);//设置选中的tree节点id
             mv.addObject("list",list);
-        }catch (ServiceException e){
+        }catch (Exception e){
             logger.error("获取菜单信息失败",e);
         }
         return mv;
@@ -109,7 +108,7 @@ public class FunctionController extends BasicController {
             Integer maxOrder = functionService.getMaxOrderByParentId(parentId);
             mv.addObject("order",maxOrder+1);
             mv.addObject("parentId",parentId);
-        }catch (ServiceException e){
+        }catch (Exception e){
             logger.error("获取菜单信息失败",e);
         }
         return mv;
@@ -130,7 +129,7 @@ public class FunctionController extends BasicController {
             functionService.create(function);
             MySecurityMetadataSource.addFunction(function);
             result = RESULT_ADD_SUCCESS;
-        }catch (ServiceException e){
+        }catch (Exception e){
             logger.error("添加菜单信息失败",e);
         }
         rv.addStaticAttribute("parentId",function.getParentId());
@@ -149,7 +148,7 @@ public class FunctionController extends BasicController {
         try {
             Function obj = functionService.getObject(id);
             mv.addObject("obj", obj);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("获取菜单信息失败.",e);
         }
         return mv;
@@ -170,7 +169,7 @@ public class FunctionController extends BasicController {
                 MySecurityMetadataSource.updateFunction(function);
                 result = RESULT_EDIT_SUCCESS;
             }
-        }catch(ServiceException e){
+        }catch(Exception e){
             logger.error("修改菜单信息失败",e);
         }
         rv.addStaticAttribute("parentId",function.getParentId());
@@ -192,7 +191,7 @@ public class FunctionController extends BasicController {
             functionService.delete(id);
             MySecurityMetadataSource.removeFunctionById(id);
             result = RESULT_DELETE_SUCCESS;
-        }catch(ServiceException e){
+        }catch(Exception e){
             logger.error("删除菜单信息失败",e);
         }
         rv.addStaticAttribute(OPE_RESULT,result);
@@ -213,7 +212,7 @@ public class FunctionController extends BasicController {
             if(function != null){
                 result = RESULT_SUCCESS;
             }
-        }catch (ServiceException e){
+        }catch (Exception e){
             logger.error("根据代码获取菜单信息失败",e);
         }
         return result;
@@ -238,7 +237,7 @@ public class FunctionController extends BasicController {
             function.setLevel(level);
             functionService.update(function);
             result = RESULT_SUCCESS;
-        }catch(ServiceException e){
+        }catch(Exception e){
             logger.error("update parent error",e);
         }
         return result;
@@ -255,7 +254,7 @@ public class FunctionController extends BasicController {
         Function function = null;
         try{
             function = functionService.getObject(id);
-        }catch (ServiceException e){
+        }catch (Exception e){
             logger.error("get details error",e);
         }
         return function;

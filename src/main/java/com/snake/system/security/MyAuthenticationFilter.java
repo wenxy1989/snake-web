@@ -1,7 +1,6 @@
 package com.snake.system.security;
 
 import com.base.Constants;
-import com.base.exception.ServiceException;
 import com.base.util.MD5Util;
 import com.snake.system.model.User;
 import com.snake.system.service.IUserService;
@@ -49,7 +48,7 @@ public class MyAuthenticationFilter extends UsernamePasswordAuthenticationFilter
         User user = null;
         try {
             user = this.userService.getUserByLoginName(username);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             log.error("根据登录名获取用户信息失败!",e);
         }
 

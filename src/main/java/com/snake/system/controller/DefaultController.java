@@ -1,6 +1,4 @@
 package com.snake.system.controller;
-
-import com.base.exception.ServiceException;
 import com.snake.system.model.Index;
 import com.snake.system.service.IFunctionService;
 import com.snake.system.service.IIndexService;
@@ -54,7 +52,7 @@ public class DefaultController extends BasicController {
             if (null != index) {
                 rv = new RedirectView(index.getUrl(),true);
             }
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("get index url error", e);
         }
         return rv;

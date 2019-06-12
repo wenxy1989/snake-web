@@ -1,7 +1,6 @@
 package com.snake.inter.controller;
 
 import com.snake.system.controller.BasicController;
-import com.base.exception.ServiceException;
 import com.base.util.DateTimeUtils;
 import com.snake.inter.model.*;
 import com.snake.inter.service.*;
@@ -60,7 +59,7 @@ public class ResultController extends BasicController {
                     }
                 }
             }
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("find interface result list error", e);
         }
         mv.addObject("urlId", urlId);
@@ -81,7 +80,7 @@ public class ResultController extends BasicController {
         try {
             if (!StringUtils.isBlank(result.getCode()) && !StringUtils.isBlank(result.getName())) {
                 resultService.create(result);
-                Parameter obj = result.clone();
+                Parameter obj = result.clone(Parameter.class);
                 Parameter parameter = parameterService.findOne(obj);
                 if (null == parameter) {
                     obj.setCreatorId(getLoginUserId(request));
@@ -104,7 +103,7 @@ public class ResultController extends BasicController {
         try {
             Result result = resultService.getObject(id);
             mv.addObject("result", result);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("find interface result error.", e);
         }
         mv.addObject("urlId",urlId);
@@ -150,13 +149,13 @@ public class ResultController extends BasicController {
         try {
             Parameter parameter = parameterService.getObject(parameterId);
             if (null != parameter) {
-                Result result = parameter.cloneParameter(new Result());
+                Result result = parameter.clone(Result.class);
                 result.setUrlId(urlId);
                 result.setAllowBlank(false);
                 resultService.create(result);
                 resultCode = RESULT_SUCCESS;
             }
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("add parameter to url result error", e);
         }
         return resultCode;
@@ -170,14 +169,14 @@ public class ResultController extends BasicController {
             List<ModelParameter> parameters = modelParameterService.getListByModelId(modelId);
             if (null != parameters && parameters.size() > 0) {
                 for (ModelParameter parameter : parameters) {
-                    Result obj = parameter.cloneParameter(new Result());
+                    Result obj = parameter.clone(Result.class);
                     obj.setUrlId(urlId);
                     obj.setAllowBlank(false);
                     resultService.create(obj);
                 }
                 resultCode = RESULT_SUCCESS;
             }
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("add parameter to url result error", e);
         }
         return resultCode;

@@ -1,7 +1,6 @@
 package com.snake.template.controller;
 
 import com.snake.system.controller.BasicController;
-import com.base.exception.ServiceException;
 import com.base.util.Criteria;
 import com.snake.freemarker.FreeMarkerUtils;
 import com.base.util.SimpleCriteria;
@@ -50,7 +49,7 @@ public class ModuleController extends BasicController {
             Criteria criteria = new SimpleCriteria();
             Page page = service.getList(criteria);
             mv.addObject("page", page);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("query module page error", e);
         }
         return mv;
@@ -67,7 +66,7 @@ public class ModuleController extends BasicController {
         RedirectView rv = new RedirectView("page");
         try {
             service.create(module);
-        }catch (ServiceException e){
+        }catch (Exception e){
             logger.error("create module error");
         }
         return rv;
@@ -79,7 +78,7 @@ public class ModuleController extends BasicController {
         try {
             Module object = service.getObject(id);
             mv.addObject("object", object);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("get module error",e);
         }
         return mv;
@@ -90,7 +89,7 @@ public class ModuleController extends BasicController {
         RedirectView rv = new RedirectView("page");
         try {
             service.update(module);
-        }catch (ServiceException e){
+        }catch (Exception e){
             logger.error("update module error");
         }
         return rv;
@@ -101,7 +100,7 @@ public class ModuleController extends BasicController {
         RedirectView rv = new RedirectView("page");
         try {
             service.delete(id);
-        }catch (ServiceException e){
+        }catch (Exception e){
             logger.error("delete module error");
         }
         return rv;

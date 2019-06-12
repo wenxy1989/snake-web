@@ -1,5 +1,6 @@
 package com.snake.mysql.controller;
 
+import com.base.Constants;
 import com.snake.inter.model.Application;
 import com.snake.inter.model.Model;
 import com.snake.inter.model.ModelParameter;
@@ -10,7 +11,9 @@ import com.snake.mysql.DatabaseService;
 import com.snake.mysql.model.Column;
 import com.snake.mysql.model.Database;
 import com.snake.mysql.model.Table;
+import com.snake.system.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +21,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -39,15 +44,15 @@ public class DatabaseController {
     public IModelParameterService modelParameterService;
 
     @RequestMapping("mysql/infoView")
-    public ModelAndView infoView(){
+    public ModelAndView infoView() {
         return new ModelAndView("/inter/database/mysql");
     }
 
     @ResponseBody
     @RequestMapping("mysql/info")
-    public Object mysqlInfo(@RequestBody Map<String,String> map) {
+    public Object mysqlInfo(@RequestBody Map<String, String> map, HttpServletRequest request) {
         databaseService.setProperties(map);
-        Database database = new Database(map.get("name"),map.get("username"),map.get("password"),map.get("url"),map.get("database"));
+        Database database = new Database(map.get("name"), map.get("username"), map.get("password"), map.get("url"), map.get("database"));
         List<Table> tableList = databaseService.selectTableList(map);
         if (null != tableList && tableList.size() > 0) {
 //            int tableSize = tableList.size();
@@ -58,25 +63,33 @@ public class DatabaseController {
                 table.setColumnList(columnList);
             }
         }
+        SecurityContextHolder.getContext().getAuthentication();
         database.setTableList(tableList);
-        formAndSaveApplication(database);
+        formAndSaveApplication(database, getLoginUser(request).getId());
         return "success";
     }
 
-    public Application formAndSaveApplication(Database database){
+    protected User getLoginUser(HttpServletRequest request) {
+        return (User) request.getSession().getAttribute(Constants.USER_SESSON_KEY);
+    }
+
+    public Application formAndSaveApplication(Database database, Long userId) {
         Application application = Application.build(database);
         try {
+            application.setCreatorId(userId);
             applicationService.create(application);
             if (null != database.getTableList()) {
                 List<Model> modelList = new ArrayList<Model>();
                 for (Table table : database.getTableList()) {
                     Model model = Model.build(table);
+                    model.setCreatorId(userId);
                     model.setApplicationId(application.getId());
                     modelService.create(model);
                     if (null != table.getColumnList()) {
                         List<ModelParameter> parameterList = new ArrayList<ModelParameter>();
                         for (Column column : table.getColumnList()) {
                             ModelParameter parameter = ModelParameter.build(column);
+                            parameter.setCreatorId(userId);
                             parameter.setModelId(model.getId());
                             parameterList.add(parameter);
                         }
@@ -88,7 +101,7 @@ public class DatabaseController {
                 application.setModelList(modelList);
             }
             return application;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;

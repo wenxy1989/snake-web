@@ -3,7 +3,6 @@ package com.snake.template.controller;
 import com.base.Constants;
 import com.base.util.HashMaps;
 import com.snake.system.controller.BasicController;
-import com.base.exception.ServiceException;
 import com.base.util.Condition;
 import com.base.util.Criteria;
 import com.snake.freemarker.FreeMarkerUtils;
@@ -55,7 +54,7 @@ public class TemplateController extends BasicController {
             criteria.setFetchSize(null == pageSize ? Constants.PAGE_SIZE : pageSize);
             Page page = templateService.getList(criteria);
             mv.addObject("page", page);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("query template page error", e);
         }
         return mv;
@@ -72,8 +71,8 @@ public class TemplateController extends BasicController {
         RedirectView rv = new RedirectView("page");
         try {
             templateService.create(template);
-        } catch (ServiceException e) {
-            logger.error("create template error",e);
+        } catch (Exception e) {
+            logger.error("create template error", e);
         }
         return rv;
     }
@@ -84,7 +83,7 @@ public class TemplateController extends BasicController {
         try {
             TemplateConfig object = templateService.getObject(id);
             mv.addObject("object", object);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("get template error", e);
         }
         return mv;
@@ -95,7 +94,7 @@ public class TemplateController extends BasicController {
         RedirectView rv = new RedirectView("page");
         try {
             templateService.update(template);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("update template error");
         }
         return rv;
@@ -106,27 +105,10 @@ public class TemplateController extends BasicController {
         RedirectView rv = new RedirectView("page");
         try {
             templateService.delete(id);
-        } catch (ServiceException e) {
+        } catch (Exception e) {
             logger.error("delete template error");
         }
         return rv;
     }
-
-    @ResponseBody
-    @RequestMapping(value = "export_code")
-    public void exportCode(Long id) {
-        try {
-            TemplateConfig template = templateService.getObject(id);
-            Map<String, Object> params = HashMaps.build(String.class,Object.class).add("group",template.getGroup());
-            FreeMarkerUtils.getInstance().buildTemplate(template.getGroup(), template.getName(), params, template.getSavePathModel(), template.getSaveFileModel());
-        } catch (ServiceException e) {
-            logger.error("export template error", e);
-        }
-    }
-
-//    @ExceptionHandler
-//    public @ResponseBody Object exception(Exception e) {
-//        return "exception : "+e.getMessage();
-//    }
 
 }
