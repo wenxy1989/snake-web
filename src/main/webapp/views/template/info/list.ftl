@@ -70,6 +70,7 @@
                     <tr>
                         <th class="table-id">ID</th>
                         <th class="table-main">模板位置(classpath:template/)</th>
+                        <th class="table-main">框架</th>
                         <th class="table-main">类型</th>
                         <th class="table-main">更新类型</th>
                         <th class="table-main">保存路径(classpath:)</th>
@@ -82,6 +83,7 @@
                         <tr>
                             <td class="table-id">${obj.id}</td>
                             <td class="table-main">${obj.group}/${obj.name}</td>
+                            <td class="table-main">${obj.frameId}</td>
                             <td class="table-main">${obj.type}</td>
                             <td class="table-main"><#if obj.updateType==0>每次更新<#else>没有时创建</#if></td>
                             <td class="table-main"><@t_com.modelReplace template="${obj.savePathModel}" />/<@t_com.modelReplace template="${obj.saveFileModel}" /></td>

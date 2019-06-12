@@ -79,7 +79,7 @@
                         </div>
                     </div>
 
-                    <@t_com.selectFrame value="${object.groupId}"/>
+                    <@t_com.selectFrame value="${object.frameId}"/>
 
                     <div class="am-form-group">
                         <label class="am-u-sm-3 am-form-label">类型 / Type</label>

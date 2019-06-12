@@ -4,7 +4,7 @@ import com.base.model.Model;
 /**
 ** ${model.name} : ${model.remark}
 ** create at ${model.createdTime} by user id ${model.creatorId}
-** version.${now?string("yyyy.MM.dd")}
+** version.${now}
 **/
 public class ${model.code?cap_first} extends Model{
     <#list parameters as obj>

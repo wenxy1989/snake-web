@@ -287,7 +287,7 @@ public class StringTools extends StringUtils {
     }
 
     public static String getFirstLarge(String str) {
-        String large = "module";
+        String large = "Module";
         if (notEmpty(str)) {
             large = str.substring(0, 1).toUpperCase() + str.substring(1);
         }
@@ -307,7 +307,8 @@ public class StringTools extends StringUtils {
     }
 
     public static String parsePath(String template, String application, String model) {
-        return template.replaceAll("\\@\\{large\\}", getFirstLarge(model))
+        return template.replaceAll("//","/")
+                .replaceAll("\\@\\{large\\}", getFirstLarge(model))
                 .replaceAll("\\@\\{little\\}", getFirstLittle(model))
                 .replaceAll("\\@\\{app\\}", application);
 

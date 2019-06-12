@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 /**
-* version.${now?string("yyyy.MM.dd")}
+* version.${now}
 */
 @Repository("${model.code?uncap_first}Dao")
 public class ${model.code?cap_first}Dao extends MybatisBasicDao<${model.code?cap_first}> implements I${model.code?cap_first}Dao {

@@ -84,8 +84,8 @@ public class ModelService extends BasicService<Model> implements IModelService {
     public void create(Model object) throws Exception {
         try {
             getDao().create(object);
-            List<ModelParameter> list = getDefaultList(object.getId(),object.getCreatorId());
-            modelParameterDao.batchInsert(list);
+//            List<ModelParameter> list = getDefaultList(object.getId(),object.getCreatorId());
+//            modelParameterDao.batchInsert(list);
         } catch (Exception e) {
             throw new Exception(e);
         }

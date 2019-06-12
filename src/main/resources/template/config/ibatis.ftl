@@ -13,15 +13,15 @@
 	</resultMap>
 
     <select id="selectAll" resultMap="${model.code}ResultMap">
-        select * from ${obj.table}
+        select * from ${model.code}
     </select>
 
     <select id="selectSome" parameterType="java.util.Map" resultMap="${model.code}ResultMap">
-        select * from ${obj.table} limit #${"{"}offset},#${"{"}limit}
+        select * from ${model.code} limit #${"{"}offset},#${"{"}limit}
     </select>
 
     <insert id="insert" parameterType="com.web.${application.code}.entity${model.code?cap_first}">
-        INSERT INTO ${obj.table}(
+        INSERT INTO ${model.code}(
      <#list parameters as attribute>
         ${attribute.code},
      </#list>
@@ -29,7 +29,7 @@
         creator_id)
         VALUES(
     <#list parameters as attribute>
-        #${"{"}${attribute.code},jdbcType=${attribute.dataType}},
+        #${"{"}${attribute.code},jdbcType=${attribute.columnType}},
     </#list>
         #${"{"}createdTime,jdbcType=VARCHAR},
         #${"{"}creatorId,jdbcType=BIGINT}
@@ -37,7 +37,7 @@
     </insert>
 
     <update id="update" parameterType="com.web.${application.code}.entity${model.code?cap_first}">
-        update ${obj.table}
+        update ${model.code}
         <set>
         <#list parameters as attribute>
             <if test="${attribute.code} != null">
@@ -55,7 +55,7 @@
     </update>
 
     <select id="findOneByMap" resultMap="${model.code}ResultMap">
-        select * from ${obj.table} where 1=1 AND
+        select * from ${model.code} where 1=1 AND
         <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
             ${"$"}${"{"}param.name} = #${"{"}param.value}
         </foreach>
@@ -63,7 +63,7 @@
     </select>
 
     <select id="findOneByObject" parameterType="com.web.${application.code}.entity${model.code?cap_first}" resultMap="${model.code}ResultMap">
-        select * from ${obj.table}
+        select * from ${model.code}
         <where>
             <if test="id != null">
                 and id_=#${"{"}id}
@@ -84,14 +84,14 @@
     </select>
 
     <select id="findByMap" resultMap="${model.code}ResultMap">
-        select * from  ${obj.table} where 1=1 AND
+        select * from  ${model.code} where 1=1 AND
         <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
             ${"$"}${"{"}param.name} = #${"{"}param.value}
         </foreach>
     </select>
 
     <select id="findByObject" parameterType="com.web.${application.code}.entity${model.code?cap_first}" resultMap="${model.code}ResultMap">
-        select * from ${obj.table}
+        select * from ${model.code}
         <where>
         <#list parameters as attribute>
             <if test="${attribute.code} != null">
@@ -108,32 +108,32 @@
     </select>
 
     <select id="findByIn" resultMap="${model.code}ResultMap">
-        select * from ${obj.table} where 1=1 AND
+        select * from ${model.code} where 1=1 AND
         <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
             ${"$"}${"{"}param.name} IN (#${"{"}param.value})
         </foreach>
     </select>
 
     <select id="findByLike" resultMap="${model.code}ResultMap">
-        select * from ${obj.table} where 1=1 AND
+        select * from ${model.code} where 1=1 AND
         <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
             ${"$"}${"{"}param.name} LIKE #${"{"}param.value}
         </foreach>
     </select>
 
     <select id="getTotalCount" resultType="int">
-        select count(1) from ${obj.table}
+        select count(1) from ${model.code}
     </select>
 
     <select id="getCount" parameterType="java.util.Map" resultType="int">
-        select count(1) from ${obj.table} where 1=1
+        select count(1) from ${model.code} where 1=1
         <if test="whereClause != null">
         ${"$"}${"{"}whereClause}
         </if>
     </select>
 
     <select id="query" parameterType="java.util.Map" resultMap="${model.code}ResultMap">
-        select ${"$"}${"{"}fieldsClause} from ${obj.table} where 1=1
+        select ${"$"}${"{"}fieldsClause} from ${model.code} where 1=1
         <if test="whereClause != null">
         ${"$"}${"{"}whereClause}
         </if>
@@ -143,24 +143,24 @@
         limit ${"$"}${"{"}limit} offset ${"$"}${"{"}offset}
     </select>
 
-	<#list parameters as attribute>
+	<#--<#list parameters as attribute>
 	<#if attribute.useType == 'onetoone'>
     <select id="getObjectBy${attribute.code?cap_first}" parameterType="java.lang.${attribute.javaType}" resultMap="${model.code}ResultMap">
-        select * from ${obj.table} where ${attribute.code}=${"#"}{${attribute.code?uncap_first}}
+        select * from ${model.code} where ${attribute.code}=${"#"}{${attribute.code?uncap_first}}
     </select>
-    
+
     <delete id="deleteBy${attribute.code?cap_first}" parameterType="java.lang.${attribute.javaType}">
-        delete from ${obj.table} where ${attribute.code}=${"#"}{${attribute.code?uncap_first}}
+        delete from ${model.code} where ${attribute.code}=${"#"}{${attribute.code?uncap_first}}
     </delete>
     <#elseif attribute.useType == 'onetomany'>
     <select id="getListBy${attribute.code?cap_first}" parameterType="java.lang.${attribute.javaType}" resultMap="${model.code}ResultMap">
-        select * from ${obj.table} where ${attribute.code}=${"#"}{${attribute.code?uncap_first}}
+        select * from ${model.code} where ${attribute.code}=${"#"}{${attribute.code?uncap_first}}
     </select>
-    
+
     <delete id="deleteBy${attribute.code?cap_first}" parameterType="java.lang.${attribute.javaType}">
-        delete from ${obj.table} where ${attribute.code}=${"#"}{${attribute.code?uncap_first}}
+        delete from ${model.code} where ${attribute.code}=${"#"}{${attribute.code?uncap_first}}
     </delete>
 	</#if>
-	</#list>
+	</#list>-->
 
 </mapper>

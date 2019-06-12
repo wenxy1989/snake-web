@@ -1,5 +1,6 @@
 package com.snake.freemarker;
 
+import com.base.util.DateTimeUtils;
 import com.base.util.HashMaps;
 import com.base.util.StringTools;
 import com.snake.inter.model.Application;
@@ -13,10 +14,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import java.io.*;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class FreeMarkerUtils {
 
@@ -73,8 +71,7 @@ public class FreeMarkerUtils {
                 sb.append(path);
             }
         }
-        String realPath = sb.toString();
-        realPath.replace("//", "/");
+        String realPath = sb.toString().replaceAll("\\/\\/", "/").replaceAll("\\.", "/");
         File savePath = new File(realPath);
         if (!savePath.exists()) {
             savePath.mkdirs();
@@ -142,6 +139,7 @@ public class FreeMarkerUtils {
     public void writeInter(Application application, Group group, List<TemplateConfig> configList) {
         if (null != group && null != configList && configList.size() > 0) {
             Map<String, Object> params = new HashMap<String, Object>();
+            params.put("now", DateTimeUtils.getNowDateTime());
             params.put("model", group.getModel());
             params.put("group", group);
             params.put("urlList", group.getUrlList());
@@ -155,7 +153,7 @@ public class FreeMarkerUtils {
     public void writeModel(Application application, Model model, List<TemplateConfig> templates) {
         if (null != model && null != templates && templates.size() > 0) {
             Map<String, Object> params = HashMaps.build(String.class, Object.class)
-                    .add("now", new Date())
+                    .add("now", DateTimeUtils.getNowDateTime())
                     .add("application", application)
                     .add("model", model)
                     .add("parameters", model.getParameterList());
@@ -170,7 +168,7 @@ public class FreeMarkerUtils {
     public void writeApplication(Application application, List<TemplateConfig> templates) {
         if (null != application && null != templates && templates.size() > 0) {
             Map<String, Object> params = HashMaps.build(String.class, Object.class)
-                    .add("now", new Date())
+                    .add("now", DateTimeUtils.getNowDateTime())
                     .add("application", application);
             for (TemplateConfig config : templates) {
                 if ("application".equals(config.getType())) {

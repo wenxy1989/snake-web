@@ -47,7 +47,7 @@ public class ${group.model?cap_first}APIControllerTests extends AbstractContextC
     }
 
     public void versionTest() throws Exception {
-        super.version("${group.model?cap_first}APIController.version.${now?string("yyyy.MM.dd")}");
+        super.version("${group.model?cap_first}APIController.version.${now}");
     }
 <#list urlList as each>
 

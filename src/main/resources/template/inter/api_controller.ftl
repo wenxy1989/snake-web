@@ -26,7 +26,7 @@ public class ${group.model?cap_first}APIController extends BasicController {
     @ResponseBody
     @RequestMapping(value = "version")
     public Object version() {
-        return "${group.model?cap_first}APIController.version.${now?string("yyyy.MM.dd")}";
+        return "${group.model?cap_first}APIController.version.${now}";
     }
 <#list urlList as each>
 

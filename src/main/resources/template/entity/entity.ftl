@@ -2,23 +2,23 @@ package com.web.${application.code}.entity;
 /**
  * ${model.code?cap_first}
  * @author {author}
- * @version 1.00 ,Date: {now?string("yyyy-MM-dd HH:mm:ss")}
+ * @version 1.00 ,Date: ${now}
  */
 public class ${model.code?cap_first }{
 
-	<#if attributes?exists>
-	<#list attributes as attribute>
-	private ${attribute.javaType} ${attribute.code};//${attribute.name}
+	<#if parameters?exists>
+	<#list parameters as attribute>
+	private ${attribute.type} ${attribute.code};//${attribute.name}
 	</#list>
 	</#if>
 
-	<#if attributes?exists>
-	<#list attributes as attribute>
-	public ${attribute.javaType} get${attribute.code?cap_first}(){
+	<#if parameters?exists>
+	<#list parameters as attribute>
+	public ${attribute.type} get${attribute.code?cap_first}(){
 		return this.${attribute.code};
 	}
 
-	public void set${attribute.code?cap_first}(${attribute.javaType} ${attribute.code}){
+	public void set${attribute.code?cap_first}(${attribute.type} ${attribute.code}){
 		this.${attribute.code} = ${attribute.code};
 	}
 	</#list>

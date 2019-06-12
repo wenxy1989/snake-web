@@ -2,6 +2,7 @@ package com.snake.inter.model;
 
 import com.snake.mysql.model.Table;
 import com.snake.resource.dao.MapObject;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.List;
 
@@ -26,12 +27,40 @@ public class Model implements ModelObject,MapObject {
     private List<ModelParameter> parameterList;
     private List<Url> urlList;
 
+    private String tableName;
+    private String tableComment;
+
     public static Model build(Table table) {
         Model model = new Model();
-        model.setName(table.getComment());
-        model.setCode(table.getName());
+        model.setTableComment(table.getComment());
+        model.setTableName(table.getName());
         model.setStatus(0);
         return model;
+    }
+
+    public String getTableName() {
+        return tableName;
+    }
+
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
+        if(StringUtils.isBlank(this.code)){
+            this.code = tableName;
+        }
+    }
+
+    public String getTableComment() {
+        return tableComment;
+    }
+
+    public void setTableComment(String tableComment) {
+        this.tableComment = tableComment;
+        if(StringUtils.isBlank(this.name)){
+            this.name = tableName;
+        }
+        if(StringUtils.isBlank(this.remark)){
+            this.remark = tableComment;
+        }
     }
 
     public Long getId() {
@@ -116,5 +145,13 @@ public class Model implements ModelObject,MapObject {
 
     public String getExampleJsonString(){
         return Parameter.getExampleJsonString(this.parameterList);
+    }
+
+    public List<Url> getUrlList() {
+        return urlList;
+    }
+
+    public void setUrlList(List<Url> urlList) {
+        this.urlList = urlList;
     }
 }

@@ -2,7 +2,7 @@ package com.${application}.${model.code}.model;
 /**
  * ${model.code}实体类 ${model.code?cap_first}
  * @author {author}
- * @version 1.00 ,Date: {date?string("yyyy-MM-dd HH:mm:ss")}
+ * @version 1.00 ,Date: ${now}
  */
 public class ${model.code?cap_first }{
 

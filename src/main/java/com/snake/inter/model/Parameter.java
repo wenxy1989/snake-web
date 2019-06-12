@@ -1,8 +1,13 @@
 package com.snake.inter.model;
 
 import com.base.Constants;
+import com.snake.mysql.model.Column;
+import com.snake.resource.dao.JavaColumnProperties;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -23,8 +28,64 @@ public class Parameter {
     protected String remark;
     protected String createdTime;
     protected Long creatorId;
+    protected String columnName;
+    protected String columnType;
+    protected String columnComment;
 
     private ModelObject modelObject;
+
+    private static JavaColumnProperties javaColumnProperties;
+
+    static {
+        try {
+            javaColumnProperties = new JavaColumnProperties();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static String columnName(String comment) {
+        return comment.contains(":") ? comment.split(":")[0] : comment;
+    }
+
+    public String getColumnName() {
+        return columnName;
+    }
+
+    public void setColumnName(String columnName) {
+        this.columnName = columnName;
+        if (StringUtils.isBlank(this.code)) {
+            this.code = columnName;
+        }
+    }
+
+    public String getColumnType() {
+        if (StringUtils.isBlank(this.columnType)) {
+            this.columnType = javaColumnProperties.getColumnType(this.type);
+        }
+        return columnType;
+    }
+
+    public void setColumnType(String columnType) {
+        this.columnType = columnType;
+        if (StringUtils.isBlank(this.type)) {
+            this.type = javaColumnProperties.getJavaType(columnType);
+        }
+    }
+
+    public String getColumnComment() {
+        return columnComment;
+    }
+
+    public void setColumnComment(String columnComment) {
+        this.columnComment = columnComment;
+        if (StringUtils.isBlank(this.name)) {
+            this.name = columnName(columnComment);
+        }
+        if (StringUtils.isBlank(this.remark)) {
+            this.remark = columnComment;
+        }
+    }
 
     public Long getId() {
         return id;
@@ -75,12 +136,6 @@ public class Parameter {
     }
 
     public Long getLength() {
-        if (null == this.length && StringUtils.isNotBlank(this.type)) {
-            BaseType type = null;
-            if (null != (type = BaseType.getType(this.type))) {
-                this.length = type.getLength();
-            }
-        }
         return this.length;
     }
 
@@ -136,18 +191,28 @@ public class Parameter {
         this.example = example;
     }
 
-    public String getMysqlType() {
-        String result = null;
-        BaseType type = BaseType.getType(getType());
-        if (null != type) {
-            result = type.getMysqlType();
-        }
-        return result;
-    }
-
     @Override
     public Parameter clone() throws CloneNotSupportedException {
         return this.clone(Parameter.class);
+    }
+
+    public static <R extends Parameter> R build(Class<R> clazz, Column column) throws CloneNotSupportedException {
+        try {
+            R parameter = clazz.newInstance();
+            parameter.setColumnComment(column.getComment());
+            parameter.setColumnName(column.getName());
+            if (null != column.getCharacterLength() && column.getCharacterLength() <= Integer.MAX_VALUE) {
+                parameter.setLength(column.getCharacterLength());
+            }
+            parameter.setIsArray(false);
+            parameter.setColumnType(column.getDataType());
+            parameter.setAllowBlank(column.getNullable());
+            return parameter;
+        } catch (IllegalAccessException e) {
+            throw new CloneNotSupportedException(e.getMessage());
+        } catch (InstantiationException e) {
+            throw new CloneNotSupportedException(e.getMessage());
+        }
     }
 
     public <R extends Parameter> R clone(Class<R> clazz) throws CloneNotSupportedException {
@@ -175,13 +240,7 @@ public class Parameter {
     }
 
     public String getExampleValue() {
-        String value = null;
-        if ("String".equals(this.type) || null == BaseType.getType(this.type)) {
-            value = addMarks(this.example, Constants.SYMBOL_QUOTE);
-        } else {
-            value = this.example;
-        }
-        return value;
+        return "String".equals(this.type) ? addMarks(this.example, Constants.SYMBOL_QUOTE) : this.example;
     }
 
     public String getExampleValueJsonString() {

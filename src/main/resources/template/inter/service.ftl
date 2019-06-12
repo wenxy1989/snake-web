@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.List;
 /**
-* version.${now?string("yyyy.MM.dd")}
+* version.${now}
 */
 public class ${model.code?cap_first}Service extends BasicService<${model.code?cap_first}> implements I${model.code?cap_first}Service {
 

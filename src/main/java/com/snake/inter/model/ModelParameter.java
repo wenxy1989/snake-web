@@ -1,6 +1,5 @@
 package com.snake.inter.model;
 
-import com.snake.mysql.model.Column;
 
 /**
  * Created by HP on 2016/10/13.
@@ -24,23 +23,6 @@ public class ModelParameter extends Parameter {
         setKeyType(keyType);
         setIsArray(false);
         setAllowBlank(false);
-    }
-
-    private static String columnName(String comment,int length){
-        return comment.length() > length ? comment.contains(":") ? comment.split(":")[0] : comment : comment;
-    }
-
-    public static ModelParameter build(Column column) {
-        ModelParameter parameter = new ModelParameter();
-        parameter.setName(columnName(column.getComment(),20));
-        parameter.setCode(column.getName());
-        if (null != column.getCharacterLength() && column.getCharacterLength() <= Integer.MAX_VALUE) {
-            parameter.setLength(column.getCharacterLength());
-        }
-        parameter.setIsArray(false);
-        parameter.setType(column.getDataType());
-        parameter.setAllowBlank(column.getNullable());
-        return parameter;
     }
 
     public Long getModelId() {

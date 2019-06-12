@@ -33,7 +33,7 @@ public class TemplateMethodModelEx implements freemarker.template.TemplateMethod
                     result = FrameDao.getFinalObject(id);
                 }
             } else if ("replace_model".equals(command) && StringUtils.isNotBlank(argument2) && StringUtils.isNotBlank(argument3)) {
-                result = StringTools.parsePath(argument2, argument3);
+                result = StringTools.parsePath(argument2,"app", argument3);
             }
         }
         return result;

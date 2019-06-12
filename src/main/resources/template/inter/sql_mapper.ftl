@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- sql mapper ${model.code?uncap_first} version.${now?string("yyyy.MM.dd")} -->
+<!-- sql mapper ${model.code?uncap_first} version.${now} -->
 <mapper namespace="com.school.book.model.${model.code?cap_first}">
 
     <resultMap type="com.school.book.model.${model.code?cap_first}" id="resultMap">

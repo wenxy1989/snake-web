@@ -7,7 +7,7 @@ import com.school.book.model.${model.code?cap_first};
 
 import java.util.List;
 /**
-* version.${now?string("yyyy.MM.dd")}
+* version.${now}
 */
 public interface I${model.code?cap_first}Service extends IBasicService<${model.code?cap_first}> {
 <#list parameters as obj>

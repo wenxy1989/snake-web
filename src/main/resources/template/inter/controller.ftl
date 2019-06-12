@@ -35,7 +35,7 @@ public class Default${model.code?cap_first}Controller extends BasicController {
     @ResponseBody
     @RequestMapping(value = "version")
     public Object version() {
-        return "${model.code?cap_first}Controller.version.${now?string("yyyy.MM.dd")}";
+        return "${model.code?cap_first}Controller.version.${now}";
     }
 
     @ResponseBody

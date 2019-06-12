@@ -1,21 +1,19 @@
 package com.web.${application.code}.mapper;
 
-import com.web.${application.code}.mapper.${model.code?cap_first};
+import com.web.${application.code}.entity.${model.code?cap_first};
+import org.springframework.stereotype.Repository;
+
 import java.util.List;
+import java.util.Map;
 
 /**
 * ${model.name}
 * create by wenxy at ${now}
 */
+@Repository
 public interface ${model.code?cap_first}Mapper {
 
-  int selectCount(Map<String,Object> map);
-
   int selectCount(${model.code?cap_first} example);
-
-  List<${model.code?cap_first}> selectList(Map<String,Object> map);
-
-  ${model.code?cap_first} selectOne(Map<String,Object> map);
 
   List<${model.code?cap_first}> selectList(${model.code?cap_first} example);
 

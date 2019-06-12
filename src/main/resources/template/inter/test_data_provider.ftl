@@ -21,7 +21,7 @@ public class ${model.code?cap_first}TestDataProvider extends AbstractTestDataPro
 
     @Override
     public String getVersion() {
-        return "${model.code?cap_first}Controller.version.${now?string("yyyy.MM.dd")}";
+        return "${model.code?cap_first}Controller.version.${now}";
     }
 
     @Override

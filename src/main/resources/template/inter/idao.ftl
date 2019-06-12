@@ -6,7 +6,7 @@ import com.school.book.model.${model.code?cap_first};
 
 import java.util.List;
 /**
-* version.${now?string("yyyy.MM.dd")}
+* version.${now}
 */
 public interface I${model.code?cap_first}Dao extends IBasicDao<${model.code?cap_first}>{
 <#list parameters as obj>

@@ -4,6 +4,7 @@ import com.base.Constants;
 import com.snake.inter.model.Application;
 import com.snake.inter.model.Model;
 import com.snake.inter.model.ModelParameter;
+import com.snake.inter.model.Parameter;
 import com.snake.inter.service.IApplicationService;
 import com.snake.inter.service.IModelParameterService;
 import com.snake.inter.service.IModelService;
@@ -88,7 +89,7 @@ public class DatabaseController {
                     if (null != table.getColumnList()) {
                         List<ModelParameter> parameterList = new ArrayList<ModelParameter>();
                         for (Column column : table.getColumnList()) {
-                            ModelParameter parameter = ModelParameter.build(column);
+                            ModelParameter parameter = Parameter.build(ModelParameter.class, column);
                             parameter.setCreatorId(userId);
                             parameter.setModelId(model.getId());
                             parameterList.add(parameter);
