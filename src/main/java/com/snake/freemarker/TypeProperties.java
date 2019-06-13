@@ -42,9 +42,10 @@ public class TypeProperties implements TemplateMethodModelEx {
                     sb.append(keys[index]);
                 }
             }
-            return getProperties().getProperty(sb.toString());
+            String value = getProperties().getProperty(sb.toString());
+            return value == null ? "" : value;
         }
-        return null;
+        return "";
     }
 
     public static String getColumnType(String javaType) {
@@ -58,7 +59,7 @@ public class TypeProperties implements TemplateMethodModelEx {
     @Override
     public Object exec(List arguments) throws TemplateModelException {
         String[] keys = new String[arguments.size()];
-        for(int i=0;i<keys.length;i++){
+        for (int i = 0; i < keys.length; i++) {
             keys[i] = arguments.get(i).toString();
         }
         return getValue(keys);

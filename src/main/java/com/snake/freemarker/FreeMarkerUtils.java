@@ -36,8 +36,18 @@ public class FreeMarkerUtils {
     private FreeMarkerUtils() {
     }
 
-    private String getClassPath() {
+    private static String outputPath;
+
+    private String getClassPath(){
         return this.getClass().getClassLoader().getResource("").getPath();
+    }
+
+    private String getOutputPath() {
+        if(null == outputPath) {
+            String webPath = new File(getClassPath()).getParentFile().getParent();
+            outputPath = webPath + "/output";
+        }
+        return outputPath;
     }
 
     private Configuration getConfiguration() throws Exception {
@@ -62,9 +72,8 @@ public class FreeMarkerUtils {
         return realPath;
     }
 
-    public String buildPath(String pathHead, String... paths) {
-        StringBuffer sb = new StringBuffer(getClassPath());
-        sb.append(pathHead);
+    public String buildPath(String... paths) {
+        StringBuffer sb = new StringBuffer(getOutputPath());
         if (null != paths && paths.length > 0) {
             for (String path : paths) {
                 sb.append("/");

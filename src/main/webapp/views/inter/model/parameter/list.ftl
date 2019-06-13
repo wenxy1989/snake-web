@@ -135,11 +135,6 @@
                         </#list>
                     </tbody>
                 </table>
-
-                <div class="am-cf">
-                    <#import "/common/pager.ftl" as pager>
-                    <@pager.guid pageUrl="/inter/model/parameter/page" page=page />
-                </div>
             <#else>
                 没有选择的结果参数,去<a href="#" onclick="javascript:toSelect()">添加</a>
             </#if>
