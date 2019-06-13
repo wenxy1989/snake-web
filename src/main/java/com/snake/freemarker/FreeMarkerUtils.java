@@ -144,6 +144,7 @@ public class FreeMarkerUtils {
             params.put("group", group);
             params.put("urlList", group.getUrlList());
             params.put("now", new Date());
+            params.put("typeProperties", new TypeProperties());
             for (TemplateConfig config : configList) {
                 buildTemplate(config, params, application.getCode());
             }
@@ -154,9 +155,10 @@ public class FreeMarkerUtils {
         if (null != model && null != templates && templates.size() > 0) {
             Map<String, Object> params = HashMaps.build(String.class, Object.class)
                     .add("now", DateTimeUtils.getNowDateTime())
-                    .add("application", application)
+                    .add("app", application)
                     .add("model", model)
-                    .add("parameters", model.getParameterList());
+                    .add("parameters", model.getParameterList())
+                    .add("typeProperties", new TypeProperties());
             for (TemplateConfig config : templates) {
                 if ("model".equals(config.getType())) {
                     buildTemplate(config, params, application.getCode(), model.getCode());
@@ -169,7 +171,9 @@ public class FreeMarkerUtils {
         if (null != application && null != templates && templates.size() > 0) {
             Map<String, Object> params = HashMaps.build(String.class, Object.class)
                     .add("now", DateTimeUtils.getNowDateTime())
-                    .add("application", application);
+                    .add("app", application)
+                    .add("modelList", application.getModelList())
+                    .add("typeProperties", new TypeProperties());
             for (TemplateConfig config : templates) {
                 if ("application".equals(config.getType())) {
                     buildTemplate(config, params, application.getCode());

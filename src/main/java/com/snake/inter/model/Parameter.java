@@ -2,12 +2,9 @@ package com.snake.inter.model;
 
 import com.base.Constants;
 import com.snake.mysql.model.Column;
-import com.snake.resource.dao.JavaColumnProperties;
+import com.snake.freemarker.TypeProperties;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -34,16 +31,6 @@ public class Parameter {
 
     private ModelObject modelObject;
 
-    private static JavaColumnProperties javaColumnProperties;
-
-    static {
-        try {
-            javaColumnProperties = new JavaColumnProperties();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     private static String columnName(String comment) {
         return comment.contains(":") ? comment.split(":")[0] : comment;
     }
@@ -61,7 +48,7 @@ public class Parameter {
 
     public String getColumnType() {
         if (StringUtils.isBlank(this.columnType)) {
-            this.columnType = javaColumnProperties.getColumnType(this.type);
+            this.columnType = TypeProperties.getColumnType(this.type);
         }
         return columnType;
     }
@@ -69,7 +56,7 @@ public class Parameter {
     public void setColumnType(String columnType) {
         this.columnType = columnType;
         if (StringUtils.isBlank(this.type)) {
-            this.type = javaColumnProperties.getJavaType(columnType);
+            this.type = TypeProperties.getJavaType(columnType);
         }
     }
 

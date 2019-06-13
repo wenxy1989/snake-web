@@ -1,4 +1,4 @@
-package com.web.${application.code}.config;
+package com.web.${app.code}.config;
 
 
 import org.springframework.context.annotation.Bean;
@@ -10,19 +10,19 @@ import org.springframework.web.filter.CorsFilter;
 @Configuration
 public class CorsConfig {
 
-private CorsConfiguration buildConfig(){
-CorsConfiguration configuration = new CorsConfiguration();
-configuration.addAllowedOrigin("*");
-configuration.addAllowedHeader("*");
-configuration.addAllowedMethod("*");
-return configuration;
-}
+    private CorsConfiguration buildConfig(){
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.addAllowedOrigin("*");
+        configuration.addAllowedHeader("*");
+        configuration.addAllowedMethod("*");
+        return configuration;
+    }
 
-@Bean
-public CorsFilter corsFilter(){
-UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-source.registerCorsConfiguration("/**",this.buildConfig());
-return new CorsFilter(source);
-}
+    @Bean
+    public CorsFilter corsFilter(){
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**",this.buildConfig());
+        return new CorsFilter(source);
+    }
 
 }

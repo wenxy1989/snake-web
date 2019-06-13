@@ -72,8 +72,9 @@ public class ApplicationService extends BasicService<Application> implements IAp
             if (null != application) {
                 List<TemplateConfig> configList = templateDao.selectListByFrameId(frameId);
                 if (null != configList && configList.size() > 0) {
-                    FreeMarkerUtils.getInstance().writeApplication(application, configList);
                     List<Model> modelList = modelDao.getListByApplicationId(application.getId(), 3);
+                    application.setModelList(modelList);
+                    FreeMarkerUtils.getInstance().writeApplication(application, configList);
                     if (null != modelList && modelList.size() > 0) {
                         for (Model model : modelList) {
                             List<ModelParameter> parameterList = modelParameterDao.getListByModelId(model.getId());

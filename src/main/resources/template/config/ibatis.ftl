@@ -1,42 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.web.${application.code}.entity.${model.code?cap_first}">
+<mapper namespace="com.web.${app.code}.mapper.${model.code?cap_first}Mapper">
 
-	<resultMap type="com.web.${application.code}.entity.${model.code?cap_first}" id="${model.code}ResultMap">
-  		<result property="id" column="id_"/>
-		<#list parameters as attribute>
-  		<result property="${attribute.code}" column="${attribute.code}"/>
-  		</#list>
-  		<result property="createdTime" column="created_time"/>
-  		<result property="creatorId" column="creator_id"/>
-	</resultMap>
+    <resultMap type="com.web.${app.code}.entity.${model.code?cap_first}" id="${model.code}ResultMap">
+        <#list parameters as attribute>
+        <result property="${attribute.code}" column="${attribute.code}"/>
+        </#list>
+    </resultMap>
 
-    <select id="selectAll" resultMap="${model.code}ResultMap">
-        select * from ${model.code}
-    </select>
-
-    <select id="selectSome" parameterType="java.util.Map" resultMap="${model.code}ResultMap">
-        select * from ${model.code} limit #${"{"}offset},#${"{"}limit}
-    </select>
-
-    <insert id="insert" parameterType="com.web.${application.code}.entity${model.code?cap_first}">
-        INSERT INTO ${model.code}(
-     <#list parameters as attribute>
-        ${attribute.code},
-     </#list>
-        created_time,
-        creator_id)
-        VALUES(
-    <#list parameters as attribute>
-        #${"{"}${attribute.code},jdbcType=${attribute.columnType}},
-    </#list>
-        #${"{"}createdTime,jdbcType=VARCHAR},
-        #${"{"}creatorId,jdbcType=BIGINT}
+    <insert id="insert" parameterType="com.web.${app.code}.entity.${model.code?cap_first}">
+        INSERT INTO ${model.code}
+        (
+        <#list parameters as obj>
+        ${obj.code}<#if obj_has_next>,</#if>
+        </#list>
+        )
+        VALUES
+        (
+        <#list parameters as obj>
+        #${"{"}${obj.code},jdbcType=${typeProperties("java-mybatis",obj.type)?upper_case}}<#if obj_has_next>,</#if>
+        </#list>
         )
     </insert>
 
-    <update id="update" parameterType="com.web.${application.code}.entity${model.code?cap_first}">
+    <update id="update" parameterType="com.web.${app.code}.entity.${model.code?cap_first}">
         update ${model.code}
         <set>
         <#list parameters as attribute>
@@ -44,107 +32,74 @@
             ${attribute.code} = #${"{"}${attribute.code}},
             </if>
         </#list>
-            <if test="createdTime != null">
-            created_time = #${"{"}createdTime},
-            </if>
-            <if test="creatorId != null">
-            creator_id = #${"{"}creatorId}
-            </if>
         </set>
         where id_=#${"{"}id}
     </update>
 
-    <select id="findOneByMap" resultMap="${model.code}ResultMap">
-        select * from ${model.code} where 1=1 AND
-        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
-            ${"$"}${"{"}param.name} = #${"{"}param.value}
-        </foreach>
-        limit 0, 1
-    </select>
+    <delete id="delete" parameterType="java.lang.Long">
+        delete from ${model.code} where id_=#${"{"}value}
+    </delete>
 
-    <select id="findOneByObject" parameterType="com.web.${application.code}.entity${model.code?cap_first}" resultMap="${model.code}ResultMap">
-        select * from ${model.code}
-        <where>
-            <if test="id != null">
-                and id_=#${"{"}id}
-            </if>
-            <#list parameters as attribute>
-            <if test="${attribute.code} != null">
-                and ${attribute.code}=#${"{"}${attribute.code}}
-            </if>
-            </#list>
-            <if test="createdTime != null">
-                and created_time=#${"{"}createdTime}
-            </if>
-            <if test="creatorId != null">
-                and creator_id=#${"{"}creatorId}
-            </if>
-        </where>
-        limit 0, 1
-    </select>
-
-    <select id="findByMap" resultMap="${model.code}ResultMap">
-        select * from  ${model.code} where 1=1 AND
-        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
-            ${"$"}${"{"}param.name} = #${"{"}param.value}
-        </foreach>
-    </select>
-
-    <select id="findByObject" parameterType="com.web.${application.code}.entity${model.code?cap_first}" resultMap="${model.code}ResultMap">
+    <select id="selectOne" parameterType="com.web.${app.code}.entity.${model.code?cap_first}" resultMap="${model.code}ResultMap">
         select * from ${model.code}
         <where>
         <#list parameters as attribute>
             <if test="${attribute.code} != null">
-                and ${attribute.code}=#${"{"}${attribute.code}}
+                and ${attribute.code} = #${"{"}${attribute.code}},
             </if>
         </#list>
-            <if test="createdTime != null">
-                and created_time=#${"{"}createdTime}
+        </where>
+        limit 0, 1
+    </select>
+
+    <select id="selectList" parameterType="com.web.${app.code}.entity.${model.code?cap_first}"
+            resultMap="${model.code}ResultMap">
+        select * from ${model.code}
+        <where>
+        <#list parameters as attribute>
+            <if test="${attribute.code} != null">
+                and ${attribute.code} = #${"{"}${attribute.code}},
             </if>
-            <if test="creatorId != null">
-                and creator_id=#${"{"}creatorId}
-            </if>
+        </#list>
         </where>
     </select>
 
-    <select id="findByIn" resultMap="${model.code}ResultMap">
-        select * from ${model.code} where 1=1 AND
-        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
-            ${"$"}${"{"}param.name} IN (#${"{"}param.value})
-        </foreach>
-    </select>
-
-    <select id="findByLike" resultMap="${model.code}ResultMap">
-        select * from ${model.code} where 1=1 AND
-        <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
-            ${"$"}${"{"}param.name} LIKE #${"{"}param.value}
-        </foreach>
-    </select>
-
-    <select id="getTotalCount" resultType="int">
+    <select id="selectCount" parameterType="com.web.${app.code}.entity.${model.code?cap_first}" resultType="java.lang.Integer">
         select count(1) from ${model.code}
+        <where>
+        <#list parameters as attribute>
+            <if test="${attribute.code} != null">
+                and ${attribute.code} = #${"{"}${attribute.code}},
+            </if>
+        </#list>
+        </where>
     </select>
 
-    <select id="getCount" parameterType="java.util.Map" resultType="int">
-        select count(1) from ${model.code} where 1=1
-        <if test="whereClause != null">
-        ${"$"}${"{"}whereClause}
+    <select id="selectListByPage" parameterType="com.web.${app.code}.config.Page" resultMap="${model.code}ResultMap">
+        select * from ${model.code}
+        <if test="where != null">
+            where $${"{"}where}
+        </if>
+        <if test="order != null">
+            order $${"{"}order}
+        </if>
+        <if test="limit > 0">
+            limit $${"{"}limit} offset $${"{"}offset}
         </if>
     </select>
 
-    <select id="query" parameterType="java.util.Map" resultMap="${model.code}ResultMap">
-        select ${"$"}${"{"}fieldsClause} from ${model.code} where 1=1
-        <if test="whereClause != null">
-        ${"$"}${"{"}whereClause}
+    <select id="selectCountByPage" parameterType="com.web.${app.code}.config.Page" resultType="java.lang.Integer">
+        select count(1) from ${model.code}
+        <if test="where != null">
+            where $${"{"}where}
         </if>
-        <if test="orderClause != null">
-        ${"$"}${"{"}orderClause}
+        <if test="order != null">
+            order $${"{"}order}
         </if>
-        limit ${"$"}${"{"}limit} offset ${"$"}${"{"}offset}
     </select>
 
-	<#--<#list parameters as attribute>
-	<#if attribute.useType == 'onetoone'>
+    <#--<#list parameters as attribute>
+    <#if attribute.useType == 'onetoone'>
     <select id="getObjectBy${attribute.code?cap_first}" parameterType="java.lang.${attribute.javaType}" resultMap="${model.code}ResultMap">
         select * from ${model.code} where ${attribute.code}=${"#"}{${attribute.code?uncap_first}}
     </select>
@@ -160,7 +115,7 @@
     <delete id="deleteBy${attribute.code?cap_first}" parameterType="java.lang.${attribute.javaType}">
         delete from ${model.code} where ${attribute.code}=${"#"}{${attribute.code?uncap_first}}
     </delete>
-	</#if>
-	</#list>-->
+    </#if>
+    </#list>-->
 
 </mapper>

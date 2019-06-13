@@ -1,10 +1,10 @@
-package com.web.${application.code};
+package com.web.${app.code};
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@MapperScan("com.web.${application.code}.mapper")
+@MapperScan("com.web.${app.code}.mapper")
 @SpringBootApplication
 public class SpringWebApplication {
 

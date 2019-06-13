@@ -1,4 +1,4 @@
-package com.${application}.${model.code}.model;
+package com.${app.code}.${model.code}.model;
 /**
  * ${model.code}实体类 ${model.code?cap_first}
  * @author {author}

@@ -4,11 +4,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.web.${application.code}</groupId>
-    <artifactId>${application.code}-api</artifactId>
+    <groupId>com.web.${app.code}</groupId>
+    <artifactId>${app.code}-api</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>${application.name}</name>
+    <name>${app.name}</name>
 
     <parent>
         <groupId>org.springframework.boot</groupId>

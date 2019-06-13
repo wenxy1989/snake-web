@@ -1,4 +1,4 @@
-package com.web.${application.code}.entity;
+package com.web.${app.code}.entity;
 /**
  * ${model.code?cap_first}
  * @author {author}
