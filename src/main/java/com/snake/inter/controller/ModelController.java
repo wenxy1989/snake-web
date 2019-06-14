@@ -53,7 +53,7 @@ public class ModelController extends BasicController {
         ModelAndView mv = new ModelAndView("/inter/model/list");
         responseTip(mv, request);
         String name = request.getParameter("name");
-        String model = request.getParameter("model");
+        String code = request.getParameter("code");
         String status = request.getParameter("status");
         String mine = request.getParameter("mine");
         status = org.apache.commons.lang.StringUtils.isNotBlank(status) ? status : "0";
@@ -64,9 +64,9 @@ public class ModelController extends BasicController {
             cri.addCondition(0, new Condition("name_", "like", name + "%"));
             mv.addObject("name", name);
         }
-        if (org.apache.commons.lang.StringUtils.isNotBlank(model)) {
-            cri.addCondition(0, new Condition("model_", "like", model + "%"));
-            mv.addObject("model", model);
+        if (org.apache.commons.lang.StringUtils.isNotBlank(code)) {
+            cri.addCondition(0, new Condition("code_", "like", code + "%"));
+            mv.addObject("code", code);
         }
         if (org.apache.commons.lang.StringUtils.isNotBlank(status)) {
             cri.addCondition(0, new Condition("status_", "=", Integer.valueOf(status)));

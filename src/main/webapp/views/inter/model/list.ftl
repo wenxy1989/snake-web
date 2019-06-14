@@ -116,7 +116,7 @@
                         <input type="text" name="name" value="${name}" class="am-form-field" placeholder="名称 / Name">
                     </div>
                     <div class="am-u-sm-12 am-u-md-2">
-                        <input type="text" name="url" value="${url}" class="am-form-field" placeholder="访问地址 / Url">
+                        <input type="text" name="code" value="${code}" class="am-form-field" placeholder="编码 / Code">
                     </div>
                     <div class="am-u-sm-12 am-u-md-2">
                         <select name="status" data-am-selected="{btnSize: 'sm'}" class="am-form-field">

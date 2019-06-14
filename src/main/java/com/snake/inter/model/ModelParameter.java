@@ -7,7 +7,7 @@ package com.snake.inter.model;
 public class ModelParameter extends Parameter {
 
     private Long modelId;
-    private Integer keyType;//0-非关键值1-唯一可查/2-一对多
+    private Integer keyType;//0-非关键值1-唯一/2-必选,3-域标示,4-标示
 
     public ModelParameter() {
     }

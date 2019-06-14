@@ -44,8 +44,10 @@
                         <div class="am-u-sm-9">
                             <select name="keyType" data-am-selected="{btnSize: 'sm'}">
                                 <option value="0" selected>无</option>
-                                <option value="1">唯一限定</option>
-                                <option value="2">一对多</option>
+                                <option value="1">唯一</option>
+                                <option value="2">必须</option>
+                                <option value="3">域标示</option>
+                                <option value="4">标示</option>
                             </select>
                             <small>此属性相对于数据模型的关系</small>
                         </div>

@@ -45,8 +45,10 @@
                         <div class="am-u-sm-9">
                             <select name="keyType" data-am-selected="{btnSize: 'sm'}">
                                 <option value="0"<#if parameter.keyType==0> selected="selected" </#if>>无</option>
-                                <option value="1"<#if parameter.keyType==1> selected="selected" </#if>>唯一限定</option>
-                                <option value="2"<#if parameter.keyType==2> selected="selected" </#if>>一对多</option>
+                                <option value="1"<#if parameter.keyType==1> selected="selected" </#if>>唯一</option>
+                                <option value="2"<#if parameter.keyType==2> selected="selected" </#if>>必选</option>
+                                <option value="3"<#if parameter.keyType==3> selected="selected" </#if>>域标示</option>
+                                <option value="4"<#if parameter.keyType==4> selected="selected" </#if>>标示</option>
                             </select>
                             <small>此属性相对于数据模型的关系</small>
                         </div>
@@ -64,7 +66,7 @@
                         </div>
                     </div>
 
-                <@i_com.selectType value=parameter.type example=parameter.example />
+                <@i_com.selectType value=parameter.type example=parameter.example length=parameter.length />
 
                     <div class="am-form-group">
                         <label class="am-u-sm-3 am-form-label">规则 / Regex</label>
