@@ -7,7 +7,7 @@
         <Button type="text" @click="deleteRow(row,index)">删除</Button>
       </template>
     </Table>
-    <Page :total="page.total" :page-size="page.limit" show-sizer @onchange="fetchData" @on-page-size-change="changeSize"></Page>
+    <Page :total="page.total" :page-size="page.limit" show-sizer @on-change="fetchData" @on-page-size-change="changeSize"></Page>
     <FormModal :value="editValue" :show="showEditModal"></FormModal>
   </div>
 </template>
@@ -18,7 +18,17 @@ export default {
   components: {
     FormModal
   },
+  props:{
+      <#list parameters as obj>
+        <#if obj.keyType?? && obj.keyType == 2>
+        ${obj.code}:{
+         required: true
+        }
+        </#if>
+      </#list>
+  },
   data () {
+    const vm = this
     return {
       columns: [
       <#list parameters as obj>
@@ -29,6 +39,18 @@ export default {
         { title:'操作',slot:'operation'}
       ],
       size: 10,
+      queryParam:{
+      <#list parameters as obj>
+      <#if obj.keyType??>
+      <#if obj.keyType == 2>
+        ${obj.code}:vm.${obj.code},
+      </#if>
+      <#if obj.keyType == 3>
+        ${obj.code}:null,
+      </#if>
+      </#if>
+      </#list>
+      },
       page: {},
       showEditModal:false,
       editValue:{}
@@ -40,7 +62,7 @@ export default {
   methods: {
     fetchData (number) {
       const vm = this
-      this.$axios.get('${app.code}/${model.code}/page?number='+number+'&size='+vm.size)
+      this.$axios.post('${app.code}/${model.code}/page?number='+number+'&size='+vm.size,vm.queryParam)
         .then(res => {
           vm.page = Object.assign({},res.data.data)
         })

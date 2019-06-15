@@ -93,10 +93,6 @@ public class FreeMarkerUtils {
         return file.exists();
     }
 
-    public static void writeTemplate(Template template, Map<String, Object> map, String saveFileName) {
-        writeTemplate(template, map, saveFileName, 0);
-    }
-
     //type:0-经常更新、一般不做手动修改的元素,1-经常手动修改的、不经常更新元素
     public static void writeTemplate(Template template, Map<String, Object> map, String saveFileName, int type) {
         if (type == 1 && exists(saveFileName)) {//不更新必须简单元素
@@ -129,7 +125,7 @@ public class FreeMarkerUtils {
         try {
             String savePathName = buildPath(application, StringTools.parsePath(config.getSavePathModel(), application));
             String saveFileRealName = buildFile(savePathName, StringTools.parsePath(config.getSaveFileModel(), application));
-            writeTemplate(getTemplate(config), params, saveFileRealName);
+            writeTemplate(getTemplate(config), params, saveFileRealName,config.getUpdateType());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -139,7 +135,7 @@ public class FreeMarkerUtils {
         try {
             String savePathName = buildPath(application, StringTools.parsePath(config.getSavePathModel(), application, model));
             String saveFileRealName = buildFile(savePathName, StringTools.parsePath(config.getSaveFileModel(), application, model));
-            writeTemplate(getTemplate(config), params, saveFileRealName);
+            writeTemplate(getTemplate(config), params, saveFileRealName,config.getUpdateType());
         } catch (Exception e) {
             e.printStackTrace();
         }

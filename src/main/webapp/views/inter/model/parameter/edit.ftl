@@ -46,7 +46,7 @@
                             <select name="keyType" data-am-selected="{btnSize: 'sm'}">
                                 <option value="0"<#if parameter.keyType==0> selected="selected" </#if>>无</option>
                                 <option value="1"<#if parameter.keyType==1> selected="selected" </#if>>唯一</option>
-                                <option value="2"<#if parameter.keyType==2> selected="selected" </#if>>必选</option>
+                                <option value="2"<#if parameter.keyType==2> selected="selected" </#if>>依赖</option>
                                 <option value="3"<#if parameter.keyType==3> selected="selected" </#if>>域标示</option>
                                 <option value="4"<#if parameter.keyType==4> selected="selected" </#if>>标示</option>
                             </select>

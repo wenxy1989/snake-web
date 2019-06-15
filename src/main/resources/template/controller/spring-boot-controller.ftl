@@ -1,5 +1,6 @@
 package com.web.${app.code}.controller;
 
+import com.web.glucose_db.config.ResponseBodyResult;
 import com.web.${app.code}.entity.${model.code?cap_first};
 import com.web.${app.code}.mapper.${model.code?cap_first}Mapper;
 import com.web.${app.code}.config.Page;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller
@@ -22,31 +25,37 @@ public class ${model.code?cap_first}Controller {
     private ${model.code?cap_first}Mapper ${model.code}Mapper;
 
     @ResponseBody
-    @RequestMapping("page")
-    public Object page(@RequestParam(value = "number", defaultValue = "1") int number, @RequestParam(value = "size", defaultValue = "0") int size) {
-      Page page = Page.newInstance(number,size);
-      List<${model.code?cap_first}> list = this.${model.code}Mapper.selectListByPage(page);
-      int total = this.${model.code}Mapper.selectCountByPage(page);
-      page.build(total,list);
-      return page;
+    @RequestMapping("list")
+    public Object list(@RequestBody ${model.code?cap_first} obj) {
+<#list parameters as p>
+    <#if p.keyType?? && p.keyType == 2 >
+        if(obj == null || obj.get${p.code?cap_first}() == null){
+            return ResponseBodyResult.Error.parameter;
+        }
+    </#if>
+</#list>
+        return this.${model.code}Mapper.selectList(obj);
     }
-<#list parameters as obj>
-    <#if obj.keyType?? && obj.keyType == 2 >
 
     @ResponseBody
-    @RequestMapping("{${obj.code}}/page")
-    public Object pageBy${obj.code?cap_first}(@PathVariable("${obj.code}")${obj.type} ${obj.code}, @RequestParam(value = "number", defaultValue = "1") int number, @RequestParam(value = "size", defaultValue = "0") int size) {
+    @RequestMapping("page")
+    public Object page(@RequestParam(value = "number", defaultValue = "1") int number, @RequestParam(value = "size", defaultValue = "0") int size, @RequestBody ${model.code?cap_first} param) {
+    <#list parameters as p>
+        <#if p.keyType?? && p.keyType == 2 >
+        if(param.get${p.code?cap_first}() == null){
+            return ResponseBodyResult.Error.parameter;
+        }
+        </#if>
+    </#list>
         Page page = Page.newInstance(number,size);
-        page.addCondition("${obj.code}="+${obj.code});
+        page.setParam(param);
         List<${model.code?cap_first}> list = this.${model.code}Mapper.selectListByPage(page);
         int total = this.${model.code}Mapper.selectCountByPage(page);
         page.build(total,list);
         return page;
     }
-    </#if>
-</#list>
 <#list parameters as obj>
-    <#if obj.keyType?? && obj.keyType == 1 >
+    <#if obj.keyType?? && obj.keyType == 1 ><#-- objectByCode -->
 
     @ResponseBody
     @RequestMapping("objectBy${obj.code?cap_first}")
@@ -54,18 +63,6 @@ public class ${model.code?cap_first}Controller {
         ${model.code?cap_first} example = new ${model.code?cap_first}();
         example.set${obj.code?cap_first}(${obj.code});
         return this.${model.code}Mapper.selectOne(example);
-    }
-    </#if>
-</#list>
-<#list parameters as obj>
-    <#if obj.keyType?? && (obj.keyType == 2 || obj.keyType == 3) >
-
-    @ResponseBody
-    @RequestMapping("listBy${obj.code?cap_first}")
-    public Object listBy${obj.code?cap_first}(${obj.type} ${obj.code}) {
-        ${model.code?cap_first} example = new ${model.code?cap_first}();
-        example.set${obj.code?cap_first}(${obj.code});
-        return this.${model.code}Mapper.selectList(example);
     }
     </#if>
 </#list>

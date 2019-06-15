@@ -45,41 +45,52 @@
         <where>
         <#list parameters as attribute>
             <if test="${attribute.code} != null">
-                and ${attribute.code} = #${"{"}${attribute.code}},
+                and ${attribute.code} = #${"{"}${attribute.code}}
             </if>
         </#list>
         </where>
         limit 0, 1
     </select>
 
+    <sql id="whereByType">
+        <where>
+            <#list parameters as attribute>
+                <if test="${attribute.code} != null">
+                    and ${attribute.code} = #${"{"}${attribute.code}}
+                </if>
+            </#list>
+        </where>
+    </sql>
+
     <select id="selectList" parameterType="com.web.${app.code}.entity.${model.code?cap_first}"
             resultMap="${model.code}ResultMap">
         select * from ${model.code}
-        <where>
-        <#list parameters as attribute>
-            <if test="${attribute.code} != null">
-                and ${attribute.code} = #${"{"}${attribute.code}},
-            </if>
-        </#list>
-        </where>
+        <include refid="whereByType"/>
     </select>
 
     <select id="selectCount" parameterType="com.web.${app.code}.entity.${model.code?cap_first}" resultType="java.lang.Integer">
         select count(1) from ${model.code}
-        <where>
-        <#list parameters as attribute>
-            <if test="${attribute.code} != null">
-                and ${attribute.code} = #${"{"}${attribute.code}},
-            </if>
-        </#list>
-        </where>
+        <include refid="whereByType"/>
     </select>
+
+    <sql id="whereByParamType">
+        <where>
+            <if test="param != null">
+                <#list parameters as attribute>
+                    <if test="param.${attribute.code} != null">
+                        and ${attribute.code} = #${"{param."}${attribute.code}}
+                    </if>
+                </#list>
+            </if>
+            <if test="where != null">
+                and $${"{"}where}
+            </if>
+        </where>
+    </sql>
 
     <select id="selectListByPage" parameterType="com.web.${app.code}.config.Page" resultMap="${model.code}ResultMap">
         select * from ${model.code}
-        <if test="where != null">
-            where $${"{"}where}
-        </if>
+        <include refid="whereByParamType"/>
         <if test="order != null">
             order $${"{"}order}
         </if>
@@ -90,12 +101,7 @@
 
     <select id="selectCountByPage" parameterType="com.web.${app.code}.config.Page" resultType="java.lang.Integer">
         select count(1) from ${model.code}
-        <if test="where != null">
-            where $${"{"}where}
-        </if>
-        <if test="order != null">
-            order $${"{"}order}
-        </if>
+        <include refid="whereByParamType"/>
     </select>
 
     <#--<#list parameters as attribute>

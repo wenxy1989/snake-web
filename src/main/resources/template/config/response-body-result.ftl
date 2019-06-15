@@ -6,6 +6,21 @@ import java.io.Serializable;
 * Created by wenxy on ${now}
 */
 public class ResponseBodyResult implements Serializable {
+
+    public enum Error {
+        json_parse("json_parse_error"),
+        parameter("parameter_error");
+
+        private String value;
+        Error(String message){
+            this.value = value;
+        }
+
+        public String getValue() {
+            return value;
+        }
+    }
+
     public static final ResponseBodyResult SUCCESSFUL = success(null);
     public static final ResponseBodyResult FAILURE = error(null);
 

@@ -45,7 +45,7 @@
                             <select name="keyType" data-am-selected="{btnSize: 'sm'}">
                                 <option value="0" selected>无</option>
                                 <option value="1">唯一</option>
-                                <option value="2">必须</option>
+                                <option value="2">依赖</option>
                                 <option value="3">域标示</option>
                                 <option value="4">标示</option>
                             </select>

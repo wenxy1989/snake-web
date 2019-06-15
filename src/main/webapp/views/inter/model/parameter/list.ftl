@@ -110,7 +110,7 @@
                             <td class="table-id">${obj.id}</td>
                             <td class="table-title">${obj.name}</td>
                             <td class="table-main">${obj.code}</td>
-                            <td class="table-main"><#if obj.keyType==0>无<#elseif obj.keyType==1>唯一<#elseif obj.keyType==2>必选<#elseif obj.keyType==3>域标示<#elseif obj.keyType==4>标示</#if></td>
+                            <td class="table-main"><#if obj.keyType==0>无<#elseif obj.keyType==1>唯一<#elseif obj.keyType==2>依赖<#elseif obj.keyType==3>域标示<#elseif obj.keyType==4>标示</#if></td>
                             <td class="table-main">${obj.type}</td>
                             <td class="table-main"><#if obj.isArray>是<#else>否</#if></td>
                             <td class="table-main">${obj.length}</td>

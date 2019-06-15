@@ -42,13 +42,13 @@
     </dependencies>
     <build>
         <finalName>sensor-api</finalName>
-        <directory>${basedir}/target</directory>
+        <directory>${'$'}{basedir}/target</directory>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-            <plugin>
+            <#--<plugin>
                 <groupId>org.mybatis.generator</groupId>
                 <artifactId>mybatis-generator-maven-plugin</artifactId>
                 <version>1.3.2</version>
@@ -63,7 +63,7 @@
                         <goals>
                             <goal>generate</goal>
                         </goals>
-                        <!--<phase>generate</phase>-->
+                        <!--<phase>generate</phase>&ndash;&gt;
                     </execution>
                 </executions>
                 <dependencies>
@@ -73,7 +73,7 @@
                         <version>1.3.5</version>
                     </dependency>
                 </dependencies>
-            </plugin>
+            </plugin>-->
         </plugins>
         <resources>
             <resource>

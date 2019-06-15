@@ -33,13 +33,17 @@ public class ResponseBodyHandler implements ResponseBodyAdvice {
             return ResponseBodyResult.SUCCESSFUL;
         } else if (body instanceof ResponseBodyResult) {
             return body;
+        } else if (body instanceof ResponseBodyResult.Error) {
+            return ResponseBodyResult.error(((ResponseBodyResult.Error) body).getValue());
+        } else if (body instanceof Exception) {
+            return ResponseBodyResult.error(((Exception) body).getMessage());
         } else if (body instanceof String) {
             ResponseBodyResult result = ResponseBodyResult.success((String) body);
             try {
             //因为是String类型，我们要返回Json字符串，否则SpringBoot框架会转换出错
                 return mapperThreadLocal.get().writeValueAsString(result);
             } catch (JsonProcessingException e) {
-                return ResponseBodyResult.error(2, e.getMessage());
+                return ResponseBodyResult.error(e.getMessage());
             }
         } else {
             return ResponseBodyResult.success(body);

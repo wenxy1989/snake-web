@@ -17,6 +17,10 @@ public interface Page<T> {
 
     String getOrder();
 
+    void setParam(T param);
+
+    T getParam();
+
     int getTotal();
 
     List<T> getContent();
@@ -36,6 +40,7 @@ public interface Page<T> {
     class Pagination<T> implements Page<T> {
 
         private List<String> conditionList;
+        private T param;
         private String order;
         private int offset;
         private int limit;
@@ -74,7 +79,7 @@ public interface Page<T> {
 
         @Override
         public void addCondition(String condition) {
-            if (null != this.conditionList) {
+            if (null == this.conditionList) {
                 this.conditionList = new ArrayList<>();
             }
             this.conditionList.add(condition);
@@ -106,6 +111,16 @@ public interface Page<T> {
         @Override
         public String getOrder() {
             return this.order;
+        }
+
+        @Override
+        public void setParam(T param) {
+            this.param = param;
+        }
+
+        @Override
+        public T getParam() {
+            return this.param;
         }
 
         @Override
