@@ -50,10 +50,13 @@
                         <input type="text" name="name" value="${name}" class="am-form-field" placeholder="名称 / Name">
                     </div>
                     <div class="am-u-sm-12 am-u-md-3">
-                        <input type="text" name="group" value="${group}" class="am-form-field" placeholder="分组 / Group">
+                        <@t_com.selectFrame value="${frameId}"/>
                     </div>
                     <div class="am-u-sm-12 am-u-md-3">
-                        <input type="text" name="type" value="${type}" class="am-form-field" placeholder="类型 / Type">
+                        <select name="type" data-am-selected="{btnSize: 'sm'}" placeholder="类型 / Type">
+                            <option value="application"<#if type == 'application'> selected="true"</#if>>application</option>
+                            <option value="model"<#if type == 'model'> selected="true"</#if>>model</option>
+                        </select>
                     </div>
                     <div class="am-u-sm-12 am-u-md-3">
                         <button class="am-btn am-btn-default" type="submit">搜索</button>

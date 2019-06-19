@@ -34,7 +34,7 @@ public class TemplateController extends BasicController {
     public ModelAndView page(Integer pageNo, Integer pageSize, HttpServletRequest request) {
         ModelAndView mv = new ModelAndView("/template/info/list");
         String name = request.getParameter("name");
-        String group = request.getParameter("group");
+        String frameId = request.getParameter("frameId");
         String type = request.getParameter("type");
         try {
             Criteria criteria = new SimpleCriteria();
@@ -42,12 +42,12 @@ public class TemplateController extends BasicController {
                 criteria.addCondition(0, new Condition("name_", "like", "%" + name + "%"));
                 mv.addObject("name", name);
             }
-            if (StringUtils.isNotBlank(group)) {
-                criteria.addCondition(0, new Condition("group_", "like", "%" + group + "%"));
-                mv.addObject("group", group);
+            if (StringUtils.isNotBlank(frameId)) {
+                criteria.addCondition(0, new Condition("frame_id", frameId));
+                mv.addObject("frameId", frameId);
             }
             if (StringUtils.isNotBlank(type)) {
-                criteria.addCondition(0, new Condition("type_", "like", "%" + type + "%"));
+                criteria.addCondition(0, new Condition("type_", type));
                 mv.addObject("type", type);
             }
             criteria.setPageNo(null == pageNo ? Constants.PAGE_NO : pageNo);

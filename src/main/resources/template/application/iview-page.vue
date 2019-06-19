@@ -1,14 +1,18 @@
 <template>
   <div>
-    <Button @click="showCreate">新增</Button>
-    <Table :data="page.content" :columns="columns">
+    <Form inline>
+      <FormItem>
+        <Button @click="showCreate">新增</Button>
+      </FormItem>
+    </Form>
+    <Table :data="page.content" :columns="columns" :loading="loading">
       <template slot-scope="{row,index}" slot="operation">
         <Button type="text" @click="showEdit(row)">修改</Button>
         <Button type="text" @click="deleteRow(row,index)">删除</Button>
       </template>
     </Table>
     <Page :total="page.total" :page-size="page.limit" show-sizer @on-change="fetchData" @on-page-size-change="changeSize"></Page>
-    <FormModal :value="editValue" :show="showEditModal"></FormModal>
+    <FormModal :value="editValue" :show="showEditModal" @hide="showEditModal=false"></FormModal>
   </div>
 </template>
 <script>
@@ -33,10 +37,22 @@ export default {
       columns: [
       <#list parameters as obj>
         <#if typeProperties("iview-table-col-ignore",obj.code) == ''>
-        { key: '${obj.code}', title: '${obj.name}' },
+        {
+          key: '${obj.code}',
+          title: '${obj.name}' <#if obj.type == 'Integer' && obj.keyType?? && obj.keyType == 4>,
+          render: function(h,params){
+            const map = {
+          <#list obj.remark?split(',') as v>
+              ${v?split('-')[0]}: '${v?split('-')[1]}'<#if v_has_next>,</#if>
+          </#list>
+            }
+            return h('span',map[params.row.${obj.code}])
+          }
+          </#if>
+         },
         </#if>
       </#list>
-        { title:'操作',slot:'operation'}
+        { title: '操作', slot: 'operation'}
       ],
       size: 10,
       queryParam:{
@@ -51,6 +67,7 @@ export default {
       </#if>
       </#list>
       },
+      loading: false,
       page: {},
       showEditModal:false,
       editValue:{}
@@ -62,9 +79,11 @@ export default {
   methods: {
     fetchData (number) {
       const vm = this
+      this.loading = true
       this.$axios.post('${app.code}/${model.code}/page?number='+number+'&size='+vm.size,vm.queryParam)
-        .then(res => {
-          vm.page = Object.assign({},res.data.data)
+        .then(data => {
+          vm.page = Object.assign({},data)
+          vm.loading = false
         })
     },
     changeSize (size){
