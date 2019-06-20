@@ -9,6 +9,7 @@ public class Frame implements MapObject {
 
     private Long id;
     private String name;
+    private String folder;//模板文件夹
     private String remark;
     private String createdTime;
     private Long creatorId;
@@ -27,6 +28,14 @@ public class Frame implements MapObject {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getFolder() {
+        return folder;
+    }
+
+    public void setFolder(String folder) {
+        this.folder = folder;
     }
 
     public String getRemark() {

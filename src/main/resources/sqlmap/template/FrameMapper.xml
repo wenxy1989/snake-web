@@ -4,17 +4,18 @@
     <resultMap type="com.snake.template.model.Frame" id="frameResultMap">
         <result property="id" column="id_"/>
         <result property="name" column="name_"/>
+        <result property="folder" column="folder_"/>
         <result property="remark" column="remark_"/>
         <result property="createdTime" column="created_time"/>
         <result property="creatorId" column="creator_id"/>
     </resultMap>
 
     <select id="selectAll" resultMap="frameResultMap">
-		select id_,name_,remark_,created_time,creator_id from template_frame
+		select id_,name_,folder_,remark_,created_time,creator_id from template_frame
 	</select>
 
     <select id="selectSome" parameterType="java.util.Map" resultMap="frameResultMap">
-        select id_,name_,remark_,created_time,creator_id from template_frame limit #{offset},#{limit}
+        select id_,name_,folder_,remark_,created_time,creator_id from template_frame limit #{offset},#{limit}
     </select>
 
     <select id="getTotalCount" resultType="java.lang.Integer">
@@ -22,12 +23,12 @@
     </select>
 
     <select id="getObject" resultMap="frameResultMap" parameterType="java.lang.Object">
-        select id_,name_,remark_,created_time,creator_id from template_frame where id_ = #{id}
+        select id_,name_,folder_,remark_,created_time,creator_id from template_frame where id_ = #{id}
     </select>
 
     <insert id="insert" parameterType="com.snake.template.model.Frame">
-        insert into template_frame(id_,name_,remark_,created_time,creator_id)
-        values(#{id},#{name},#{remark},now(),#{creatorId})
+        insert into template_frame(id_,name_,folder_,remark_,created_time,creator_id)
+        values(#{id},#{name},#{folder},#{remark},now(),#{creatorId})
         <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="id">
             select last_insert_id() as id
         </selectKey>
@@ -38,6 +39,9 @@
         <set>
             <if test="name != null">
                 name_=#{name},
+            </if>
+            <if test="folder != null">
+                folder_=#{folder},
             </if>
             <if test="remark != null">
                 remark_=#{remark},
@@ -51,7 +55,7 @@
     </delete>
 
     <select id="findOneByMap" resultMap="frameResultMap">
-        select id_,name_,remark_,created_time,creator_id from template_frame where 1=1 AND
+        select id_,name_,folder_,remark_,created_time,creator_id from template_frame where 1=1 AND
         <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
             ${param.name} = #{param.value}
         </foreach>
@@ -59,7 +63,7 @@
     </select>
 
     <select id="findOneByObject" parameterType="com.snake.template.model.Frame" resultMap="frameResultMap">
-        select id_,name_,remark_,created_time,creator_id from template_frame
+        select id_,name_,folder_,remark_,created_time,creator_id from template_frame
         <where>
             <if test="name != null">
                 and name_=#{name}
@@ -72,7 +76,7 @@
     </select>
 
     <select id="findByObject" parameterType="com.snake.template.model.Frame" resultMap="frameResultMap">
-        select id_,name_,remark_,created_time,creator_id from template_frame
+        select id_,name_,folder_,remark_,created_time,creator_id from template_frame
         <where>
             <if test="name != null">
                 and name_=#{name}
@@ -84,21 +88,21 @@
     </select>
 
     <select id="findByMap" resultMap="frameResultMap">
-        select id_,name_,remark_,created_time,creator_id from template_frame where 1=1 AND
+        select id_,name_,folder_,remark_,created_time,creator_id from template_frame where 1=1 AND
         <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
             ${param.name} = #{param.value}
         </foreach>
     </select>
 
     <select id="findByIn" resultMap="frameResultMap">
-        select id_,name_,remark_,created_time,creator_id from template_frame where 1=1 AND
+        select id_,name_,folder_,remark_,created_time,creator_id from template_frame where 1=1 AND
         <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
             ${param.name} IN (#{param.value})
         </foreach>
     </select>
 
     <select id="findByLike" resultMap="frameResultMap">
-        select id_,name_,remark_,created_time,creator_id from template_frame where 1=1 AND
+        select id_,name_,folder_,remark_,created_time,creator_id from template_frame where 1=1 AND
         <foreach item="param" index="key" collection="list"  open="" separator="AND" close="">
             ${param.name} LIKE #{param.value}
         </foreach>

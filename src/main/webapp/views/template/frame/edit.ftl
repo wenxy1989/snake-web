@@ -24,6 +24,13 @@
                     </div>
 
                     <div class="am-form-group">
+                        <label for="user-intro" class="am-u-sm-3 am-form-label">文件夹 / Folder</label>
+                        <div class="am-u-sm-9">
+                            <input type="text" name="folder" value="${group.folder}" placeholder="文件夹 / Folder">
+                        </div>
+                    </div>
+
+                    <div class="am-form-group">
                         <label for="user-intro" class="am-u-sm-3 am-form-label">备注 / Remark</label>
                         <div class="am-u-sm-9">
                             <textarea class="" rows="5" name="remark" placeholder="备注 / Remark" required>${group.remark}</textarea>
@@ -42,6 +49,13 @@
     </div>
     <!-- content end -->
 </div>
+<script type="text/javascript">
+    function folderChange(e,e2){
+        console.log(e);
+        console.log(e2);
+        alert(e);
+    }
+</script>
 <#include "/footer.ftl"/>
 </body>
 </html>

@@ -1,15 +1,20 @@
 package com.snake.inter.service;
+
 import com.base.service.BasicService;
 import com.snake.freemarker.FreeMarkerUtils;
 import com.snake.inter.dao.*;
 import com.snake.inter.model.*;
+import com.snake.template.dao.IFrameDao;
 import com.snake.template.dao.ITemplateDao;
+import com.snake.template.model.Frame;
 import com.snake.template.model.TemplateConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +55,10 @@ public class ApplicationService extends BasicService<Application> implements IAp
     @Qualifier("templateDao")
     private ITemplateDao templateDao;
 
+    @Autowired
+    @Qualifier("frameDao")
+    private IFrameDao frameDao;
+
 
     @Override
     public IApplicationDao getDao() {
@@ -66,11 +75,41 @@ public class ApplicationService extends BasicService<Application> implements IAp
         }
     }
 
+    public List<TemplateConfig> buildTemplateList(String folder) {
+        if (null != folder) {
+            File file = new File(folder);
+            if (file.exists() && file.isDirectory()) {
+                List<TemplateConfig> templateConfigList = new ArrayList<TemplateConfig>();
+                String[] fileArray = file.list();
+                for(String realFilePath : fileArray){
+                    String filePath = realFilePath.replaceAll(folder,"");
+                    String fileFolder = filePath.substring(0,filePath.lastIndexOf("/"));
+                    String fileName = filePath.substring(filePath.lastIndexOf("/"));
+                    TemplateConfig config = new TemplateConfig();
+                    config.setGroup(fileFolder);
+                    config.setName(fileName);
+                    config.setSavePathModel(fileFolder);
+                    config.setSaveFileModel(fileName);
+                    config.setUpdateType(1);
+                    //todo
+                    templateConfigList.add(config);
+                }
+                return templateConfigList;
+            }
+        }
+        return null;
+    }
+
     public void write(Long id, Long frameId) throws Exception {
         try {
             Application application = getDao().getObject(id);
-            if (null != application) {
-                List<TemplateConfig> configList = templateDao.selectListByFrameId(frameId);
+            Frame frame = frameDao.getObject(frameId);
+            if (null != application && null != frame) {
+                List<TemplateConfig> configList = buildTemplateList(frame.getFolder());
+                if (null == configList) {
+                    configList = templateDao.selectListByFrameId(frameId);
+                }
+
                 if (null != configList && configList.size() > 0) {
                     List<Model> modelList = modelDao.getListByApplicationId(application.getId(), 3);
                     application.setModelList(modelList);

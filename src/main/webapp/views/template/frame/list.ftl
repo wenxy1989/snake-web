@@ -68,6 +68,7 @@
                         <tr>
                             <th class="table-main">ID</th>
                             <th class="table-main">名称</th>
+                            <th class="table-main">文件夹</th>
                             <th class="table-main">备注</th>
                             <th class="table-main">创建时间</th>
                             <th class="table-main">操作</th>
@@ -78,6 +79,7 @@
                         <tr>
                             <td class="table-main">${obj.id}</td>
                             <td class="table-main"><a href="javascript:void(0)" onclick="toDetails(${obj.id})" >${obj.name}</a></td>
+                            <td class="table-main">${obj.folder}</td>
                             <td class="table-main">${obj.remark}</td>
                             <td class="table-main">${obj.createdTime}</td>
                             <td class="table-main">
