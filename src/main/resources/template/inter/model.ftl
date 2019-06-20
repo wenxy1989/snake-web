@@ -6,18 +6,18 @@ import com.base.model.Model;
 ** create at ${model.createdTime} by user id ${model.creatorId}
 ** version.${now}
 **/
-public class ${model.code?cap_first} extends Model{
-    <#list parameters as obj>
-    private ${obj.type?cap_first} ${obj.code?uncap_first};//<#if obj.length??>length ${obj.length}</#if> ${obj.name} ${obj.remark}<#if obj.createdTime??> create at ${obj.createdTime}</#if><#if obj.creatorId??> by user id ${obj.creatorId}</#if>
+public class ${model.javaName?cap_first} extends Model{
+    <#list parameters as p>
+    private ${p.type?cap_first} ${p.code?uncap_first};//<#if p.length??>length ${p.length}</#if> ${p.name} ${p.remark}<#if p.createdTime??> create at ${p.createdTime}</#if><#if p.creatorId??> by user id ${p.creatorId}</#if>
     </#list>
-    <#list parameters as obj>
+    <#list parameters as p>
 
-    public void set${obj.code?cap_first}(${obj.type?cap_first} ${obj.code?uncap_first}){
-        this.${obj.code?uncap_first} = ${obj.code?uncap_first};
+    public void set${p.code?cap_first}(${p.type?cap_first} ${p.code?uncap_first}){
+        this.${p.code?uncap_first} = ${p.code?uncap_first};
     }
 
-    public ${obj.type?cap_first} get${obj.code?cap_first}(){
-        return this.${obj.code?uncap_first};
+    public ${p.type?cap_first} get${p.code?cap_first}(){
+        return this.${p.code?uncap_first};
     }
     </#list>
 }

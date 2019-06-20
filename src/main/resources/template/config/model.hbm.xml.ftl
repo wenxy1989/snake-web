@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC	"-//Hibernate/Hibernate Mapping DTD 2.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 
-	<class name="com.model.${model.codeCode}.${className}" table="template_${model.codeCode}">
+	<class name="com.model.${model.javaName}.${className}" table="template_${model.javaName}">
 		<id name="id" column="ID_">
 			<generator class="increment"/>
 		</id>

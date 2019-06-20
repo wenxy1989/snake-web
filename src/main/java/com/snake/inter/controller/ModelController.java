@@ -206,7 +206,7 @@ public class ModelController extends BasicController {
         String result = RESULT_ERROR;
         try {
             Model model = modelService.getObject(id);
-            if (null != model && model.getStatus() == 1) {//status is submit
+            if (null != model && (model.getStatus() == 1 || model.getStatus() == 3)) {//status is submit
                 model.setStatus(2);
                 modelService.update(model);
                 result = RESULT_EDIT_SUCCESS;

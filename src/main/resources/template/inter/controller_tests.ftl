@@ -35,8 +35,8 @@ package com.school.book.controller.test;
 
 import com.alibaba.fastjson.JSONObject;
 import com.base.exception.DaoException;
-import com.school.book.data.${model.code?cap_first}TestDataProvider;
-import com.school.book.model.${model.code?cap_first};
+import com.school.book.data.${model.javaName?cap_first}TestDataProvider;
+import com.school.book.model.${model.javaName?cap_first};
 import com.base.mvc.IBasicDao;
 import org.junit.Test;
 import org.junit.Before;
@@ -57,22 +57,22 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 ** create at ${model.createdTime} by user id ${model.creatorId}
 **/
 @RunWith(SpringJUnit4ClassRunner.class)
-public class Default${model.code?cap_first}ControllerTests extends AbstractContextControllerTests<${model.code?cap_first}> {
+public class Default${model.javaName?cap_first}ControllerTests extends AbstractContextControllerTests<${model.javaName?cap_first}> {
 
     @Override
     public String getBaseUri() {
-        return "/default/${model.code?uncap_first}/";
+        return "/default/${model.javaName?uncap_first}/";
     }
 
     @Override
-    public ${model.code?cap_first}TestDataProvider getDataProvider() {
-        return new ${model.code?cap_first}TestDataProvider();
+    public ${model.javaName?cap_first}TestDataProvider getDataProvider() {
+        return new ${model.javaName?cap_first}TestDataProvider();
     }
 
     @Before
     public void init() throws DaoException {
         this.mockMvc = webAppContextSetup(this.wac).build();
-        IBasicDao dao = (IBasicDao) wac.getBean("${model.code?uncap_first}Dao");
+        IBasicDao dao = (IBasicDao) wac.getBean("${model.javaName?uncap_first}Dao");
         dao.clean();
     }
 
@@ -100,13 +100,13 @@ public class Default${model.code?cap_first}ControllerTests extends AbstractConte
     public void getObjectTest() throws Exception {
         JSONObject obj = getDataProvider().createObjectJson(TEST_PARAMETER_ID);
         super.getObject(TEST_PARAMETER_ID)
-        <#list parameters as obj>
-            <#if obj.type == "String">
-            .andExpect(jsonPath("$.${obj.code?uncap_first}").value(obj.getString("${obj.code?uncap_first}")))<#if !obj_has_next>;</#if>
-            <#elseif obj.type == "Long">
-            .andExpect(jsonPath("$.${obj.code?uncap_first}").value(obj.getInteger("${obj.code?uncap_first}")))<#if !obj_has_next>;</#if>
+        <#list parameters as p>
+            <#if p.type == "String">
+            .andExpect(jsonPath("$.${p.code?uncap_first}").value(obj.getString("${p.code?uncap_first}")))<#if !p_has_next>;</#if>
+            <#elseif p.type == "Long">
+            .andExpect(jsonPath("$.${p.code?uncap_first}").value(obj.getInteger("${p.code?uncap_first}")))<#if !p_has_next>;</#if>
             <#else>
-            .andExpect(jsonPath("$.${obj.code?uncap_first}").value(obj.get${obj.type?cap_first}("${obj.code?uncap_first}")))<#if !obj_has_next>;</#if>
+            .andExpect(jsonPath("$.${p.code?uncap_first}").value(obj.get${p.type?cap_first}("${p.code?uncap_first}")))<#if !p_has_next>;</#if>
             </#if>
         </#list>
     }
@@ -116,13 +116,13 @@ public class Default${model.code?cap_first}ControllerTests extends AbstractConte
     public void searchEqualsTest() throws Exception {
         JSONObject obj = getDataProvider().createObjectJson(TEST_PARAMETER_ID);
         super.searchEquals(obj)
-        <#list parameters as obj>
-            <#if obj.type == "String">
-            .andExpect(jsonPath("$[0].${obj.code?uncap_first}").value(obj.getString("${obj.code?uncap_first}")))<#if !obj_has_next>;</#if>
-            <#elseif obj.type == "Long">
-            .andExpect(jsonPath("$[0].${obj.code?uncap_first}").value(obj.getInteger("${obj.code?uncap_first}")))<#if !obj_has_next>;</#if>
+        <#list parameters as p>
+            <#if p.type == "String">
+            .andExpect(jsonPath("$[0].${p.code?uncap_first}").value(obj.getString("${p.code?uncap_first}")))<#if !p_has_next>;</#if>
+            <#elseif p.type == "Long">
+            .andExpect(jsonPath("$[0].${p.code?uncap_first}").value(obj.getInteger("${p.code?uncap_first}")))<#if !p_has_next>;</#if>
             <#else>
-            .andExpect(jsonPath("$[0].${obj.code?uncap_first}").value(obj.get${obj.type?cap_first}("${obj.code?uncap_first}")))<#if !obj_has_next>;</#if>
+            .andExpect(jsonPath("$[0].${p.code?uncap_first}").value(obj.get${p.type?cap_first}("${p.code?uncap_first}")))<#if !p_has_next>;</#if>
             </#if>
         </#list>
     }
@@ -139,13 +139,13 @@ public class Default${model.code?cap_first}ControllerTests extends AbstractConte
     public void searchListTest() throws Exception {
         JSONObject obj = getDataProvider().createObjectJson(TEST_PARAMETER_ID);
         super.searchList(obj)
-        <#list parameters as obj>
+        <#list parameters as p>
             <#if obj.type == "String">
-            .andExpect(jsonPath("$[0].${obj.code?uncap_first}").value(obj.getString("${obj.code?uncap_first}")))<#if !obj_has_next>;</#if>
+            .andExpect(jsonPath("$[0].${p.code?uncap_first}").value(obj.getString("${p.code?uncap_first}")))<#if !p_has_next>;</#if>
             <#elseif obj.type == "Long">
-            .andExpect(jsonPath("$[0].${obj.code?uncap_first}").value(obj.getInteger("${obj.code?uncap_first}")))<#if !obj_has_next>;</#if>
+            .andExpect(jsonPath("$[0].${p.code?uncap_first}").value(obj.getInteger("${p.code?uncap_first}")))<#if !p_has_next>;</#if>
             <#else>
-            .andExpect(jsonPath("$[0].${obj.code?uncap_first}").value(obj.get${obj.type?cap_first}("${obj.code?uncap_first}")))<#if !obj_has_next>;</#if>
+            .andExpect(jsonPath("$[0].${p.code?uncap_first}").value(obj.get${p.type?cap_first}("${p.code?uncap_first}")))<#if !p_has_next>;</#if>
             </#if>
         </#list>
     }
@@ -162,13 +162,13 @@ public class Default${model.code?cap_first}ControllerTests extends AbstractConte
     public void queryListTest() throws Exception {
         JSONObject obj = getDataProvider().createObjectJson(TEST_PARAMETER_ID);
         super.queryList(obj)
-        <#list parameters as obj>
-            <#if obj.type == "String">
-            .andExpect(jsonPath("$[0].${obj.code?uncap_first}").value(obj.getString("${obj.code?uncap_first}")))<#if !obj_has_next>;</#if>
-            <#elseif obj.type == "Long">
-            .andExpect(jsonPath("$[0].${obj.code?uncap_first}").value(obj.getInteger("${obj.code?uncap_first}")))<#if !obj_has_next>;</#if>
+        <#list parameters as p>
+            <#if p.type == "String">
+            .andExpect(jsonPath("$[0].${p.code?uncap_first}").value(obj.getString("${p.code?uncap_first}")))<#if !p_has_next>;</#if>
+            <#elseif p.type == "Long">
+            .andExpect(jsonPath("$[0].${p.code?uncap_first}").value(obj.getInteger("${p.code?uncap_first}")))<#if !p_has_next>;</#if>
             <#else>
-            .andExpect(jsonPath("$[0].${obj.code?uncap_first}").value(obj.get${obj.type?cap_first}("${obj.code?uncap_first}")))<#if !obj_has_next>;</#if>
+            .andExpect(jsonPath("$[0].${p.code?uncap_first}").value(obj.get${p.type?cap_first}("${p.code?uncap_first}")))<#if !p_has_next>;</#if>
             </#if>
         </#list>
     }
@@ -178,13 +178,13 @@ public class Default${model.code?cap_first}ControllerTests extends AbstractConte
     public void searchPageTest() throws Exception {
         JSONObject obj = getDataProvider().createObjectJson(TEST_PARAMETER_ID);
         super.searchPage(obj)
-        <#list parameters as obj>
-            <#if obj.type == "String">
-            .andExpect(jsonPath("$.content[0].${obj.code?uncap_first}").value(obj.getString("${obj.code?uncap_first}")))<#if !obj_has_next>;</#if>
-            <#elseif obj.type == "Long">
-            .andExpect(jsonPath("$.content[0].${obj.code?uncap_first}").value(obj.getInteger("${obj.code?uncap_first}")))<#if !obj_has_next>;</#if>
+        <#list parameters as p>
+            <#if p.type == "String">
+            .andExpect(jsonPath("$.content[0].${p.code?uncap_first}").value(obj.getString("${p.code?uncap_first}")))<#if !p_has_next>;</#if>
+            <#elseif p.type == "Long">
+            .andExpect(jsonPath("$.content[0].${p.code?uncap_first}").value(obj.getInteger("${p.code?uncap_first}")))<#if !p_has_next>;</#if>
             <#else>
-            .andExpect(jsonPath("$.content[0].${obj.code?uncap_first}").value(obj.get${obj.type?cap_first}("${obj.code?uncap_first}")))<#if !obj_has_next>;</#if>
+            .andExpect(jsonPath("$.content[0].${p.code?uncap_first}").value(obj.get${p.type?cap_first}("${p.code?uncap_first}")))<#if !p_has_next>;</#if>
             </#if>
         </#list>
     }
@@ -194,13 +194,13 @@ public class Default${model.code?cap_first}ControllerTests extends AbstractConte
     public void queryPageTest() throws Exception {
         JSONObject obj = getDataProvider().createObjectJson(TEST_PARAMETER_ID);
         super.queryPage(obj)
-        <#list parameters as obj>
-            <#if obj.type == "String">
-            .andExpect(jsonPath("$.content[0].${obj.code?uncap_first}").value(obj.getString("${obj.code?uncap_first}")))<#if !obj_has_next>;</#if>
-            <#elseif obj.type == "Long">
-            .andExpect(jsonPath("$.content[0].${obj.code?uncap_first}").value(obj.getInteger("${obj.code?uncap_first}")))<#if !obj_has_next>;</#if>
+        <#list parameters as p>
+            <#if p.type == "String">
+            .andExpect(jsonPath("$.content[0].${p.code?uncap_first}").value(obj.getString("${p.code?uncap_first}")))<#if !p_has_next>;</#if>
+            <#elseif p.type == "Long">
+            .andExpect(jsonPath("$.content[0].${p.code?uncap_first}").value(obj.getInteger("${p.code?uncap_first}")))<#if !p_has_next>;</#if>
             <#else>
-            .andExpect(jsonPath("$.content[0].${obj.code?uncap_first}").value(obj.get${obj.type?cap_first}("${obj.code?uncap_first}")))<#if !obj_has_next>;</#if>
+            .andExpect(jsonPath("$.content[0].${p.code?uncap_first}").value(obj.get${p.type?cap_first}("${p.code?uncap_first}")))<#if !p_has_next>;</#if>
             </#if>
         </#list>
     }
@@ -216,16 +216,16 @@ public class Default${model.code?cap_first}ControllerTests extends AbstractConte
     public void deleteTest() throws Exception {
         super.delete(TEST_PARAMETER_ID);
     }
-<#list parameters as obj>
-    <#if obj.keyType==1>
+<#list parameters as p>
+    <#if p.keyType==1>
 
     @Ignore
     @Test
-    public void getBy${obj.code?cap_first}Test() throws Exception {
+    public void getBy${p.code?cap_first}Test() throws Exception {
     JSONObject json = getDataProvider().createObjectJson(TEST_PARAMETER_ID);
         ResultActions resultActions = getMockMvc()
             .perform(
-                post(getBaseUri() + "getBy${obj.code?cap_first}")
+                post(getBaseUri() + "getBy${p.code?cap_first}")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json.toJSONString())
@@ -236,15 +236,15 @@ public class Default${model.code?cap_first}ControllerTests extends AbstractConte
             .andExpect(jsonPath("$").exists());
         <@checkObject parameterList=parameters resultActions="resultActions"/>
     }
-    <#elseif obj.keyType==2>
+    <#elseif p.keyType==2>
 
     @Ignore
     @Test
-    public void getListBy${obj.code?cap_first}Test() throws Exception {
+    public void getListBy${p.code?cap_first}Test() throws Exception {
         JSONObject json = getDataProvider().createObjectJson(TEST_PARAMETER_ID);
         ResultActions resultActions = getMockMvc()
             .perform(
-                post(getBaseUri() + "getListBy${obj.code?cap_first}")
+                post(getBaseUri() + "getListBy${p.code?cap_first}")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json.toJSONString())
@@ -274,11 +274,11 @@ public class Default${model.code?cap_first}ControllerTests extends AbstractConte
         searchPageTest();
         //queryPageTest();
         logicDeleteTest();
-<#list parameters as obj>
-    <#if obj.keyType==1>
-        getBy${obj.code?cap_first}Test();
-    <#elseif obj.keyType==2>
-        getListBy${obj.code?cap_first}Test();
+<#list parameters as p>
+    <#if p.keyType==1>
+        getBy${p.code?cap_first}Test();
+    <#elseif p.keyType==2>
+        getListBy${p.code?cap_first}Test();
     </#if>
 </#list>
         deleteTest();

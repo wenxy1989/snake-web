@@ -38,17 +38,17 @@
 </head> 
 <body>
 <div class="ui form segment container">
-<form id="frm" action="${"$"}{basePath }/${model.code?uncap_first}/edit" method="POST">
-<input type="hidden" name="id" value="${"$"}{${model.code?uncap_first}.id }">
+<form id="frm" action="${"$"}{basePath }/${model.javaName?uncap_first}/edit" method="POST">
+<input type="hidden" name="id" value="${"$"}{${model.javaName?uncap_first}.id }">
 <#list attributes as attribute>
 <div class="field">
 <#if attribute.pageStyle == "text">
 <label>${obj.name} ${attribute.name}</label>
-<input title="please input ${attribute.code}" type="text" name="${attribute.code}" placeholder="${attribute.code}" value="${"$"}{${model.code}.${attribute.code} }">
+<input title="please input ${attribute.code}" type="text" name="${attribute.code}" placeholder="${attribute.code}" value="${"$"}{${model.javaName}.${attribute.code} }">
 <#elseif attribute.pageStyle == "select">
 <div id="div_${attribute.code?uncap_first}" class="ui selection dropdown">
-  <input type="hidden" name="${attribute.code?uncap_first}" value="${"$"}{${model.code?uncap_first}.${attribute.code?uncap_first} }">
-  <div class="text" data-value="${"$"}{${model.code?uncap_first}.${attribute.code?uncap_first} }">${"$"}{${model.code?uncap_first}.${attribute.code?uncap_first} }</div>
+  <input type="hidden" name="${attribute.code?uncap_first}" value="${"$"}{${model.javaName?uncap_first}.${attribute.code?uncap_first} }">
+  <div class="text" data-value="${"$"}{${model.javaName?uncap_first}.${attribute.code?uncap_first} }">${"$"}{${model.javaName?uncap_first}.${attribute.code?uncap_first} }</div>
   <i class="dropdown icon"></i>
   <div class="menu">
       <div class="item" data-value="">--select--</div>
@@ -56,11 +56,11 @@
 </div>
 <#elseif attribute.pageStyle == "checkbox">
 <div id="div_${attribute.code?uncap_first}" class="ui toggle checkbox">
-<input type="checkbox" name="${attribute.code?uncap_first}" value="1"<c:if test="${"$"}{${model.code?uncap_first}.${attribute.code?uncap_first} == 1}"> checked="checked"</c:if>>
+<input type="checkbox" name="${attribute.code?uncap_first}" value="1"<c:if test="${"$"}{${model.javaName?uncap_first}.${attribute.code?uncap_first} == 1}"> checked="checked"</c:if>>
 <label>${attribute.name}</label>
 <#elseif attribute.pageStyle == "radio">
 <div id="div_${attribute.code?uncap_first}" class="ui toggle radio">
-<input type="checkbox" name="${attribute.code?uncap_first}" value="1"<c:if test="${"$"}{${model.code?uncap_first}.${attribute.code?uncap_first} == 1}"> checked="checked"</c:if>>
+<input type="checkbox" name="${attribute.code?uncap_first}" value="1"<c:if test="${"$"}{${model.javaName?uncap_first}.${attribute.code?uncap_first} == 1}"> checked="checked"</c:if>>
 <label>${attribute.name}</label>
 </#if>
 </div>

@@ -2,15 +2,15 @@
 <#macro columnname code>${code?lower_case}_</#macro>
 <#macro indexname code>index_${code?lower_case}</#macro>
 /** ${model.name} **/
-drop table if exists table_${model.code?lower_case};
-create table <@tablename code=model.code/>(
+drop table if exists ${model.tableName};
+create table ${model.tableName}(
 id_ bigint(20) not null auto_increment,
-<#list parameters as obj>
-<#if obj.mysqlType??>
-<#if obj.type == "Double" || obj.type == "Float">
-<@columnname code=obj.code?uncap_first/> ${obj.mysqlType}<#if obj.length??>(${obj.length?string("########")},2)</#if><#if obj.name??> comment '${obj.name}'</#if>,
+<#list parameters as p>
+<#if p.mysqlType??>
+<#if p.type == "Double" || p.type == "Float">
+<@columnname code=p.code?uncap_first/> ${p.mysqlType}<#if p.length??>(${p.length?string("########")},2)</#if><#if p.name??> comment '${p.name}'</#if>,
 <#else>
-<@columnname code=obj.code?uncap_first/> ${obj.mysqlType}<#if obj.length??>(${obj.length?string("########")})</#if><#if obj.name??> comment '${obj.name}'</#if>,
+<@columnname code=p.code?uncap_first/> ${p.mysqlType}<#if p.length??>(${p.length?string("########")})</#if><#if p.name??> comment '${p.name}'</#if>,
 </#if>
 </#if>
 </#list>
@@ -27,12 +27,12 @@ extend_three int(1),
 extend_four int(1),
 primary key (id_)
 )engine=innodb charset=utf8 comment='${model.name}';
-<#list parameters as obj>
-    <#if obj.keyType??>
-        <#if obj.keyType == 1>
-CREATE UNIQUE INDEX <@indexname code=obj.code?lower_case/> ON <@tablename code=model.code/>(<@columnname code=obj.code?uncap_first/>);
-        <#elseif obj.keyType == 2>
-CREATE INDEX <@indexname code=obj.code?lower_case/> ON <@tablename code=model.code/>(<@columnname code=obj.code?uncap_first/>);
+<#list parameters as p>
+    <#if p.keyType??>
+        <#if p.keyType == 1>
+CREATE UNIQUE INDEX <@indexname code=p.code?lower_case/> ON ${model.tableName}(<@columnname code=p.code?uncap_first/>);
+        <#elseif p.keyType == 2>
+CREATE INDEX <@indexname code=p.code?lower_case/> ON ${model.tableName}(<@columnname code=p.code?uncap_first/>);
         </#if>
     </#if>
 </#list>

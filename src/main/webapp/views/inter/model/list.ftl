@@ -178,6 +178,14 @@
                                            class="am-btn am-btn-default am-btn-xs am-text-secondary">
                                             <span class="am-icon-code">默认接口</span>
                                         </a>
+                                        <#if obj.status == 1 || obj.status == 3>
+                                            <@com.security url="/inter/model/${applicationId}/return">
+                                                <a href="javascript:doReturn(${obj.id})"
+                                                   class="am-btn am-btn-default am-btn-xs am-text-secondary">
+                                                    <span class="am-icon-pencil-square-o">重议</span>
+                                                </a>
+                                            </@com.security>
+                                        </#if>
                                         <#if obj.status == 0 || obj.status == 2>
                                             <a href="javascript:doSubmit(${obj.id})"
                                                class="am-btn am-btn-default am-btn-xs am-text-secondary">
@@ -188,12 +196,6 @@
                                                 <a href="javascript:doPublish(${obj.id})"
                                                    class="am-btn am-btn-default am-btn-xs am-text-secondary">
                                                     <span class="am-icon-pencil-square-o">发布</span>
-                                                </a>
-                                            </@com.security>
-                                            <@com.security url="/inter/model/${applicationId}/return">
-                                                <a href="javascript:doReturn(${obj.id})"
-                                                   class="am-btn am-btn-default am-btn-xs am-text-secondary">
-                                                    <span class="am-icon-pencil-square-o">重议</span>
                                                 </a>
                                             </@com.security>
                                         </#if>

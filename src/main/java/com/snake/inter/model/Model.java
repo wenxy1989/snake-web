@@ -1,5 +1,6 @@
 package com.snake.inter.model;
 
+import com.base.util.StringTools;
 import com.snake.mysql.model.Table;
 import com.snake.resource.dao.MapObject;
 import org.apache.commons.lang.StringUtils;
@@ -13,7 +14,7 @@ import java.util.List;
  * todo
  * Created by wenxy on 2016/4/10.
  */
-public class Model implements ModelObject,MapObject {
+public class Model implements ModelObject, MapObject {
 
     private Long id;
     private Long applicationId;
@@ -39,12 +40,16 @@ public class Model implements ModelObject,MapObject {
     }
 
     public String getTableName() {
-        return tableName;
+        return tableName == null ? this.code : this.tableName;
+    }
+
+    public String getJavaName() {
+        return StringTools.codeByTable(this.code);
     }
 
     public void setTableName(String tableName) {
         this.tableName = tableName;
-        if(StringUtils.isBlank(this.code)){
+        if (StringUtils.isBlank(this.code)) {
             this.code = tableName;
         }
     }
@@ -55,10 +60,10 @@ public class Model implements ModelObject,MapObject {
 
     public void setTableComment(String tableComment) {
         this.tableComment = tableComment;
-        if(StringUtils.isBlank(this.name)){
+        if (StringUtils.isBlank(this.name)) {
             this.name = tableName;
         }
-        if(StringUtils.isBlank(this.remark)){
+        if (StringUtils.isBlank(this.remark)) {
             this.remark = tableComment;
         }
     }
@@ -143,7 +148,7 @@ public class Model implements ModelObject,MapObject {
         this.parameterList = parameterList;
     }
 
-    public String getExampleJsonString(){
+    public String getExampleJsonString() {
         return Parameter.getExampleJsonString(this.parameterList);
     }
 

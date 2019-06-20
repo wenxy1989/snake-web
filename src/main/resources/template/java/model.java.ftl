@@ -1,10 +1,10 @@
-package com.${app.code}.${model.code}.model;
+package com.${app.code}.${model.javaName}.model;
 /**
- * ${model.code}实体类 ${model.code?cap_first}
+ * ${model.javaName}实体类 ${model.javaName?cap_first}
  * @author {author}
  * @version 1.00 ,Date: ${now}
  */
-public class ${model.code?cap_first }{
+public class ${model.javaName?cap_first }{
 
 	private Long id;
 	<#if attributes?exists>

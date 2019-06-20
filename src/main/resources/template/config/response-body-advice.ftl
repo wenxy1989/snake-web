@@ -34,7 +34,7 @@ public class ResponseBodyHandler implements ResponseBodyAdvice {
         } else if (body instanceof ResponseBodyResult) {
             return body;
         } else if (body instanceof ResponseBodyResult.Error) {
-            return ResponseBodyResult.error(((ResponseBodyResult.Error) body).getValue());
+            return ResponseBodyResult.error(((ResponseBodyResult.Error) body).getMessage());
         } else if (body instanceof Exception) {
             return ResponseBodyResult.error(((Exception) body).getMessage());
         } else if (body instanceof String) {

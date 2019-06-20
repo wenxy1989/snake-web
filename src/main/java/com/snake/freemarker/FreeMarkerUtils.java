@@ -38,12 +38,12 @@ public class FreeMarkerUtils {
 
     private static String outputPath;
 
-    private String getClassPath(){
+    private String getClassPath() {
         return this.getClass().getClassLoader().getResource("").getPath();
     }
 
     private String getOutputPath() {
-        if(null == outputPath) {
+        if (null == outputPath) {
             String webPath = new File(getClassPath()).getParentFile().getParent();
             outputPath = webPath + "/output";
         }
@@ -125,7 +125,7 @@ public class FreeMarkerUtils {
         try {
             String savePathName = buildPath(application, StringTools.parsePath(config.getSavePathModel(), application));
             String saveFileRealName = buildFile(savePathName, StringTools.parsePath(config.getSaveFileModel(), application));
-            writeTemplate(getTemplate(config), params, saveFileRealName,config.getUpdateType());
+            writeTemplate(getTemplate(config), params, saveFileRealName, config.getUpdateType());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -135,7 +135,7 @@ public class FreeMarkerUtils {
         try {
             String savePathName = buildPath(application, StringTools.parsePath(config.getSavePathModel(), application, model));
             String saveFileRealName = buildFile(savePathName, StringTools.parsePath(config.getSaveFileModel(), application, model));
-            writeTemplate(getTemplate(config), params, saveFileRealName,config.getUpdateType());
+            writeTemplate(getTemplate(config), params, saveFileRealName, config.getUpdateType());
         } catch (Exception e) {
             e.printStackTrace();
         }

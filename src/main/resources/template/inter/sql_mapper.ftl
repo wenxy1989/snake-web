@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- sql mapper ${model.code?uncap_first} version.${now} -->
-<mapper namespace="com.school.book.model.${model.code?cap_first}">
+<!-- sql mapper ${model.javaName?uncap_first} version.${now} -->
+<mapper namespace="com.school.book.model.${model.javaName?cap_first}">
 
-    <resultMap type="com.school.book.model.${model.code?cap_first}" id="resultMap">
+    <resultMap type="com.school.book.model.${model.javaName?cap_first}" id="resultMap">
         <result property="id" column="id_"/>
-    <#list parameters as obj>
-        <result property="${obj.code?uncap_first}" column="${obj.code?uncap_first}_"/>
+    <#list parameters as p>
+        <result property="${p.code?uncap_first}" column="${p.code?uncap_first}_"/>
     </#list>
         <result property="deleted" column="deleted_"/>
         <result property="createUserId" column="create_user_id"/>
@@ -21,13 +21,13 @@
         <result property="extendFour" column="status_four"/>
     </resultMap>
 
-    <insert id="insertObject" parameterType="com.school.book.model.${model.code?cap_first}">
-        INSERT INTO table_${model.code?lower_case}(
+    <insert id="insertObject" parameterType="com.school.book.model.${model.javaName?cap_first}">
+        INSERT INTO table_${model.tableName}(
         <if test="id != null">
         id_,
         </if>
-    <#list parameters as obj>
-        ${obj.code?uncap_first}_,
+    <#list parameters as p>
+        ${p.code?uncap_first}_,
     </#list>
         deleted_,
         create_user_id,
@@ -45,8 +45,8 @@
         <if test="id != null">
         ${"#"}{id},
         </if>
-        <#list parameters as obj>
-        ${"#"}{${obj.code?uncap_first}},
+        <#list parameters as p>
+        ${"#"}{${p.code?uncap_first}},
         </#list>
         ${"#"}{deleted},
         ${"#"}{createUserId},
@@ -66,10 +66,10 @@
     </insert>
 
     <insert id="insertList" useGeneratedKeys="true" parameterType="java.util.List">
-        INSERT INTO table_${model.code?lower_case}(
+        INSERT INTO table_${model.tableName}(
         id_,
-    <#list parameters as obj>
-        ${obj.code?uncap_first}_,
+    <#list parameters as p>
+        ${p.code?uncap_first}_,
     </#list>
         deleted_,
         create_user_id,
@@ -87,8 +87,8 @@
         <foreach collection="list" item="each" index="index" separator=",">
             (
             ${"#"}{each.id},
-            <#list parameters as obj>
-            ${"#"}{each.${obj.code?uncap_first}},
+            <#list parameters as p>
+            ${"#"}{each.${p.code?uncap_first}},
             </#list>
             ${"#"}{each.deleted},
             ${"#"}{each.createUserId},
@@ -106,19 +106,19 @@
     </insert>
 
     <delete id="clean">
-        TRUNCATE TABLE table_${model.code?lower_case}
+        TRUNCATE TABLE table_${model.tableName}
     </delete>
 
     <delete id="deleteById" parameterType="java.lang.Object">
-        delete from table_${model.code?lower_case} where id_ = ${"#"}{id}
+        delete from table_${model.tableName} where id_ = ${"#"}{id}
     </delete>
 
-    <update id="updateById" parameterType="com.school.book.model.${model.code?cap_first}">
-        update table_${model.code?lower_case}
+    <update id="updateById" parameterType="com.school.book.model.${model.javaName?cap_first}">
+        update table_${model.tableName}
         <set>
-        <#list parameters as obj>
-            <if test="${obj.code?uncap_first} != null">
-                ${obj.code?uncap_first}_ = ${"#"}{${obj.code?uncap_first}},
+        <#list parameters as p>
+            <if test="${p.code?uncap_first} != null">
+                ${p.code?uncap_first}_ = ${"#"}{${p.code?uncap_first}},
             </if>
         </#list>
             <if test="deleted != null">
@@ -148,20 +148,20 @@
     </update>
 
     <select id="selectObject" resultMap="resultMap" parameterType="java.lang.Object">
-        select id_,<#list parameters as obj>${obj.code?uncap_first}_,</#list> deleted_,create_user,create_time,update_user,update_time,extend_one,extend_two,extend_three,extend_four
-        from table_${model.code?lower_case} where id_ = ${"#"}{id}
+        select id_,<#list parameters as p>${p.code?uncap_first}_,</#list> deleted_,create_user,create_time,update_user,update_time,extend_one,extend_two,extend_three,extend_four
+        from table_${model.tableName} where id_ = ${"#"}{id}
     </select>
 
     <select id="selectOneByObject" resultMap="resultMap">
-        select id_,<#list parameters as obj>${obj.code?uncap_first}_,</#list>deleted_,create_user,create_time,update_user,update_time,extend_one,extend_two,extend_three,extend_four
-        from table_${model.code?lower_case}
+        select id_,<#list parameters as p>${p.code?uncap_first}_,</#list>deleted_,create_user,create_time,update_user,update_time,extend_one,extend_two,extend_three,extend_four
+        from table_${model.tableName}
         where 1=1
         <if test="id != null">
             and id_ = ${"#"}{id}
         </if>
-        <#list parameters as obj>
-        <if test="${obj.code?uncap_first} != null">
-            and ${obj.code?uncap_first}_ = ${"#"}{${obj.code?uncap_first}}
+        <#list parameters as p>
+        <if test="${p.code?uncap_first} != null">
+            and ${p.code?uncap_first}_ = ${"#"}{${p.code?uncap_first}}
         </if>
         </#list>
         <if test="deleted != null">
@@ -201,8 +201,8 @@
     </select>
 
     <select id="selectOneByMap" resultMap="resultMap">
-        select id_,<#list parameters as obj>${obj.code?uncap_first}_,</#list>deleted_,create_user,create_time,update_user,update_time,extend_one,extend_two,extend_three,extend_four
-        from table_${model.code?lower_case}
+        select id_,<#list parameters as p>${p.code?uncap_first}_,</#list>deleted_,create_user,create_time,update_user,update_time,extend_one,extend_two,extend_three,extend_four
+        from table_${model.tableName}
         where 1=1 and
         <foreach item="param" index="key" collection="list" open="" separator="AND" close="">
         ${"$"}{param.name} = ${"#"}{param.value}
@@ -211,15 +211,15 @@
     </select>
 
     <select id="selectListByObject" resultMap="resultMap">
-        select id_,<#list parameters as obj>${obj.code?uncap_first}_,</#list>deleted_,create_user,create_time,update_user,update_time,extend_one,extend_two,extend_three,extend_four
-        from table_${model.code?lower_case}
+        select id_,<#list parameters as p>${p.code?uncap_first}_,</#list>deleted_,create_user,create_time,update_user,update_time,extend_one,extend_two,extend_three,extend_four
+        from table_${model.tableName}
         where 1=1
         <if test="id != null">
             and id_ = ${"#"}{id}
         </if>
-    <#list parameters as obj>
-        <if test="${obj.code?uncap_first} != null">
-            and ${obj.code?uncap_first}_ = ${"#"}{${obj.code?uncap_first}}
+    <#list parameters as p>
+        <if test="${p.code?uncap_first} != null">
+            and ${p.code?uncap_first}_ = ${"#"}{${p.code?uncap_first}}
         </if>
     </#list>
         <if test="deleted != null">
@@ -258,8 +258,8 @@
     </select>
 
     <select id="selectListByMap" resultMap="resultMap">
-        select id_,<#list parameters as obj>${obj.code?uncap_first}_,</#list>deleted_,create_user,create_time,update_user,update_time,extend_one,extend_two,extend_three,extend_four
-        from table_${model.code?lower_case}
+        select id_,<#list parameters as p>${p.code?uncap_first}_,</#list>deleted_,create_user,create_time,update_user,update_time,extend_one,extend_two,extend_three,extend_four
+        from table_${model.tableName}
         where 1=1 and
         <foreach item="param" index="key" collection="list" open="" separator="AND" close="">
         ${"$"}{param.name} = ${"#"}{param.value}
@@ -267,8 +267,8 @@
     </select>
 
     <select id="selectListByIn" resultMap="resultMap">
-        select id_,<#list parameters as obj>${obj.code?uncap_first}_,</#list>deleted_,create_user,create_time,update_user,update_time,extend_one,extend_two,extend_three,extend_four
-        from table_${model.code?lower_case}
+        select id_,<#list parameters as p>${p.code?uncap_first}_,</#list>deleted_,create_user,create_time,update_user,update_time,extend_one,extend_two,extend_three,extend_four
+        from table_${model.tableName}
         where 1=1 and
         <foreach item="param" index="key" collection="list" open="" separator="AND" close="">
         ${"$"}{param.name} IN (${"#"}{param.value})
@@ -276,8 +276,8 @@
     </select>
 
     <select id="selectListByLike" resultMap="resultMap">
-        select id_,<#list parameters as obj>${obj.code?uncap_first}_,</#list>deleted_,create_user,create_time,update_user,update_time,extend_one,extend_two,extend_three,extend_four
-        from table_${model.code?lower_case}
+        select id_,<#list parameters as p>${p.code?uncap_first}_,</#list>deleted_,create_user,create_time,update_user,update_time,extend_one,extend_two,extend_three,extend_four
+        from table_${model.tableName}
         where 1=1 and
         <foreach item="param" index="key" collection="list" open="" separator="AND" close="">
         ${"$"}{param.name} LIKE ${"#"}{param.value}
@@ -285,31 +285,31 @@
     </select>
 
     <select id="selectAll" resultMap="resultMap">
-        select id_,<#list parameters as obj>${obj.code?uncap_first}_,</#list>deleted_,create_user,create_time,update_user,update_time,extend_one,extend_two,extend_three,extend_four
-        from table_${model.code?lower_case}
+        select id_,<#list parameters as p>${p.code?uncap_first}_,</#list>deleted_,create_user,create_time,update_user,update_time,extend_one,extend_two,extend_three,extend_four
+        from table_${model.tableName}
     </select>
 
     <select id="selectTotalCount" resultType="int">
-        select count(1) from table_${model.code?lower_case}
+        select count(1) from table_${model.tableName}
     </select>
 
     <select id="selectSome" parameterType="java.util.Map" resultMap="resultMap">
-        select id_,<#list parameters as obj>${obj.code?uncap_first}_,</#list>deleted_,create_user,create_time,update_user,update_time,extend_one,extend_two,extend_three,extend_four
-        from table_${model.code?lower_case}
+        select id_,<#list parameters as p>${p.code?uncap_first}_,</#list>deleted_,create_user,create_time,update_user,update_time,extend_one,extend_two,extend_three,extend_four
+        from table_${model.tableName}
         <if test="null != limit and limit > 0">
             limit ${"$"}{limit} offset ${"$"}{offset}
         </if>
     </select>
 
     <select id="selectCountByCriteria" parameterType="java.util.Map" resultType="int">
-        select count(1) from table_${model.code?lower_case} where 1=1
+        select count(1) from table_${model.tableName} where 1=1
         <if test="whereClause != null">
         ${"$"}{whereClause}
         </if>
     </select>
 
     <select id="selectListByCriteria" parameterType="java.util.Map" resultMap="resultMap">
-        select ${"$"}{fieldsClause} from table_${model.code?lower_case} where 1=1
+        select ${"$"}{fieldsClause} from table_${model.tableName} where 1=1
         <if test="whereClause != null">
         ${"$"}{whereClause}
         </if>
@@ -322,13 +322,13 @@
     </select>
 
     <select id="selectMapCount" parameterType="java.util.Map" resultType="java.lang.Integer">
-        select count(0) count_ from table_${model.code?lower_case} where 1=1
+        select count(0) count_ from table_${model.tableName} where 1=1
         <if test="id != null">
             and id_ = ${"#"}{id}
         </if>
-    <#list parameters as obj>
-        <if test="${obj.code?uncap_first} != null">
-            and ${obj.code?uncap_first}_ = ${"#"}{${obj.code?uncap_first}}
+    <#list parameters as p>
+        <if test="${p.code?uncap_first} != null">
+            and ${p.code?uncap_first}_ = ${"#"}{${p.code?uncap_first}}
         </if>
     </#list>
         <if test="deleted != null">
@@ -367,15 +367,15 @@
     </select>
 
     <select id="selectMapList" parameterType="java.util.Map" resultType="java.util.Map">
-        select id_ as id,<#list parameters as obj>${obj.code?uncap_first}_ as ${obj.code?uncap_first},</#list>deleted_ as deleted,create_user as createUser,create_time as createTime,update_user as updateUser,update_time as updateTime,extend_one as extendOne,extend_two as extendTwo,extend_three as extendThree,extend_four as extendFour
-        from table_${model.code?lower_case}
+        select id_ as id,<#list parameters as p>${p.code?uncap_first}_ as ${p.code?uncap_first},</#list>deleted_ as deleted,create_user as createUser,create_time as createTime,update_user as updateUser,update_time as updateTime,extend_one as extendOne,extend_two as extendTwo,extend_three as extendThree,extend_four as extendFour
+        from table_${model.tableName}
         where 1=1
         <if test="id != null">
             and id_ = ${"#"}{id}
         </if>
-    <#list parameters as obj>
-        <if test="${obj.code?uncap_first} != null">
-            and ${obj.code?uncap_first}_ = ${"#"}{${obj.code?uncap_first}}
+    <#list parameters as p>
+        <if test="${p.code?uncap_first} != null">
+            and ${p.code?uncap_first}_ = ${"#"}{${p.code?uncap_first}}
         </if>
     </#list>
         <if test="deleted != null">

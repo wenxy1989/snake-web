@@ -6,8 +6,8 @@ import com.base.model.Condition;
 import com.base.model.Criteria;
 import com.base.model.SimpleCriteria;
 import com.base.mvc.BasicController;
-import com.school.book.model.${model.code?cap_first};
-import com.school.book.service.I${model.code?cap_first}Service;
+import com.school.book.model.${model.javaName?cap_first};
+import com.school.book.service.I${model.javaName?cap_first}Service;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -26,11 +26,11 @@ import java.util.HashMap;
 ** create at ${model.createdTime} by user id ${model.creatorId}
 **/
 @Controller
-@RequestMapping("/${model.code?uncap_first}")
-public class ${model.code?cap_first}Controller extends BasicController {
+@RequestMapping("/${model.javaName?uncap_first}")
+public class ${model.javaName?cap_first}Controller extends BasicController {
 
-    @Resource(name = "${model.code?uncap_first}Service")
-    private I${model.code?cap_first}Service ${model.code?uncap_first}Service;
+    @Resource(name = "${model.javaName?uncap_first}Service")
+    private I${model.javaName?cap_first}Service ${model.javaName?uncap_first}Service;
 
     @ResponseBody
     @RequestMapping(value = "/version")
@@ -40,57 +40,57 @@ public class ${model.code?cap_first}Controller extends BasicController {
 
     @ResponseBody
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public Object create(@RequestBody ${model.code?cap_first} obj) {
+    public Object create(@RequestBody ${model.javaName?cap_first} obj) {
         String result = RESULT_ERROR;
         try {
             obj.setCreateUser(getLoginName());
-            ${model.code?uncap_first}Service.create(obj);
+            ${model.javaName?uncap_first}Service.create(obj);
             result = RESULT_SUCCESS;
         } catch (ServiceException e) {
-            logger.error("${model.code?uncap_first}Controller create error",e);
+            logger.error("${model.javaName?uncap_first}Controller create error",e);
         }
         return result;
     }
 
     @ResponseBody
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public Object delete(@RequestBody ${model.code?cap_first} obj) {
+    public Object delete(@RequestBody ${model.javaName?cap_first} obj) {
         String result = RESULT_ERROR;
         Long id = obj.getId();
         try {
-            ${model.code?uncap_first}Service.deleteById(id);
+            ${model.javaName?uncap_first}Service.deleteById(id);
             result = RESULT_SUCCESS;
         } catch (ServiceException e) {
-            logger.error("${model.code?uncap_first}Controller delete error",e);
+            logger.error("${model.javaName?uncap_first}Controller delete error",e);
         }
         return result;
     }
 
     @ResponseBody
     @RequestMapping(value = "/logic/delete", method = RequestMethod.POST)
-    public Object logicDelete(@RequestBody ${model.code?cap_first} obj) {
+    public Object logicDelete(@RequestBody ${model.javaName?cap_first} obj) {
         String result = RESULT_ERROR;
         try {
             obj.setDeleted(1);
             obj.setUpdateUser(getLoginName());
-            ${model.code?uncap_first}Service.updateById(obj);
+            ${model.javaName?uncap_first}Service.updateById(obj);
             result = RESULT_SUCCESS;
         } catch (ServiceException e) {
-            logger.error("${model.code?uncap_first}Controller logic delete error",e);
+            logger.error("${model.javaName?uncap_first}Controller logic delete error",e);
         }
         return result;
     }
 
     @ResponseBody
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public Object update(@RequestBody ${model.code?cap_first} obj) {
+    public Object update(@RequestBody ${model.javaName?cap_first} obj) {
         String result = RESULT_ERROR;
         try {
             obj.setUpdateUser(getLoginName());
-            ${model.code?uncap_first}Service.updateById(obj);
+            ${model.javaName?uncap_first}Service.updateById(obj);
             result = RESULT_SUCCESS;
         } catch (ServiceException e) {
-            logger.error("${model.code?uncap_first}Controller update error",e);
+            logger.error("${model.javaName?uncap_first}Controller update error",e);
         }
         return result;
     }
@@ -99,11 +99,11 @@ public class ${model.code?cap_first}Controller extends BasicController {
     @RequestMapping(value = "/get", method = RequestMethod.POST)
     public Object get(@RequestBody JSONObject obj) {
         Long id = obj.getLong("id");
-        ${model.code?cap_first} result = null;
+        ${model.javaName?cap_first} result = null;
         try {
-            result = ${model.code?uncap_first}Service.findObject(id);
+            result = ${model.javaName?uncap_first}Service.findObject(id);
         } catch (ServiceException e) {
-            logger.error("${model.code?uncap_first}Controller get error",e);
+            logger.error("${model.javaName?uncap_first}Controller get error",e);
         }
         return result;
     }
@@ -112,28 +112,28 @@ public class ${model.code?cap_first}Controller extends BasicController {
     @RequestMapping(value = "/search/equals", method = RequestMethod.POST)
     public Object searchEquals(@RequestBody JSONObject obj) {
         String id = obj.getString("id");
-        <#list parameters as obj>
-        String ${obj.code?uncap_first} = obj.getString("${obj.code?uncap_first}");
+        <#list parameters as p>
+        String ${p.code?uncap_first} = p.getString("${p.code?uncap_first}");
         </#list>
-        List<${model.code?cap_first}> list = null;
+        List<${model.javaName?cap_first}> list = null;
         try {
-            ${model.code?cap_first} ${model.code?uncap_first} = new ${model.code?cap_first}();
+            ${model.javaName?cap_first} ${model.javaName?uncap_first} = new ${model.javaName?cap_first}();
             if(StringUtils.isNotBlank(id)){
-                ${model.code?uncap_first}.setId(Long.valueOf(id));
+                ${model.javaName?uncap_first}.setId(Long.valueOf(id));
             }
-            <#list parameters as obj>
-            if(StringUtils.isNotBlank(${obj.code?uncap_first})){
-            <#if obj.type == "String">
-                ${model.code?uncap_first}.set${obj.code?cap_first}(${obj.code?uncap_first});
+            <#list parameters as p>
+            if(StringUtils.isNotBlank(${p.code?uncap_first})){
+            <#if p.type == "String">
+                ${model.javaName?uncap_first}.set${p.code?cap_first}(${p.code?uncap_first});
             <#else>
-                ${obj.type} _value = ${obj.type}.valueOf(${obj.code?uncap_first});
-                ${model.code?uncap_first}.set${obj.code?cap_first}(_value);
+                ${p.type} _value = ${p.type}.valueOf(${p.code?uncap_first});
+                ${model.javaName?uncap_first}.set${p.code?cap_first}(_value);
             </#if>
             }
             </#list>
-            list = ${model.code?uncap_first}Service.findList(${model.code?uncap_first});
+            list = ${model.javaName?uncap_first}Service.findList(${model.javaName?uncap_first});
         } catch (ServiceException e) {
-            logger.error("${model.code?uncap_first}Controller search equals list error",e);
+            logger.error("${model.javaName?uncap_first}Controller search equals list error",e);
         }
         return list;
     }
@@ -144,22 +144,22 @@ public class ${model.code?cap_first}Controller extends BasicController {
         Integer count = 0;
         try {
             String id = obj.getString("id");
-            <#list parameters as obj>
-            String ${obj.code?uncap_first} = obj.getString("${obj.code?uncap_first}");
+            <#list parameters as p>
+            String ${p.code?uncap_first} = obj.getString("${p.code?uncap_first}");
             </#list>
             Criteria criteria = new SimpleCriteria();
                 if(StringUtils.isNotBlank(id)){
                 criteria.addCondition(0,new Condition("id_","=",Long.valueOf(id)));
             }
-            <#list parameters as obj>
-            if(StringUtils.isNotBlank(${obj.code?uncap_first})){
-                criteria.addCondition(0,new Condition("${obj.code?uncap_first}_","like","%"+${obj.code?uncap_first}+"%"));
+            <#list parameters as p>
+            if(StringUtils.isNotBlank(${p.code?uncap_first})){
+                criteria.addCondition(0,new Condition("${p.code?uncap_first}_","like","%"+${p.code?uncap_first}+"%"));
             }
             </#list>
             criteria.addCondition(0,new Condition("deleted_","=",0));
-            count = ${model.code?uncap_first}Service.selectCount(criteria);
+            count = ${model.javaName?uncap_first}Service.selectCount(criteria);
         } catch (ServiceException e) {
-            logger.error("${model.code?uncap_first}Controller search count error",e);
+            logger.error("${model.javaName?uncap_first}Controller search count error",e);
         }
         return count;
     }
@@ -167,11 +167,11 @@ public class ${model.code?cap_first}Controller extends BasicController {
     @ResponseBody
     @RequestMapping(value = "/search/list", method = RequestMethod.POST)
     public Object searchList(@RequestBody JSONObject obj) {
-        List<${model.code?cap_first}> list = null;
+        List<${model.javaName?cap_first}> list = null;
         try {
             String id = obj.getString("id");
-            <#list parameters as obj>
-            String ${obj.code?uncap_first} = obj.getString("${obj.code?uncap_first}");
+            <#list parameters as p>
+            String ${p.code?uncap_first} = obj.getString("${p.code?uncap_first}");
             </#list>
             Integer pageNo = obj.getInteger("pageNo");
             Integer fetchSize = obj.getInteger("fetchSize");
@@ -185,15 +185,15 @@ public class ${model.code?cap_first}Controller extends BasicController {
             if(StringUtils.isNotBlank(id)){
                 criteria.addCondition(0,new Condition("id_","=",Long.valueOf(id)));
             }
-            <#list parameters as obj>
-            if(StringUtils.isNotBlank(${obj.code?uncap_first})){
-                criteria.addCondition(0,new Condition("${obj.code?uncap_first}_","like","%"+${obj.code?uncap_first}+"%"));
+            <#list parameters as p>
+            if(StringUtils.isNotBlank(${p.code?uncap_first})){
+                criteria.addCondition(0,new Condition("${p.code?uncap_first}_","like","%"+${p.code?uncap_first}+"%"));
             }
             </#list>
             criteria.addCondition(0,new Condition("deleted_","=",0));
-            list = ${model.code?uncap_first}Service.selectList(criteria);
+            list = ${model.javaName?uncap_first}Service.selectList(criteria);
         } catch (ServiceException e) {
-            logger.error("${model.code?uncap_first}Controller search list error",e);
+            logger.error("${model.javaName?uncap_first}Controller search list error",e);
         }
         return list;
     }
@@ -204,9 +204,9 @@ public class ${model.code?cap_first}Controller extends BasicController {
         Integer count = 0;
         try {
             obj.put("deleted_", 0);
-            count = ${model.code?uncap_first}Service.selectMapCount(obj);
+            count = ${model.javaName?uncap_first}Service.selectMapCount(obj);
         } catch (ServiceException e) {
-            logger.error("${model.code?uncap_first}Controller query count error",e);
+            logger.error("${model.javaName?uncap_first}Controller query count error",e);
         }
         return count;
     }
@@ -225,9 +225,9 @@ public class ${model.code?cap_first}Controller extends BasicController {
                 obj.put("offset", offset);
             }
             obj.put("deleted_", 0);
-            list = ${model.code?uncap_first}Service.selectMapList(obj);
+            list = ${model.javaName?uncap_first}Service.selectMapList(obj);
         } catch (ServiceException e) {
-            logger.error("${model.code?uncap_first}Controller query list error",e);
+            logger.error("${model.javaName?uncap_first}Controller query list error",e);
         }
         return list;
     }
@@ -235,11 +235,11 @@ public class ${model.code?cap_first}Controller extends BasicController {
     @ResponseBody
     @RequestMapping(value = "/search/page", method = RequestMethod.POST)
     public Object searchPage(@RequestBody JSONObject obj) {
-        Page<${model.code?cap_first}> page = null;
+        Page<${model.javaName?cap_first}> page = null;
         try {
             String id = obj.getString("id");
-            <#list parameters as obj>
-            String ${obj.code?uncap_first} = obj.getString("${obj.code?uncap_first}");
+            <#list parameters as p>
+            String ${p.code?uncap_first} = p.getString("${p.code?uncap_first}");
             </#list>
             Integer pageNo = obj.getInteger("pageNo");
             Integer fetchSize = obj.getInteger("fetchSize");
@@ -249,15 +249,15 @@ public class ${model.code?cap_first}Controller extends BasicController {
             if(StringUtils.isNotBlank(id)){
             criteria.addCondition(0,new Condition("id_","=",Long.valueOf(id)));
             }
-            <#list parameters as obj>
-            if(StringUtils.isNotBlank(${obj.code?uncap_first})){
-                criteria.addCondition(0,new Condition("${obj.code?uncap_first}_","like","%"+${obj.code?uncap_first}+"%"));
+            <#list parameters as p>
+            if(StringUtils.isNotBlank(${p.code?uncap_first})){
+                criteria.addCondition(0,new Condition("${p.code?uncap_first}_","like","%"+${p.code?uncap_first}+"%"));
             }
             </#list>
             criteria.addCondition(0,new Condition("deleted_","=",0));
-            page = ${model.code?uncap_first}Service.selectPage(criteria);
+            page = ${model.javaName?uncap_first}Service.selectPage(criteria);
         } catch (ServiceException e) {
-            logger.error("${model.code?uncap_first}Controller search page error",e);
+            logger.error("${model.javaName?uncap_first}Controller search page error",e);
         }
         return page;
     }
@@ -274,9 +274,9 @@ public class ${model.code?cap_first}Controller extends BasicController {
             obj.put("limit",fetchSize);
             obj.put("offset", offset);
             obj.put("deleted_", 0);
-            page = ${model.code?uncap_first}Service.selectMapPage(obj);
+            page = ${model.javaName?uncap_first}Service.selectMapPage(obj);
         } catch (ServiceException e) {
-            logger.error("${model.code?uncap_first}Controller query page error",e);
+            logger.error("${model.javaName?uncap_first}Controller query page error",e);
         }
         return page;
     }

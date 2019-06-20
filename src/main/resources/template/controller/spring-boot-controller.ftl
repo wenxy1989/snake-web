@@ -1,8 +1,8 @@
 package com.web.${app.code}.controller;
 
-import com.web.glucose_db.config.ResponseBodyResult;
-import com.web.${app.code}.entity.${model.code?cap_first};
-import com.web.${app.code}.mapper.${model.code?cap_first}Mapper;
+import com.web.${app.code}.config.ResponseBodyResult;
+import com.web.${app.code}.entity.${model.javaName?cap_first};
+import com.web.${app.code}.mapper.${model.javaName?cap_first}Mapper;
 import com.web.${app.code}.config.Page;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,81 +10,81 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.PathVariable;
+<#--import org.springframework.web.bind.annotation.PathVariable;-->
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+<#--import javax.servlet.http.HttpServletRequest;-->
+<#--import javax.servlet.http.HttpServletResponse;-->
 import java.util.List;
 
 @Controller
-@RequestMapping("/${app.code}/${model.code}/")
-public class ${model.code?cap_first}Controller {
+@RequestMapping("/${app.code}/${model.javaName}/")
+public class ${model.javaName?cap_first}Controller {
 
     @Autowired
-    private ${model.code?cap_first}Mapper ${model.code}Mapper;
+    private ${model.javaName?cap_first}Mapper ${model.javaName}Mapper;
 
     @ResponseBody
     @RequestMapping("list")
-    public Object list(@RequestBody ${model.code?cap_first} obj) {
+    public Object list(@RequestBody ${model.javaName?cap_first} obj) {
 <#list parameters as p>
     <#if p.keyType?? && p.keyType == 2 >
-        if(obj == null || obj.get${p.code?cap_first}() == null){
+        if(obj == null || obj.get${p.javaName?cap_first}() == null){
             return ResponseBodyResult.Error.parameter;
         }
     </#if>
 </#list>
-        return this.${model.code}Mapper.selectList(obj);
+        return this.${model.javaName}Mapper.selectList(obj);
     }
 
     @ResponseBody
     @RequestMapping("page")
-    public Object page(@RequestParam(value = "number", defaultValue = "1") int number, @RequestParam(value = "size", defaultValue = "0") int size, @RequestBody ${model.code?cap_first} param) {
+    public Object page(@RequestParam(value = "number", defaultValue = "1") int number, @RequestParam(value = "size", defaultValue = "0") int size, @RequestBody ${model.javaName?cap_first} param) {
     <#list parameters as p>
         <#if p.keyType?? && p.keyType == 2 >
-        if(param.get${p.code?cap_first}() == null){
+        if(param.get${p.javaName?cap_first}() == null){
             return ResponseBodyResult.Error.parameter;
         }
         </#if>
     </#list>
         Page page = Page.newInstance(number,size);
         page.setParam(param);
-        List<${model.code?cap_first}> list = this.${model.code}Mapper.selectListByPage(page);
-        int total = this.${model.code}Mapper.selectCountByPage(page);
+        List<${model.javaName?cap_first}> list = this.${model.javaName}Mapper.selectListByPage(page);
+        int total = this.${model.javaName}Mapper.selectCountByPage(page);
         page.build(total,list);
         return page;
     }
-<#list parameters as obj>
-    <#if obj.keyType?? && obj.keyType == 1 ><#-- objectByCode -->
+<#list parameters as p>
+    <#if p.keyType?? && p.keyType == 1 ><#-- objectByCode -->
 
     @ResponseBody
-    @RequestMapping("objectBy${obj.code?cap_first}")
-    public Object objectBy${obj.code?cap_first}(${obj.type} ${obj.code}) {
-        ${model.code?cap_first} example = new ${model.code?cap_first}();
-        example.set${obj.code?cap_first}(${obj.code});
-        return this.${model.code}Mapper.selectOne(example);
+    @RequestMapping("objectBy${p.javaName?cap_first}")
+    public Object objectBy${p.javaName?cap_first}(${p.type} ${p.javaName}) {
+        ${model.javaName?cap_first} example = new ${model.javaName?cap_first}();
+        example.set${p.javaName?cap_first}(${p.javaName});
+        return this.${model.javaName}Mapper.selectOne(example);
     }
     </#if>
 </#list>
 
     @ResponseBody
     @RequestMapping("create")
-    public Object create(@RequestBody ${model.code?cap_first} obj) {
-      this.${model.code}Mapper.insert(obj);
+    public Object create(@RequestBody ${model.javaName?cap_first} obj) {
+      this.${model.javaName}Mapper.insert(obj);
       return null;
     }
 
     @ResponseBody
     @RequestMapping("update")
-    public Object update(@RequestBody ${model.code?cap_first} obj) {
-      this.${model.code}Mapper.update(obj);
+    public Object update(@RequestBody ${model.javaName?cap_first} obj) {
+      this.${model.javaName}Mapper.update(obj);
       return null;
     }
 
     @ResponseBody
     @RequestMapping("delete")
     public Object delete(Long id) {
-      this.${model.code}Mapper.delete(id);
+      this.${model.javaName}Mapper.delete(id);
       return null;
     }
 

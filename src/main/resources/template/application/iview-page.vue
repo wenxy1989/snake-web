@@ -11,7 +11,7 @@
         <Button type="text" @click="deleteRow(row,index)">删除</Button>
       </template>
     </Table>
-    <Page :total="page.total" :page-size="page.limit" show-sizer @on-change="fetchData" @on-page-size-change="changeSize"></Page>
+    <Page :total="page.total" :page-size="page.limit" show-total show-sizer @on-change="fetchData" @on-page-size-change="changeSize"></Page>
     <FormModal :value="editValue" :show="showEditModal" @hide="showEditModal=false"></FormModal>
   </div>
 </template>
@@ -23,9 +23,9 @@ export default {
     FormModal
   },
   props:{
-      <#list parameters as obj>
-        <#if obj.keyType?? && obj.keyType == 2>
-        ${obj.code}:{
+      <#list parameters as p>
+        <#if p.keyType?? && p.keyType == 2>
+        ${p.javaName}:{
          required: true
         }
         </#if>
@@ -35,18 +35,18 @@ export default {
     const vm = this
     return {
       columns: [
-      <#list parameters as obj>
-        <#if typeProperties("iview-table-col-ignore",obj.code) == ''>
+      <#list parameters as p>
+        <#if typeProperties("iview-table-col-ignore",p.code) == ''>
         {
-          key: '${obj.code}',
-          title: '${obj.name}' <#if obj.type == 'Integer' && obj.keyType?? && obj.keyType == 4>,
+          key: '${p.javaName}',
+          title: '${p.name}' <#if p.type == 'Integer' && p.keyType?? && p.keyType == 4>,
           render: function(h,params){
             const map = {
-          <#list obj.remark?split(',') as v>
+          <#list p.remark?split(',') as v>
               ${v?split('-')[0]}: '${v?split('-')[1]}'<#if v_has_next>,</#if>
           </#list>
             }
-            return h('span',map[params.row.${obj.code}])
+            return h('span',map[params.row.${p.javaName}])
           }
           </#if>
          },
@@ -56,13 +56,13 @@ export default {
       ],
       size: 10,
       queryParam:{
-      <#list parameters as obj>
-      <#if obj.keyType??>
-      <#if obj.keyType == 2>
-        ${obj.code}:vm.${obj.code},
+      <#list parameters as p>
+      <#if p.keyType??>
+      <#if p.keyType == 2>
+        ${p.javaName}:vm.${p.javaName},
       </#if>
-      <#if obj.keyType == 3>
-        ${obj.code}:null,
+      <#if p.keyType == 3>
+        ${p.javaName}:null,
       </#if>
       </#if>
       </#list>
@@ -80,7 +80,7 @@ export default {
     fetchData (number) {
       const vm = this
       this.loading = true
-      this.$axios.post('${app.code}/${model.code}/page?number='+number+'&size='+vm.size,vm.queryParam)
+      this.$axios.post('${app.code}/${model.javaName}/page?number='+number+'&size='+vm.size,vm.queryParam)
         .then(data => {
           vm.page = Object.assign({},data)
           vm.loading = false

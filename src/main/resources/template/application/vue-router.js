@@ -11,8 +11,8 @@ export default new VueRouter({
     },
     {
       name: '${model.name}',
-      path: '/${app.code}-${model.code}',
-      component: resolve => require(['@/views/${model.code}/Page.vue'], resolve)
+      path: '/${app.code}-${model.javaName}',
+      component: resolve => require(['@/views/${model.javaName}/Page.vue'], resolve)
     </#list>
     }
   ]

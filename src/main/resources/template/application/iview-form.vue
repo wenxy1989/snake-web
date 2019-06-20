@@ -1,23 +1,23 @@
 <template>
     <Modal v-model="showModal" title="${model.name}" ok-text="保存" @on-ok="saveData" @on-cancel="cancelSave">
         <Form ref="dataForm" :model="value" :rules="rules" :label-width="80">
-            <#list parameters as obj>
-            <#if typeProperties("iview-table-col-ignore",obj.code) == ''>
-            <FormItem label="${obj.name}" prop="${obj.code}">
-            <#if obj.type == 'String'>
-                <Input v-model="value.${obj.code}" />
-            <#elseif obj.type == 'Integer' && obj.keyType?? && obj.keyType == 4>
-                <Select v-model="value.${obj.code}">
-                    <#list obj.remark?split(',') as v>
+            <#list parameters as p>
+            <#if typeProperties("iview-table-col-ignore",p.code) == ''>
+            <FormItem label="${p.name}" prop="${p.code}">
+            <#if p.type == 'String'>
+                <Input v-model="value.${p.javaName}" />
+            <#elseif p.type == 'Integer' && p.keyType?? && p.keyType == 4>
+                <Select v-model="value.${p.javaName}">
+                    <#list p.remark?split(',') as v>
                     <Option :value="${v?split('-')[0]}" label="${v?split('-')[1]}"></Option>
                     </#list>
                 </Select>
-            <#elseif obj.type == 'Integer' || obj.type == 'Long'>
-                <Input v-model="value.${obj.code}" type="number" />
-            <#elseif obj.type == 'Double'>
-                <InputNumber v-model="value.${obj.code}" :step="0.1"></InputNumber>
+            <#elseif p.type == 'Integer' || p.type == 'Long'>
+                <Input v-model="value.${p.javaName}" type="number" />
+            <#elseif p.type == 'Double'>
+                <InputNumber v-model="value.${p.javaName}" :step="0.1"></InputNumber>
             <#else>
-                <Input v-model="value.${obj.code}" />
+                <Input v-model="value.${p.javaName}" />
             </#if>
             </FormItem>
             </#if>

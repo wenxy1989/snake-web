@@ -1,20 +1,20 @@
-package com.${application?uncap_first}.${model.code?uncap_first}.service;
+package com.${application?uncap_first}.${model.javaName?uncap_first}.service;
 
 import com.base.service.IBasicService;
 import com.base.exception.ServiceException;
-import com.${application?uncap_first}.${model.code?uncap_first}.model.${model.code?cap_first};
+import com.${application?uncap_first}.${model.javaName?uncap_first}.model.${model.javaName?cap_first};
 
 import java.util.List;
 
-public interface I${model.code?cap_first}Service extends IBasicService<${model.code?cap_first}> {
+public interface I${model.javaName?cap_first}Service extends IBasicService<${model.javaName?cap_first}> {
 
 	<#list attributes as attribute>
 	<#if attribute.useType == 'onetoone'>
 	/**
 	 *@param ${attribute.code?uncap_first} 
-	 *@return ${model.code?cap_first}
+	 *@return ${model.javaName?cap_first}
 	 */
-    public ${model.code?cap_first} getObjectBy${attribute.code?cap_first}(${attribute.javaType} ${attribute.code?uncap_first}) throws ServiceException;
+    public ${model.javaName?cap_first} getObjectBy${attribute.code?cap_first}(${attribute.javaType} ${attribute.code?uncap_first}) throws ServiceException;
     
     /**
 	 *@param ${attribute.code?uncap_first} 
@@ -24,9 +24,9 @@ public interface I${model.code?cap_first}Service extends IBasicService<${model.c
     <#elseif attribute.useType == 'onetomany'>
 	/**
 	 *@param ${attribute.code?uncap_first} 
-	 *@return List<${model.code?cap_first}>
+	 *@return List<${model.javaName?cap_first}>
 	 */
-    public List<${model.code?cap_first}> getListBy${attribute.code?cap_first}(${attribute.javaType} ${attribute.code?uncap_first}) throws ServiceException;
+    public List<${model.javaName?cap_first}> getListBy${attribute.code?cap_first}(${attribute.javaType} ${attribute.code?uncap_first}) throws ServiceException;
     
     /**
 	 *@param ${attribute.code?uncap_first} 

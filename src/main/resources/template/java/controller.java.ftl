@@ -1,4 +1,4 @@
-package com.${application?uncap_first}.${model.code?uncap_first}.controller;
+package com.${application?uncap_first}.${model.javaName?uncap_first}.controller;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -17,23 +17,23 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.system.user.model.User;
 
-import com.${application?uncap_first}.${model.code?uncap_first}.model.${model.code?cap_first};
-import com.${application?uncap_first}.${model.code?uncap_first}.service.I${model.code?cap_first}Service;
+import com.${application?uncap_first}.${model.javaName?uncap_first}.model.${model.javaName?cap_first};
+import com.${application?uncap_first}.${model.javaName?uncap_first}.service.I${model.javaName?cap_first}Service;
 
 import java.util.List;
 
 /**
- * ${model.code }
+ * ${model.javaName }
  * author {author }
 **/
 @Controller
-@RequestMapping("/${model.code?uncap_first}")
-public class ${model.code?cap_first}Controller {
+@RequestMapping("/${model.javaName?uncap_first}")
+public class ${model.javaName?cap_first}Controller {
 	
-	protected static Log logger = LogFactory.getLog(${model.code?cap_first}Controller.class);
+	protected static Log logger = LogFactory.getLog(${model.javaName?cap_first}Controller.class);
 	
-	@Resource(name="${model.code?uncap_first}Service")
-	private I${model.code?cap_first}Service ${model.code?uncap_first}Service;
+	@Resource(name="${model.javaName?uncap_first}Service")
+	private I${model.javaName?cap_first}Service ${model.javaName?uncap_first}Service;
 	
 	private User loginUser(HttpServletRequest request){
 		return (User)request.getSession().getAttribute(Constants.USER_SESSON_KEY);
@@ -41,9 +41,9 @@ public class ${model.code?cap_first}Controller {
 	
 	@RequestMapping(value = "/")
 	public ModelAndView list(){
-		ModelAndView mv = new ModelAndView("${application?uncap_first}/${model.code?uncap_first}/list");
+		ModelAndView mv = new ModelAndView("${application?uncap_first}/${model.javaName?uncap_first}/list");
 		try{
-			List<${model.code?cap_first}> list = ${model.code?uncap_first}Service.getAll();
+			List<${model.javaName?cap_first}> list = ${model.javaName?uncap_first}Service.getAll();
 			mv.addObject("list", list);
 		}catch(ServiceException e){
 			logger.error(e);
@@ -53,16 +53,16 @@ public class ${model.code?cap_first}Controller {
 	
     @RequestMapping(value = "/toCreate")
     public ModelAndView toCreate() {
-    	ModelAndView mv = new ModelAndView("${application?uncap_first}/${model.code?uncap_first}/add");
+    	ModelAndView mv = new ModelAndView("${application?uncap_first}/${model.javaName?uncap_first}/add");
         return mv;
     }
 	
     @RequestMapping(value = "/toEdit")
     public ModelAndView toEdit(Long id) {
-        ModelAndView mv = new ModelAndView("${application?uncap_first}/${model.code?uncap_first}/edit");
+        ModelAndView mv = new ModelAndView("${application?uncap_first}/${model.javaName?uncap_first}/edit");
 		try{
-	        ${model.code?cap_first} ${model.code?uncap_first} = ${model.code?uncap_first}Service.getObject(id);
-	        mv.addObject("${model.code?uncap_first}", ${model.code?uncap_first});
+	        ${model.javaName?cap_first} ${model.javaName?uncap_first} = ${model.javaName?uncap_first}Service.getObject(id);
+	        mv.addObject("${model.javaName?uncap_first}", ${model.javaName?uncap_first});
 		}catch(ServiceException e){
 			logger.error(e);
 		}
@@ -73,10 +73,10 @@ public class ${model.code?cap_first}Controller {
 	<#if attribute.useType == 'onetoone'>
     @RequestMapping(value = "/toEditBy${attribute.code?cap_first}")
     public ModelAndView toEditBy${attribute.code?cap_first}(${attribute.javaType} ${attribute.code?uncap_first}) {
-    	ModelAndView mv = new ModelAndView("${application?uncap_first}/${model.code?uncap_first}/edit");
+    	ModelAndView mv = new ModelAndView("${application?uncap_first}/${model.javaName?uncap_first}/edit");
 		try{
-	        ${model.code?cap_first} ${model.code?uncap_first} = ${model.code?uncap_first}Service.getObjectBy${attribute.code?cap_first}(id);
-	        mv.addObject("${model.code?uncap_first}", ${model.code?uncap_first});
+	        ${model.javaName?cap_first} ${model.javaName?uncap_first} = ${model.javaName?uncap_first}Service.getObjectBy${attribute.code?cap_first}(id);
+	        mv.addObject("${model.javaName?uncap_first}", ${model.javaName?uncap_first});
 		}catch(ServiceException e){
 			logger.error(e);
 		}
@@ -84,37 +84,37 @@ public class ${model.code?cap_first}Controller {
     }
 
     @RequestMapping(value = "deleteBy${attribute.code?cap_first}")
-    public RedirectView deleteBy${attribute.code?cap_first}(${attribute.javaType} ${model.code?uncap_first}) {
+    public RedirectView deleteBy${attribute.code?cap_first}(${attribute.javaType} ${model.javaName?uncap_first}) {
 		try{
-        	${model.code?uncap_first}Service.deleteBy${attribute.code?cap_first}(${model.code?uncap_first});
+        	${model.javaName?uncap_first}Service.deleteBy${attribute.code?cap_first}(${model.javaName?uncap_first});
 		}catch(ServiceException e){
 			logger.error(e);
 		}
-    	return new RedirectView("/${model.code?uncap_first}/");
+    	return new RedirectView("/${model.javaName?uncap_first}/");
     }
 	</#if>
 	</#list>
 
     @RequestMapping(value = "/create", method = { RequestMethod.POST })
-    public RedirectView create(${model.code?cap_first} ${model.code?uncap_first},HttpServletRequest request) {
+    public RedirectView create(${model.javaName?cap_first} ${model.javaName?uncap_first},HttpServletRequest request) {
     	try{
-	    	${model.code?uncap_first}.setCreatorId(loginUser(request).getId());
-	    	${model.code?uncap_first}.setCreatedTime(DateTimeUtils.getDateTime());
-	        ${model.code?uncap_first}Service.create(${model.code?uncap_first});
+	    	${model.javaName?uncap_first}.setCreatorId(loginUser(request).getId());
+	    	${model.javaName?uncap_first}.setCreatedTime(DateTimeUtils.getDateTime());
+	        ${model.javaName?uncap_first}Service.create(${model.javaName?uncap_first});
     	}catch(ServiceException e){
     		logger.error(e);
     	}
-    	return new RedirectView("/${model.code?uncap_first}/");
+    	return new RedirectView("/${model.javaName?uncap_first}/");
     }
 
     @RequestMapping(value = "/edit", method = { RequestMethod.POST })
-    public RedirectView edit(${model.code?cap_first} ${model.code?uncap_first}) {
+    public RedirectView edit(${model.javaName?cap_first} ${model.javaName?uncap_first}) {
 		try{
-        	${model.code?uncap_first}Service.update(${model.code?uncap_first});
+        	${model.javaName?uncap_first}Service.update(${model.javaName?uncap_first});
 		}catch(ServiceException e){
 			logger.error(e);
 		}
-    	return new RedirectView("/${model.code?uncap_first}/");
+    	return new RedirectView("/${model.javaName?uncap_first}/");
     }
     
     <#if actions?exists>

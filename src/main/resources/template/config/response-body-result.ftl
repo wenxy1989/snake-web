@@ -11,13 +11,13 @@ public class ResponseBodyResult implements Serializable {
         json_parse("json_parse_error"),
         parameter("parameter_error");
 
-        private String value;
+        private String message;
         Error(String message){
-            this.value = value;
+            this.message = message;
         }
 
-        public String getValue() {
-            return value;
+        public String getMessage() {
+            return message;
         }
     }
 

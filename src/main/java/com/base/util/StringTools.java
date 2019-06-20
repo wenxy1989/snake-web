@@ -302,12 +302,40 @@ public class StringTools extends StringUtils {
         return little;
     }
 
+    public static String[] tableCodes(String table) {
+        if (null != table) {
+            return table.split("_");
+        }
+        return null;
+    }
+
+    public static String codeByTable(String table) {
+        if (null != table) {
+            String code[] = tableCodes(table);
+            return code.length > 2 ? String.format("%s%s", code[1], getFirstLarge(code[2])) : code.length > 1 ? code[1] : code[0];
+        }
+        return null;
+    }
+
+    public static String codeByColumn(String column) {
+        if (null != column) {
+            String[] array = column.split("_");
+            StringBuffer sb = new StringBuffer(array[0]);
+            for (int i = 1; i < array.length; i++) {
+                sb.append(StringTools.getFirstLarge(array[i]));
+            }
+            return sb.toString();
+        }
+        return null;
+    }
+
     public static String parsePath(String template, String application) {
         return parsePath(template, application, "");
     }
 
     public static String parsePath(String template, String application, String model) {
-        return template.replaceAll("//","/")
+        model = codeByTable(model);
+        return template.replaceAll("//", "/")
                 .replaceAll("\\@\\{large\\}", getFirstLarge(model))
                 .replaceAll("\\@\\{little\\}", getFirstLittle(model))
                 .replaceAll("\\@\\{app\\}", application);

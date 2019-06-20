@@ -38,12 +38,12 @@
 </head> 
 <body>
 <div class="ui form segment container">
-<form id="frm" action="${"$"}{basePath }/${model.code?uncap_first}/create" method="POST">
+<form id="frm" action="${"$"}{basePath }/${model.javaName?uncap_first}/create" method="POST">
 <#list attributes as attribute>
 <div class="field">
 <#if attribute.pageStyle == "text">
 <label>${obj.name} ${attribute.name}</label>
-<input title="please input ${attribute.code}" type="text" name="${attribute.code}" placeholder="${attribute.code}" value="${"$"}{${model.code}.${attribute.code} }">
+<input title="please input ${attribute.code}" type="text" name="${attribute.code}" placeholder="${attribute.code}" value="${"$"}{${model.javaName}.${attribute.code} }">
 <#elseif attribute.pageStyle == "select">
 <div id="div_${attribute.code?uncap_first}" class="ui selection dropdown">
   <input type="hidden" name="${attribute.code?uncap_first}" value="${"$"}{object.${attribute.code?uncap_first} }">

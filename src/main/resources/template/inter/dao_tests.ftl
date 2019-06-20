@@ -2,9 +2,9 @@ package com.school.book.dao.test;
 
 import com.base.model.Criteria;
 import com.base.exception.DaoException;
-import com.school.book.dao.I${model.code?cap_first}Dao;
-import com.school.book.data.${model.code?cap_first}TestDataProvider;
-import com.school.book.model.${model.code?cap_first};
+import com.school.book.dao.I${model.javaName?cap_first}Dao;
+import com.school.book.data.${model.javaName?cap_first}TestDataProvider;
+import com.school.book.model.${model.javaName?cap_first};
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -33,9 +33,9 @@ import java.util.Map;
 @FixMethodOrder(MethodSorters.DEFAULT)
 @WebAppConfiguration(value = "src/main/webapp")
 @ContextConfiguration({"classpath*:**spring-config.xml"})
-public class ${model.code?cap_first}DaoTests extends AbstractDaoTests<${model.code?cap_first}> {
+public class ${model.javaName?cap_first}DaoTests extends AbstractDaoTests<${model.javaName?cap_first}> {
 
-    private I${model.code?cap_first}Dao dao;
+    private I${model.javaName?cap_first}Dao dao;
 
     @Autowired
     private WebApplicationContext wac;
@@ -45,30 +45,30 @@ public class ${model.code?cap_first}DaoTests extends AbstractDaoTests<${model.co
     public void setUp() throws DaoException {
         MockitoAnnotations.initMocks(this);
         mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
-        dao = (I${model.code?cap_first}Dao) wac.getBean("${model.code?uncap_first}Dao");
+        dao = (I${model.javaName?cap_first}Dao) wac.getBean("${model.javaName?uncap_first}Dao");
         dao.clean();
     }
 
     @Override
-        public I${model.code?cap_first}Dao getDao() {
+        public I${model.javaName?cap_first}Dao getDao() {
         return dao;
     }
 
     @Override
-    public ${model.code?cap_first}TestDataProvider getDataProvider() {
-        return new ${model.code?cap_first}TestDataProvider();
+    public ${model.javaName?cap_first}TestDataProvider getDataProvider() {
+        return new ${model.javaName?cap_first}TestDataProvider();
     }
 
     public void insertTest() throws Exception {
-        ${model.code?cap_first} object = getDataProvider().createObject(TEST_PARAMETER_ID);
+        ${model.javaName?cap_first} object = getDataProvider().createObject(TEST_PARAMETER_ID);
         super.insert(object);
     }
 
     public void insertListTest() throws Exception {
         List list = new ArrayList();
-        ${model.code?cap_first} object1 = getDataProvider().createObject(TEST_PARAMETER_ID);
+        ${model.javaName?cap_first} object1 = getDataProvider().createObject(TEST_PARAMETER_ID);
         list.add(object1);
-        //${model.code?cap_first} object2 = getDataProvider().createObject(TEST_PARAMETER_ID2);
+        //${model.javaName?cap_first} object2 = getDataProvider().createObject(TEST_PARAMETER_ID2);
         //list.add(object2);
         super.insertList(list);
     }
@@ -79,42 +79,42 @@ public class ${model.code?cap_first}DaoTests extends AbstractDaoTests<${model.co
     }
 
     public void updateByIdTest() throws Exception {
-        ${model.code?cap_first} object = getDataProvider().createObject(TEST_PARAMETER_ID);
+        ${model.javaName?cap_first} object = getDataProvider().createObject(TEST_PARAMETER_ID);
         super.updateById(object);
     }
 
     public void selectObjectTest() throws Exception {
-        ${model.code?cap_first} resource = getDataProvider().createObject(TEST_PARAMETER_ID);
+        ${model.javaName?cap_first} resource = getDataProvider().createObject(TEST_PARAMETER_ID);
         Long key = TEST_PARAMETER_ID;
-        ${model.code?cap_first} result = super.selectObject(key);
+        ${model.javaName?cap_first} result = super.selectObject(key);
         <#list parameters as p>
         Assert.assertEquals(result.get${p.code?cap_first}(),resource.get${p.code?cap_first}());
         </#list>
     }
 
     public void selectOneTest() throws Exception {
-        ${model.code?cap_first} resource = getDataProvider().createObject(TEST_PARAMETER_ID);
-        ${model.code?cap_first} object = getDataProvider().createObject(TEST_PARAMETER_ID);
-        ${model.code?cap_first} result = super.selectOne(object);
+        ${model.javaName?cap_first} resource = getDataProvider().createObject(TEST_PARAMETER_ID);
+        ${model.javaName?cap_first} object = getDataProvider().createObject(TEST_PARAMETER_ID);
+        ${model.javaName?cap_first} result = super.selectOne(object);
         <#list parameters as p>
         Assert.assertEquals(result.get${p.code?cap_first}(),resource.get${p.code?cap_first}());
         </#list>
     }
 
     public void selectOneByMapTest() throws Exception {
-        ${model.code?cap_first} resource = getDataProvider().createObject(TEST_PARAMETER_ID);
+        ${model.javaName?cap_first} resource = getDataProvider().createObject(TEST_PARAMETER_ID);
         Map<String, Object> map = getDataProvider().getSelectMap();
-        ${model.code?cap_first} result = super.selectOne(map);
+        ${model.javaName?cap_first} result = super.selectOne(map);
         <#list parameters as p>
         Assert.assertEquals(result.get${p.code?cap_first}(),resource.get${p.code?cap_first}());
         </#list>
     }
 
     public void selectAllTest() throws Exception {
-        ${model.code?cap_first} resource = getDataProvider().createObject(TEST_PARAMETER_ID);
-        List<${model.code?cap_first}> list = super.selectAll();
+        ${model.javaName?cap_first} resource = getDataProvider().createObject(TEST_PARAMETER_ID);
+        List<${model.javaName?cap_first}> list = super.selectAll();
         Assert.assertNotNull(list);
-        for(${model.code?cap_first} result : list){
+        for(${model.javaName?cap_first} result : list){
         <#list parameters as p>
             Assert.assertEquals(result.get${p.code?cap_first}(),resource.get${p.code?cap_first}());
         </#list>
@@ -122,12 +122,12 @@ public class ${model.code?cap_first}DaoTests extends AbstractDaoTests<${model.co
     }
 
     public void selectSomeListTest() {
-        ${model.code?cap_first} resource = getDataProvider().createObject(TEST_PARAMETER_ID);
+        ${model.javaName?cap_first} resource = getDataProvider().createObject(TEST_PARAMETER_ID);
         int first = 0;
         int limit = 10;
-        List<${model.code?cap_first}> list = super.selectList(first, limit);
+        List<${model.javaName?cap_first}> list = super.selectList(first, limit);
         Assert.assertNotNull(list);
-        for(${model.code?cap_first} result : list){
+        for(${model.javaName?cap_first} result : list){
         <#list parameters as p>
             Assert.assertEquals(result.get${p.code?cap_first}(),resource.get${p.code?cap_first}());
         </#list>
@@ -135,11 +135,11 @@ public class ${model.code?cap_first}DaoTests extends AbstractDaoTests<${model.co
     }
 
     public void selectListByObjectTest() throws Exception {
-        ${model.code?cap_first} resource = getDataProvider().createObject(TEST_PARAMETER_ID);
-        ${model.code?cap_first} object = getDataProvider().createObject(TEST_PARAMETER_ID);
-        List<${model.code?cap_first}> list = super.selectList(object);
+        ${model.javaName?cap_first} resource = getDataProvider().createObject(TEST_PARAMETER_ID);
+        ${model.javaName?cap_first} object = getDataProvider().createObject(TEST_PARAMETER_ID);
+        List<${model.javaName?cap_first}> list = super.selectList(object);
         Assert.assertNotNull(list);
-        for(${model.code?cap_first} result : list){
+        for(${model.javaName?cap_first} result : list){
         <#list parameters as p>
             Assert.assertEquals(result.get${p.code?cap_first}(),resource.get${p.code?cap_first}());
         </#list>
@@ -147,11 +147,11 @@ public class ${model.code?cap_first}DaoTests extends AbstractDaoTests<${model.co
     }
 
     public void selectListTest() throws Exception {
-        ${model.code?cap_first} resource = getDataProvider().createObject(TEST_PARAMETER_ID);
+        ${model.javaName?cap_first} resource = getDataProvider().createObject(TEST_PARAMETER_ID);
         Criteria c = getDataProvider().getCriteria();
-        List<${model.code?cap_first}> list = super.selectList(c);
+        List<${model.javaName?cap_first}> list = super.selectList(c);
         Assert.assertNotNull(list);
-        for(${model.code?cap_first} result : list){
+        for(${model.javaName?cap_first} result : list){
         <#list parameters as p>
             Assert.assertEquals(result.get${p.code?cap_first}(),resource.get${p.code?cap_first}());
         </#list>
@@ -173,11 +173,11 @@ public class ${model.code?cap_first}DaoTests extends AbstractDaoTests<${model.co
     }
 
     public void selectListByLikeTest() throws Exception {
-        ${model.code?cap_first} resource = getDataProvider().createObject(TEST_PARAMETER_ID);
+        ${model.javaName?cap_first} resource = getDataProvider().createObject(TEST_PARAMETER_ID);
         Map<String, Object> map = getDataProvider().getSelectMap();
-        List<${model.code?cap_first}> list = super.selectListByLike(map);
+        List<${model.javaName?cap_first}> list = super.selectListByLike(map);
         Assert.assertNotNull(list);
-        for(${model.code?cap_first} result : list){
+        for(${model.javaName?cap_first} result : list){
         <#list parameters as p>
             Assert.assertEquals(result.get${p.code?cap_first}(),resource.get${p.code?cap_first}());
         </#list>
@@ -185,11 +185,11 @@ public class ${model.code?cap_first}DaoTests extends AbstractDaoTests<${model.co
     }
 
     public void selectListByInTest() throws Exception {
-        ${model.code?cap_first} resource = getDataProvider().createObject(TEST_PARAMETER_ID);
+        ${model.javaName?cap_first} resource = getDataProvider().createObject(TEST_PARAMETER_ID);
         Map<String, Object> map = getDataProvider().getSelectMap();
-        List<${model.code?cap_first}> list = super.selectListByIn(map);
+        List<${model.javaName?cap_first}> list = super.selectListByIn(map);
         Assert.assertNotNull(list);
-        for(${model.code?cap_first} result : list){
+        for(${model.javaName?cap_first} result : list){
         <#list parameters as p>
             Assert.assertEquals(result.get${p.code?cap_first}(),resource.get${p.code?cap_first}());
         </#list>
@@ -198,11 +198,11 @@ public class ${model.code?cap_first}DaoTests extends AbstractDaoTests<${model.co
 
 
     public void selectListByMapTest() {
-        ${model.code?cap_first} resource = getDataProvider().createObject(TEST_PARAMETER_ID);
+        ${model.javaName?cap_first} resource = getDataProvider().createObject(TEST_PARAMETER_ID);
         Map<String, Object> map = getDataProvider().getSelectMap();
-        List<${model.code?cap_first}> list = super.selectList(map);
+        List<${model.javaName?cap_first}> list = super.selectList(map);
         Assert.assertNotNull(list);
-        for(${model.code?cap_first} result : list){
+        for(${model.javaName?cap_first} result : list){
         <#list parameters as p>
             Assert.assertEquals(result.get${p.code?cap_first}(),resource.get${p.code?cap_first}());
         </#list>
@@ -210,7 +210,7 @@ public class ${model.code?cap_first}DaoTests extends AbstractDaoTests<${model.co
     }
 
     public void selectMapListTest() throws Exception {
-        ${model.code?cap_first} resource = getDataProvider().createObject(TEST_PARAMETER_ID);
+        ${model.javaName?cap_first} resource = getDataProvider().createObject(TEST_PARAMETER_ID);
         Map<String, Object> map = getDataProvider().getQueryMap();
         List<Map<String,Object>> list = super.selectMapList(map);
         Assert.assertNotNull(list);
@@ -224,25 +224,25 @@ public class ${model.code?cap_first}DaoTests extends AbstractDaoTests<${model.co
         </#list>
         }
     }
-<#list parameters as obj>
-    <#if obj.keyType==1>
+<#list parameters as p>
+    <#if p.keyType==1>
 
-    public void selectOneBy${obj.code?cap_first}Test() throws Exception{
-        ${model.code?cap_first} resource = getDataProvider().createObject(TEST_PARAMETER_ID);
-        ${model.code?cap_first} result = getDao().selectOneBy${obj.code?cap_first}(resource.get${obj.code?cap_first}());
-        <#list parameters as p>
-        Assert.assertEquals(result.get${p.code?cap_first}(),resource.get${p.code?cap_first}());
+    public void selectOneBy${p.code?cap_first}Test() throws Exception{
+        ${model.javaName?cap_first} resource = getDataProvider().createObject(TEST_PARAMETER_ID);
+        ${model.javaName?cap_first} result = getDao().selectOneBy${p.code?cap_first}(resource.get${p.code?cap_first}());
+        <#list parameters as p1>
+        Assert.assertEquals(result.get${p1.code?cap_first}(),resource.get${p1.code?cap_first}());
         </#list>
     }
     <#elseif obj.keyType==2>
 
-    public void selectListBy${obj.code?cap_first}Test() throws Exception{
-        ${model.code?cap_first} resource = getDataProvider().createObject(TEST_PARAMETER_ID);
-        List<${model.code?cap_first}> list = getDao().selectListBy${obj.code?cap_first}(resource.get${obj.code?cap_first}());
+    public void selectListBy${p.code?cap_first}Test() throws Exception{
+        ${model.javaName?cap_first} resource = getDataProvider().createObject(TEST_PARAMETER_ID);
+        List<${model.javaName?cap_first}> list = getDao().selectListBy${p.code?cap_first}(resource.get${p.code?cap_first}());
         Assert.assertNotNull(list);
-        for(${model.code?cap_first} result : list){
-        <#list parameters as p>
-            Assert.assertEquals(result.get${p.code?cap_first}(),resource.get${p.code?cap_first}());
+        for(${model.javaName?cap_first} result : list){
+        <#list parameters as p1>
+            Assert.assertEquals(result.get${p1.code?cap_first}(),resource.get${p1.code?cap_first}());
         </#list>
         }
     }
@@ -291,13 +291,13 @@ public class ${model.code?cap_first}DaoTests extends AbstractDaoTests<${model.co
         selectCountTest();
 
         //selectMapCountTest();
-<#list parameters as obj>
-    <#if obj.keyType==1>
+<#list parameters as p>
+    <#if p.keyType==1>
 
-    selectOneBy${obj.code?cap_first}Test();
-    <#elseif obj.keyType==2>
+    selectOneBy${p.code?cap_first}Test();
+    <#elseif p.keyType==2>
 
-    selectListBy${obj.code?cap_first}Test();
+    selectListBy${p.code?cap_first}Test();
     </#if>
 </#list>
 

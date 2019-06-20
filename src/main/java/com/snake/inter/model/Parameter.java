@@ -1,6 +1,7 @@
 package com.snake.inter.model;
 
 import com.base.Constants;
+import com.base.util.StringTools;
 import com.snake.mysql.model.Column;
 import com.snake.freemarker.TypeProperties;
 import org.apache.commons.lang.StringUtils;
@@ -36,7 +37,10 @@ public class Parameter {
     }
 
     public String getColumnName() {
-        return columnName;
+        return columnName == null ? this.code : this.columnName;
+    }
+    public String getJavaName() {
+        return StringTools.codeByColumn(this.code);
     }
 
     public void setColumnName(String columnName) {
