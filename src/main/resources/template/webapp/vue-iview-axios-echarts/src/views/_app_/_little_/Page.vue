@@ -1,6 +1,27 @@
 <template>
   <div>
     <Form inline>
+      <#list parameters as p>
+      <#if typeProperties("iview-table-col-ignore",p.code)=='' && p.keyType?? && p.keyType gt 0>
+      <FormItem label="${p.name}" prop="${p.javaName}">
+        <#if p.type=='String'>
+        <Input v-model="queryParam.${p.javaName}" />
+        <#elseif p.type=='Integer' && p.keyType?? && p.keyType==4>
+        <Select v-model="queryParam.${p.javaName}">
+          <#list p.remark?split(',') as v>
+          <Option :value="${v?split('-')[0]}" label="${v?split('-')[1]}"></Option>
+        </#list>
+        </Select>
+        <#elseif p.type=='Integer' || p.type=='Long'>
+        <Input v-model="queryParam.${p.javaName}" type="number" />
+        <#elseif p.type=='Double'>
+        <InputNumber v-model="queryParam.${p.javaName}" :step="0.1"></InputNumber>
+        <#else>
+        <Input v-model="queryParam.${p.javaName}" />
+      </#if>
+      </FormItem>
+    </#if>
+  </#list>
       <FormItem>
         <Button @click="showCreate">新增</Button>
       </FormItem>

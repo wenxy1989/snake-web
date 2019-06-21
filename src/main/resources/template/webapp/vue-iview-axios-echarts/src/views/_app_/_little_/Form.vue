@@ -56,10 +56,14 @@ export default {
             const uri = vm.data.id ? '/${app.code}/${model.javaName}/update' : '/${app.code}/${model.javaName}/create'
             vm.$axios.post(uri, vm.value)
             .then(data => {
+              vm.$emit('hide')
               vm.$Message.success({
-              duration: 5,
-              content: '操作成功'
+                duration: 5,
+                content: '操作成功'
               })
+            })
+            .catch( e => {
+              vm.$emit('hide')
             })
           }
       })

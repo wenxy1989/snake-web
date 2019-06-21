@@ -342,6 +342,10 @@ public class StringTools extends StringUtils {
 
     }
 
+    public static boolean modelTemplate(String template){
+        return null != template && (template.contains("_large_") || template.contains("_little_"));
+    }
+
     public static String templateType(String template){
         return template.contains("_large_") || template.contains("_little_") ? "model" : "application";
     }

@@ -54,7 +54,7 @@ instance.interceptors.response.use(response => {
   }
   return Promise.reject({
     code: 4,
-    message: 'response error'
+    message: 'response return null'
   })
 }, error => {
   hideSpin()

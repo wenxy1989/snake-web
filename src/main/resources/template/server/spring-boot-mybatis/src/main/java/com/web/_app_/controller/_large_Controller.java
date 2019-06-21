@@ -51,8 +51,8 @@ public class ${model.javaName?cap_first}Controller {
         page.setParam(param);
         List<${model.javaName?cap_first}> list = this.${model.javaName}Mapper.selectListByPage(page);
         int total = this.${model.javaName}Mapper.selectCountByPage(page);
-        page.build(total,list);
-        return page;
+        return page.build(total,list);
+//        return page;
     }
 <#list parameters as p>
     <#if p.keyType?? && p.keyType == 1 ><#-- objectByCode -->
@@ -71,21 +71,21 @@ public class ${model.javaName?cap_first}Controller {
     @RequestMapping("create")
     public Object create(@RequestBody ${model.javaName?cap_first} obj) {
       this.${model.javaName}Mapper.insert(obj);
-      return null;
+      return ResponseBodyResult.SUCCESSFUL;
     }
 
     @ResponseBody
     @RequestMapping("update")
     public Object update(@RequestBody ${model.javaName?cap_first} obj) {
       this.${model.javaName}Mapper.update(obj);
-      return null;
+      return ResponseBodyResult.SUCCESSFUL;
     }
 
     @ResponseBody
     @RequestMapping("delete")
     public Object delete(Long id) {
       this.${model.javaName}Mapper.delete(id);
-      return null;
+      return ResponseBodyResult.SUCCESSFUL;
     }
 
 }
