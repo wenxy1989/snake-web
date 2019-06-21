@@ -4,7 +4,7 @@ import com.base.Constants;
 import com.snake.inter.model.*;
 import com.snake.inter.service.*;
 import com.snake.system.controller.BasicController;
-import com.snake.freemarker.FreeMarkerUtils;
+import com.snake.freemarker.FreeMarkerWriter;
 import com.base.util.*;
 import com.snake.system.model.User;
 import com.snake.system.service.IParameterService;
@@ -358,6 +358,7 @@ public class UrlController extends BasicController {
             List<Group> groupList = groupService.getListByApplicationId(applicationId);
             List<TemplateConfig> configList = templateService.getListByFrameId(frameId);
             if (null != groupList && groupList.size() > 0) {
+                FreeMarkerWriter writer = new FreeMarkerWriter();
                 for (Group group : groupList) {
                     List<Url> urlList = urlService.getListByGroupId(group.getId());
                     if (null != urlList && urlList.size() > 0) {
@@ -369,7 +370,7 @@ public class UrlController extends BasicController {
                         }
                     }
                     group.setUrlList(urlList);
-                    FreeMarkerUtils.getInstance().writeInter(application,group,configList);
+                    writer.writeInter(application,group,configList);
                 }
             }
             result = RESULT_SUCCESS;

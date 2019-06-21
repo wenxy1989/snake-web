@@ -2,16 +2,14 @@ package com.snake.inter.controller;
 
 import com.base.Constants;
 import com.snake.system.controller.BasicController;
-import com.snake.freemarker.FreeMarkerUtils;
+import com.snake.freemarker.FreeMarkerWriter;
 import com.base.util.*;
-import com.snake.inter.model.Application;
 import com.snake.inter.model.Model;
 import com.snake.inter.model.ModelParameter;
 import com.snake.inter.service.IApplicationService;
 import com.snake.inter.service.IModelParameterService;
 import com.snake.inter.service.IModelService;
 import com.snake.system.model.User;
-import com.snake.system.service.IParameterService;
 import com.snake.template.model.Frame;
 import com.snake.template.model.TemplateConfig;
 import com.snake.template.service.IFrameService;
@@ -354,7 +352,7 @@ public class ModelController extends BasicController {
             if (null != model && StringUtils.isNotBlank(model.getCode()) && null != templateList && templateList.size() > 0) {
                 List parameters = modelParameterService.getListByModelId(model.getId());
                 model.setParameterList(parameters);
-                FreeMarkerUtils.getInstance().writeModel(model.getApplication(),model, templateList);
+                new FreeMarkerWriter().writeModel(model.getApplication(),model, templateList);
                 return RESULT_SUCCESS;
             }
         } catch (Exception e) {

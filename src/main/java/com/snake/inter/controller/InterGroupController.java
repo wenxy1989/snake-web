@@ -2,7 +2,7 @@ package com.snake.inter.controller;
 
 import com.base.Constants;
 import com.snake.system.controller.BasicController;
-import com.snake.freemarker.FreeMarkerUtils;
+import com.snake.freemarker.FreeMarkerWriter;
 import com.base.util.*;
 import com.snake.inter.model.Group;
 import com.snake.inter.model.Url;
@@ -230,6 +230,7 @@ public class InterGroupController extends BasicController {
             Group group = groupService.getObject(id);
             List<Url> urlList = urlService.getListByGroupId(group.getId());
             if(null != urlList && urlList.size() > 0) {
+                FreeMarkerWriter writer = new FreeMarkerWriter();
                 for(Url url : urlList) {
                     List uploads = uploadService.getListByUrlId(url.getId());
                     List results = resultService.getListByUrlId(url.getId());
@@ -238,7 +239,7 @@ public class InterGroupController extends BasicController {
                 }
                 group.setUrlList(urlList);
                 List<TemplateConfig> configList = templateService.getListByFrameId(frameId);
-                FreeMarkerUtils.getInstance().writeInter(group.getApplication(),group,configList);
+                writer.writeInter(group.getApplication(),group,configList);
                 result = RESULT_SUCCESS;
             }
         } catch (Exception e) {

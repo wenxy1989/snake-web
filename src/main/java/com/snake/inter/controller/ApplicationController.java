@@ -1,15 +1,12 @@
 package com.snake.inter.controller;
 
 import com.base.Constants;
-import com.snake.inter.model.Model;
 import com.snake.system.controller.BasicController;
-import com.snake.freemarker.FreeMarkerUtils;
 import com.base.util.*;
 import com.snake.inter.model.Application;
 import com.snake.inter.service.IApplicationService;
 import com.snake.system.model.User;
 import com.snake.template.model.Frame;
-import com.snake.template.model.TemplateConfig;
 import com.snake.template.service.IFrameService;
 import com.snake.template.service.ITemplateService;
 import org.apache.commons.lang.StringUtils;

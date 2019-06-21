@@ -10,8 +10,10 @@
     <link rel="icon" type="image/png" href="assets/i/favicon.png">
     <link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
     <meta name="apple-mobile-web-app-title" content="Amaze UI" />
-    <link rel="stylesheet" href="${request.contextPath}/assets/css/amazeui.min.css"/>
-    <link rel="stylesheet" href="${request.contextPath}/assets/css/admin.css">
+<#--    <link rel="stylesheet" href="${request.contextPath}/assets/css/amazeui.min.css"/>-->
+<#--    <link rel="stylesheet" href="${request.contextPath}/assets/css/admin.css">-->
+    <link rel="stylesheet" href="${request.contextPath}/libs/amazeui-2.7.2/css/admin.css"/>
+    <link rel="stylesheet" href="${request.contextPath}/libs/amazeui-2.7.2/css/amazeui.css"/>
     <!--[if lt IE 9]>
     <script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
     <script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>

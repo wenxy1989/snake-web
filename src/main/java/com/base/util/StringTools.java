@@ -341,4 +341,15 @@ public class StringTools extends StringUtils {
                 .replaceAll("\\@\\{app\\}", application);
 
     }
+
+    public static String templateType(String template){
+        return template.contains("_large_") || template.contains("_little_") ? "model" : "application";
+    }
+
+    public static String fileModel(String fileName){
+        return fileName
+                .replaceAll("_app_","@{app}")
+                .replaceAll("_large_","@{large}")
+                .replaceAll("_little_","@{little}");
+    }
 }

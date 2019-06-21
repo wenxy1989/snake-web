@@ -1,7 +1,9 @@
 package com.snake.inter.service;
 
 import com.base.service.BasicService;
-import com.snake.freemarker.FreeMarkerUtils;
+import com.base.util.FileTools;
+import com.base.util.StringTools;
+import com.snake.freemarker.FreeMarkerWriter;
 import com.snake.inter.dao.*;
 import com.snake.inter.model.*;
 import com.snake.template.dao.IFrameDao;
@@ -13,7 +15,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -75,27 +76,24 @@ public class ApplicationService extends BasicService<Application> implements IAp
         }
     }
 
-    public List<TemplateConfig> buildTemplateList(String folder) {
-        if (null != folder) {
-            File file = new File(folder);
-            if (file.exists() && file.isDirectory()) {
-                List<TemplateConfig> templateConfigList = new ArrayList<TemplateConfig>();
-                String[] fileArray = file.list();
-                for(String realFilePath : fileArray){
-                    String filePath = realFilePath.replaceAll(folder,"");
-                    String fileFolder = filePath.substring(0,filePath.lastIndexOf("/"));
-                    String fileName = filePath.substring(filePath.lastIndexOf("/"));
-                    TemplateConfig config = new TemplateConfig();
-                    config.setGroup(fileFolder);
-                    config.setName(fileName);
-                    config.setSavePathModel(fileFolder);
-                    config.setSaveFileModel(fileName);
-                    config.setUpdateType(1);
-                    //todo
-                    templateConfigList.add(config);
-                }
-                return templateConfigList;
+    public static List<TemplateConfig> buildTemplateList(String folder) {
+        List<String> fileList = FileTools.fileListTree(folder);
+        if (null != fileList) {
+            List<TemplateConfig> templateConfigList = new ArrayList<TemplateConfig>();
+            for (String fileRealPath : fileList) {
+                String filePath = fileRealPath.replaceAll(folder, "");
+                String fileFolder = filePath.substring(0, filePath.lastIndexOf("/"));
+                String fileName = filePath.substring(filePath.lastIndexOf("/") + 1);
+                TemplateConfig config = new TemplateConfig();
+                config.setGroup(fileFolder);
+                config.setName(fileName);
+                config.setSavePathModel(StringTools.fileModel(fileFolder));
+                config.setSaveFileModel(StringTools.fileModel(fileName));
+                config.setUpdateType(1);
+                config.setType(StringTools.templateType(filePath));
+                templateConfigList.add(config);
             }
+            return templateConfigList;
         }
         return null;
     }
@@ -111,14 +109,15 @@ public class ApplicationService extends BasicService<Application> implements IAp
                 }
 
                 if (null != configList && configList.size() > 0) {
+                    FreeMarkerWriter marker = new FreeMarkerWriter(frame.getFolder());
                     List<Model> modelList = modelDao.getListByApplicationId(application.getId(), 3);
                     application.setModelList(modelList);
-                    FreeMarkerUtils.getInstance().writeApplication(application, configList);
+                    marker.writeApplication(application, configList);
                     if (null != modelList && modelList.size() > 0) {
                         for (Model model : modelList) {
                             List<ModelParameter> parameterList = modelParameterDao.getListByModelId(model.getId());
                             model.setParameterList(parameterList);
-                            FreeMarkerUtils.getInstance().writeModel(application, model, configList);
+                            marker.writeModel(application, model, configList);
                         }
                     }
                 }
