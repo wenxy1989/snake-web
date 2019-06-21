@@ -1,4 +1,4 @@
-import axios from 'template/webapp/vue-iview-axios-echarts/src/utils/axios'
+import axios from 'axios'
 import {
   Modal,
   Spin
