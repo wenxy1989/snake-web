@@ -1,13 +1,13 @@
 <template>
   <div>
-    <Form inline>
+    <Form :label-width="80" inline>
       <#list parameters as p>
       <#if typeProperties("iview-table-col-ignore",p.code)=='' && p.keyType?? && p.keyType gt 0>
       <FormItem label="${p.name}" prop="${p.javaName}">
         <#if p.type=='String'>
         <Input v-model="queryParam.${p.javaName}" />
         <#elseif p.type=='Integer' && p.keyType?? && p.keyType==4>
-        <Select v-model="queryParam.${p.javaName}">
+        <Select v-model="queryParam.${p.javaName}" clearable>
           <#list p.remark?split(',') as v>
           <Option :value="${v?split('-')[0]}" label="${v?split('-')[1]}"></Option>
         </#list>
@@ -20,8 +20,11 @@
         <Input v-model="queryParam.${p.javaName}" />
       </#if>
       </FormItem>
-    </#if>
-  </#list>
+      </#if>
+      </#list>
+      <FormItem>
+        <Button @click="fetchData(1)">查询</Button>
+      </FormItem>
       <FormItem>
         <Button @click="showCreate">新增</Button>
       </FormItem>

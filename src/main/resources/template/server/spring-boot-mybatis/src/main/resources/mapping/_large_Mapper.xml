@@ -43,7 +43,7 @@
     <sql id="whereByType">
         <where>
             <#list parameters as p>
-                <if test="${p.javaName} != null">
+                <if test="${p.javaName} != null<#if p.type == 'String'> and ${p.javaName} != ''</#if>">
                     and ${p.columnName} = #${"{"}${p.javaName}}
                 </if>
             </#list>
@@ -54,7 +54,7 @@
         <where>
             <if test="param != null">
                 <#list parameters as p>
-                    <if test="param.${p.javaName} != null">
+                    <if test="param.${p.javaName} != null<#if p.type == 'String'> and param.${p.javaName} != ''</#if>">
                         and ${p.columnName} = #${"{param."}${p.javaName}}
                     </if>
                 </#list>

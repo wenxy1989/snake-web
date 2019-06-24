@@ -352,7 +352,7 @@
                     </excludes>
                     <junitArtifactName>junit:junit</junitArtifactName>
                     <argLine>-Xmx512m</argLine>
-                    <skip>false</skip>
+                    <skip>true</skip>
                 </configuration>
             </plugin>
             <plugin>
