@@ -11,7 +11,7 @@
     <name>web-inter</name>
 
     <properties>
-        <springframework.version>3.2.3.RELEASE</springframework.version>
+        <springframework.version>3.2.5.RELEASE</springframework.version>
         <!--<springframework.version>4.0.3.RELEASE</springframework.version>-->
         <spring-security.version>3.2.4.RELEASE</spring-security.version>
         <jetty-version>8.1.9.v20130131</jetty-version>
